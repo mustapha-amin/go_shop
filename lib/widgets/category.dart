@@ -12,12 +12,12 @@ class CategoryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       height: size.height / 3,
       width: size.width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: Utils(context).appTheme ? Colors.grey[800] : Colors.grey[400],
+        color: Utils(context).isDark ? Colors.grey[800] : Colors.grey[300],
       ),
       child: Column(
         children: [
@@ -25,10 +25,13 @@ class CategoryWidget extends StatelessWidget {
             width: size.width,
             height: size.height / 4.4,
             decoration: BoxDecoration(
+              color: Colors.grey[200],
               image: DecorationImage(
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
                 image: AssetImage(category.imgPath!),
+                filterQuality: FilterQuality.high,
               ),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
           Text(

@@ -5,5 +5,5 @@ Widget addVerticalSpacing(double height) {
 }
 
 Widget addHorizontalSpacing(double width) {
-  return SizedBox(height: width,);
+  return SizedBox(width: width,);
 }

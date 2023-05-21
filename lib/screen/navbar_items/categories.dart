@@ -30,6 +30,7 @@ class _CategoriesState extends State<Categories> {
         elevation: 0,
       ),
       body: GridView.count(
+        physics: BouncingScrollPhysics(),
         crossAxisCount: 2,
         crossAxisSpacing: 1,
         mainAxisSpacing: 20,
