@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:go_shop/auth/login.dart';
+import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/inner_screens/wishlist.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

@@ -34,7 +34,7 @@ dependencies:
   provider:
   google_fonts:
   firebase_core:
-  firebase_auth:
+  firebase_auth: ^4.6.1
   shared_preferences:
 
 

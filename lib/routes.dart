@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:go_shop/auth/forgot_pwd.dart';
-import 'package:go_shop/auth/login.dart';
-import 'package:go_shop/auth/signup.dart';
-import 'screen/bottom_nav_bar/bottom_bar.dart';
+import 'package:go_shop/screen/auth/forgot_pwd.dart';
+import 'package:go_shop/screen/auth/login.dart';
+import 'package:go_shop/screen/auth/signup.dart';
 import 'screen/inner_screens/on_sale.dart';
 import 'screen/inner_screens/wishlist.dart';
 

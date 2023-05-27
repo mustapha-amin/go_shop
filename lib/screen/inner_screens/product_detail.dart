@@ -141,11 +141,14 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
                 onPressed: () {
                   !cart.containsProduct(widget.product!)
                       ? {
-                          cart.addToCart(CartItem(
-                            product: widget.product,
-                            quantity: 1,
-                            price: widget.product!.price,
-                          )),
+                          cart.addToCart(
+                            CartItem(
+                              product: widget.product,
+                              quantity: 1,
+                              price: widget.product!.price,
+                            )
+                          ),
+                          
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text("Added to cart"),
