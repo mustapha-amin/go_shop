@@ -53,32 +53,34 @@ class _CartWidgetState extends State<CartWidget> {
                   flex: 1,
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: size.width / 7,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              int qty =
-                                  int.tryParse(_quantityController.text) as int;
-                              qty <= 1 ? null : qty--;
-                              _quantityController.text = qty.toString();
-                            });
-                            widget.cartItem!.price = product.price! *
-                                int.parse(_quantityController.text);
-                            cart.refreshPrice();
-                            cart.updateQuantity(
-                              widget.cartItem!,
-                              int.parse(_quantityController.text),
-                            );
-                          },
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            elevation: 0,
-                          ),
-                          child: const Icon(
-                            Icons.remove,
-                            size: 14,
-                          ),
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            int qty =
+                                int.tryParse(_quantityController.text) as int;
+                            qty <= 1 ? null : qty--;
+                            _quantityController.text = qty.toString();
+                          });
+                          widget.cartItem!.price = product.price! *
+                              int.parse(_quantityController.text);
+                          cart.refreshPrice();
+                          cart.updateQuantity(
+                            widget.cartItem!,
+                            int.parse(_quantityController.text),
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.red,
+                          minimumSize: Size(size.width / 8, size.height / 20),
+                          elevation: 0,
+                          backgroundColor: Utils(context).isDark
+                              ? Colors.white
+                              : Colors.grey[100],
+                          shape: const CircleBorder(),
+                        ),
+                        child: const Icon(
+                          Icons.remove,
+                          color: Colors.red,
                         ),
                       ),
                       SizedBox(
@@ -86,6 +88,7 @@ class _CartWidgetState extends State<CartWidget> {
                         child: Padding(
                           padding: const EdgeInsets.all(3.0),
                           child: TextField(
+                            textAlign: TextAlign.center,
                             controller: _quantityController,
                             keyboardType: TextInputType.number,
                             style: TextStyle(
@@ -96,32 +99,31 @@ class _CartWidgetState extends State<CartWidget> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: size.width / 7,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              int qty =
-                                  int.tryParse(_quantityController.text) as int;
-                              qty < 10 ? qty++ : null;
-                              _quantityController.text = qty.toString();
-                            });
-                            widget.cartItem!.price = product.price! *
-                                int.parse(_quantityController.text);
-                            cart.refreshPrice();
-                            cart.updateQuantity(
-                              widget.cartItem!,
-                              int.parse(_quantityController.text),
-                            );
-                          },
-                          style: IconButton.styleFrom(
-                            backgroundColor: Colors.red,
-                            elevation: 0,
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            size: 14,
-                          ),
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            int qty =
+                                int.tryParse(_quantityController.text) as int;
+                            qty < 10 ? qty++ : null;
+                            _quantityController.text = qty.toString();
+                          });
+                          widget.cartItem!.price = product.price! *
+                              int.parse(_quantityController.text);
+                          cart.refreshPrice();
+                          cart.updateQuantity(
+                            widget.cartItem!,
+                            int.parse(_quantityController.text),
+                          );
+                        },
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.green,
+                          shape: const CircleBorder(),
+                          minimumSize: Size(size.width / 8, size.height / 20),
+                          elevation: 0,
+                        ),
+                        child: const Icon(
+                          Icons.add,
                         ),
                       ),
                     ],
@@ -155,7 +157,8 @@ class _CartWidgetState extends State<CartWidget> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    cart.removeFromCart(widget.cartItem!);
+                                    cart.removeFromCart(
+                                        widget.cartItem!.product!);
                                     Navigator.pop(context);
                                   },
                                   child: const Text("Yes"),
@@ -174,10 +177,11 @@ class _CartWidgetState extends State<CartWidget> {
                       icon: Icon(
                         Icons.delete_forever,
                         size: 35,
-                        color:
-                            Utils(context).isDark ? Colors.white : Colors.black,
+                        color: Utils(context).isDark
+                            ? Colors.red[400]
+                            : Colors.red,
                       )),
-                  Text(widget.cartItem!.price.toString()),
+                  Text('N${widget.cartItem!.price}'),
                 ],
               ),
             )

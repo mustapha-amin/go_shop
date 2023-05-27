@@ -17,21 +17,22 @@ class CategoryWidget extends StatelessWidget {
       width: size.width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: Utils(context).isDark ? Colors.grey[800] : Colors.grey[300],
+        color: Utils(context).isDark ? Colors.grey[800] : Colors.grey[400],
       ),
       child: Column(
         children: [
-          Container(
-            width: size.width,
-            height: size.height / 4.4,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(category.imgPath!),
-                filterQuality: FilterQuality.high,
+          Expanded(
+            child: Container(
+              width: size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage(category.imgPath!),
+                  filterQuality: FilterQuality.high,
+                ),
+                borderRadius: BorderRadius.circular(6),
               ),
-              borderRadius: BorderRadius.circular(6),
             ),
           ),
           Text(

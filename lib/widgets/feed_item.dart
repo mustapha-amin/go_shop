@@ -12,26 +12,32 @@ class FeedsWidget extends StatefulWidget {
 
 class _FeedsWidgetState extends State<FeedsWidget> {
   static String basePath = 'assets/images/offers';
+  String? text = "The framework can call this method multiple times over the lifetime of a [StatefulWidget]. For example, if the widget is inserted into the tree in multiple locations, the framework will create a separate [State] object for each location";
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: GridView.count(
+      child: GridView.builder(
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        crossAxisCount: 2,
-        childAspectRatio: size.width / (size.height * 0.55),
-        children: List.generate(
-          10,
-          (index) => ProductWidget(
-            product: Product(
-              name: "Airpod",
-              imgPath: '$basePath/airpod.png',
-              price: 45000,
-              discounted: false,
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            child: ProductWidget(
+              product: Product(
+                name: "Airpod",
+                imgPath: '$basePath/laptop.png',
+                price: 45000,
+                description: text,
+                discounted: false,
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

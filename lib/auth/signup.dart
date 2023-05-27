@@ -35,113 +35,131 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 50, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 10),
         child: Form(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Create an account:",
-                style: GoogleFonts.lato(
-                  textStyle: TextStyle(fontSize: 30),
-                ),
-              ),
-              addVerticalSpacing(40),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: "email",
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.white,
-                    suffixIcon: Icon(Icons.email),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (val) => val!.isEmpty ? "Enter an email" : null,
-                  controller: _emailController,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    filled: true,
-                    hintText: "password",
-                    fillColor: Colors.white,
-                    suffixIcon: GestureDetector(
-                      onTap: passwordVisibility,
-                      child: Icon(
-                        obscureText ? Icons.visibility : Icons.visibility_off,
-                      ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Create an account:",
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 30),
                     ),
                   ),
-                  obscureText: obscureText,
-                  validator: (val) =>
-                      val!.length < 6 ? "Enter your password" : null,
-                  controller: _passwordController,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    filled: true,
-                    hintText: "confirm password",
-                    fillColor: Colors.white,
-                    suffixIcon: GestureDetector(
-                      onTap: passwordVisibility,
-                      child: Icon(
-                        obscureText ? Icons.visibility : Icons.visibility_off,
+                  addVerticalSpacing(40),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: "email",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        filled: true,
+                        fillColor: Colors.white,
+                        suffixIcon: const Icon(Icons.email),
                       ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (val) =>
+                          val!.isEmpty ? "Enter an email" : null,
+                      controller: _emailController,
                     ),
                   ),
-                  obscureText: obscureText,
-                  validator: (val) =>
-                      val!.length < 6 ? "Enter your password" : null,
-                  controller: _passwordController,
-                ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  fixedSize: Size(size.width, size.height / 12),
-                  backgroundColor: Colors.blue[800],
-                ),
-                onPressed: () {},
-                child: const Text("Sign up"),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Already have an account? "),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          LogInScreen.routeName,
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Text(
-                          "Sign in",
-                          style: TextStyle(
-                            color: Colors.blue[800],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        filled: true,
+                        hintText: "password",
+                        fillColor: Colors.white,
+                        suffixIcon: GestureDetector(
+                          onTap: passwordVisibility,
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                           ),
                         ),
                       ),
+                      obscureText: obscureText,
+                      validator: (val) =>
+                          val!.length < 6 ? "Enter your password" : null,
+                      controller: _passwordController,
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        filled: true,
+                        hintText: "confirm password",
+                        fillColor: Colors.white,
+                        suffixIcon: GestureDetector(
+                          onTap: passwordVisibility,
+                          child: Icon(
+                            obscureText
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                      ),
+                      obscureText: obscureText,
+                      validator: (val) =>
+                          val!.length < 6 ? "Enter your password" : null,
+                      controller: _passwordController,
+                    ),
+                  ),
+                ],
               ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      fixedSize: Size(size.width, size.height / 12),
+                      backgroundColor: Colors.blue[800],
+                    ),
+                    onPressed: () {},
+                    child: const Text("Sign up"),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already have an account? "),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              LogInScreen.routeName,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text(
+                              "Sign in",
+                              style: TextStyle(
+                                color: Colors.blue[800],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

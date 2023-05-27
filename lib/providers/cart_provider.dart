@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/cart_item.dart';
+import 'package:go_shop/models/product.dart';
 
 class CartProvider extends ChangeNotifier {
   List<CartItem> myCart = [];
-  int productCount = 0;
+  int _productCount = 0;
   int price = 0;
 
   void updateQuantity(CartItem item, int qty) {
@@ -22,14 +23,12 @@ class CartProvider extends ChangeNotifier {
   void addToCart(CartItem item) {
     myCart.add(item);
     refreshPrice();
-    productCount = myCart.length;
     notifyListeners();
   }
 
-  void removeFromCart(CartItem item) {
-    myCart.remove(item);
+  void removeFromCart(Product product) {
+    myCart.removeWhere((element) => element.product == product);
     refreshPrice();
-    productCount = myCart.length;
     notifyListeners();
   }
 
@@ -38,4 +37,10 @@ class CartProvider extends ChangeNotifier {
     price = 0;
     notifyListeners();
   }
+
+  bool containsProduct(Product product) {
+    return myCart.any((element) => element.product!.id == product.id);
+  }
+
+  int get productsCount => myCart.length;
 }

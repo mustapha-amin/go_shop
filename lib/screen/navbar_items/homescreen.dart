@@ -25,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
       imgPath: '$basePath/shoe.png',
       discounted: true,
       price: 80000,
-      
     ),
     Product(
       name: "T-shirt",
@@ -56,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fit: BoxFit.contain,
                   );
                 },
-                autoplay: true,
+                autoplay: false,
                 itemCount: products.length,
                 pagination: const SwiperPagination(
                   alignment: Alignment.bottomCenter,
@@ -105,14 +104,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Expanded(
                   child: SizedBox(
-                    height: size.height / 4.6,
+                    height: size.height / 4,
                     child: ListView(
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       children: [
                         ...products.map(
-                          (e) => ProductWidget(
-                            product: e,
+                          (e) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: ProductWidget(
+                              product: e,
+                            ),
                           ),
                         )
                       ],
@@ -123,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             addVerticalSpacing(10),
             Padding(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

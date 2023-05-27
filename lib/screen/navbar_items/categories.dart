@@ -30,13 +30,16 @@ class _CategoriesState extends State<Categories> {
         elevation: 0,
       ),
       body: GridView.count(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         crossAxisCount: 2,
         crossAxisSpacing: 1,
         mainAxisSpacing: 20,
         childAspectRatio: 240 / 250,
         children: [
-          ...categories.map((category) => CategoryWidget(category: category)),
+          ...categories.map((category) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: CategoryWidget(category: category),
+              )),
         ],
       ),
     );
