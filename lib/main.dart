@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/providers/wishlist_provider.dart';
 import 'package:go_shop/routes.dart';
+import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:go_shop/providers/theme_provider.dart';
 import 'package:go_shop/theme/theme.dart';
@@ -28,10 +29,11 @@ Future main() async {
     child: Builder(builder: (context) {
       bool themeStatus = Provider.of<ThemeProvider>(context).themeStatus;
       return MaterialApp(
-          home: const MyApp(),
-          debugShowCheckedModeBanner: false,
-          theme: MyTheme.themeData(context, themeStatus),
-          routes: AppRoutes.routes);
+        home: const MyApp(),
+        debugShowCheckedModeBanner: false,
+        theme: MyTheme.themeData(context, themeStatus),
+        routes: AppRoutes.routes,
+      );
     }),
   ));
 }
@@ -51,6 +53,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return LogInScreen();
+    return const Wrapper();
   }
 }

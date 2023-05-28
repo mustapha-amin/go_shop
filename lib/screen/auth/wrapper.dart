@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/screen/auth/login.dart';
+import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/screen/navbar_items/homescreen.dart';
 import 'package:go_shop/services/auth_service.dart';
 
@@ -12,7 +13,7 @@ class Wrapper extends StatelessWidget {
     return StreamBuilder(
       stream: authService.authStateChanges,
       builder: (context, snapshot) {
-        return snapshot.hasData ? const HomeScreen() : const LogInScreen();
+        return snapshot.hasData ? const BottomBarScreen() : const LogInScreen();
       },
     );
   }

@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/screen/auth/forgot_pwd.dart';
 import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/services/utils.dart';
+import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../constants/consts.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/spacings.dart';
 import 'signup.dart';
 
@@ -15,16 +19,20 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
+  AuthService authService = AuthService();
   static String basePath = 'assets/images/general';
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   final _formKey = GlobalKey<FormState>();
   bool obscureText = false;
+  late FocusNode passwordFocusNode, emailFocusNode;
 
   @override
   void initState() {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    emailFocusNode = FocusNode();
+    passwordFocusNode = FocusNode();
     super.initState();
   }
 
@@ -32,6 +40,21 @@ class _LogInScreenState extends State<LogInScreen> {
     setState(() {
       obscureText = !obscureText;
     });
+  }
+
+  void signIn() async {
+    try {
+      await authService.firebaseAuth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+    } on FirebaseException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message!),
+        ),
+      );
+    }
   }
 
   @override
@@ -65,6 +88,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: TextFormField(
+                    focusNode: emailFocusNode,
                     decoration: InputDecoration(
                       hintText: "email",
                       border: const OutlineInputBorder(),
@@ -75,13 +99,15 @@ class _LogInScreenState extends State<LogInScreen> {
                       suffixIcon: const Icon(Icons.email),
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    validator: (val) => val!.isEmpty ? "Enter an email" : null,
+                    onFieldSubmitted: (_) =>
+                        FocusScope.of(context).requestFocus(emailFocusNode),
                     controller: _emailController,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: TextFormField(
+                    focusNode: passwordFocusNode,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
                       filled: true,
@@ -96,9 +122,8 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ),
                     ),
+                    onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
                     obscureText: obscureText,
-                    validator: (val) =>
-                        val!.length < 6 ? "Enter your password" : null,
                     controller: _passwordController,
                   ),
                 ),
@@ -122,7 +147,9 @@ class _LogInScreenState extends State<LogInScreen> {
                           : Colors.blue,
                       fixedSize: Size(size.width, size.height / 15)),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      signIn();
+                    }
                   },
                   child: const Text("Log in"),
                 ),
@@ -230,5 +257,12 @@ class _LogInScreenState extends State<LogInScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

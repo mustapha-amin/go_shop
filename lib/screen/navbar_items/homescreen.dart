@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/screen/inner_screens/on_sale.dart';
+import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/product.dart';
 import 'package:go_shop/widgets/spacings.dart';
@@ -11,6 +12,7 @@ import '../../models/category_model.dart';
 import '../../widgets/feed_item.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home';
   const HomeScreen({super.key});
 
   @override
@@ -18,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  AuthService authService = AuthService();
   static String basePath = 'assets/images/offers';
   List<Product> products = [
     Product(

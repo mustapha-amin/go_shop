@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/inner_screens/wishlist.dart';
+import 'package:go_shop/services/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:go_shop/providers/theme_provider.dart';
@@ -15,6 +16,7 @@ class User extends StatefulWidget {
 }
 
 class _UserState extends State<User> {
+  AuthService authService = AuthService();
   String address = "Not set";
   TextEditingController _textEditingController = TextEditingController();
 
@@ -53,7 +55,7 @@ class _UserState extends State<User> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text("test@email.com"),
+          child: Text(authService.user.email!),
         ),
         Divider(),
         ListTile(
@@ -136,35 +138,38 @@ class _UserState extends State<User> {
           trailing: Icon(Icons.arrow_forward_ios_outlined),
           onTap: () {
             showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Row(
-                      children: const [
-                        Icon(Icons.logout),
-                        Text("Sign out"),
-                      ],
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Row(
+                    children: const [
+                      Icon(Icons.logout),
+                      Text("Sign out"),
+                    ],
+                  ),
+                  content: Text("Do you want to sign out"),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await authService.firebaseAuth.signOut();
+                      },
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
                     ),
-                    content: Text("Do you want to sign out"),
-                    actions: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: Text("Cancel")),
-                      TextButton(
+                    TextButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.pushReplacementNamed(
-                            context,
-                            LogInScreen.routeName,
-                          );
                         },
-                        child: Text("Yes"),
-                      ),
-                    ],
-                  );
-                },);
+                        child: Text("Cancel")),
+                  ],
+                );
+              },
+            );
           },
         ),
       ],
