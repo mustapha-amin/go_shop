@@ -29,8 +29,11 @@ class _DiscountScreenState extends State<DiscountScreen> {
         shrinkWrap: true,
         children: [
           ...GlobalProducts.products.map(
-            (e) => ProductWidget(
-              product: e,
+            (e) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ProductWidget(
+                product: e,
+              ),
             ),
           )
         ],

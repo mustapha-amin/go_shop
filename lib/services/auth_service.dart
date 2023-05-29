@@ -5,7 +5,8 @@ class AuthService {
 
   String get userid => firebaseAuth.currentUser!.uid;
 
-  User get user => firebaseAuth.currentUser!;
+  User? get user => firebaseAuth.currentUser;
 
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
+
 }

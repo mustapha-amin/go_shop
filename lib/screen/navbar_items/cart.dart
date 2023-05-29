@@ -29,7 +29,7 @@ class _CartState extends State<Cart> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/images/general/add_to_cart.png',
+                  'assets/images/general/add-to-cart.png',
                   height: size.height / 3,
                   width: size.width / 2,
                 ),

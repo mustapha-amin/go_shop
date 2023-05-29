@@ -3,7 +3,9 @@ import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/providers/cart_provider.dart';
+import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/services/utils.dart';
+import 'package:go_shop/widgets/error_dialog.dart';
 import 'package:go_shop/widgets/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,7 @@ class _ProductDetailState extends State<ProductDetail> {
   int quantity = 0;
   TextEditingController _quantityController = TextEditingController();
   bool heartIsTapped = false;
+  AuthService authService = AuthService();
   String text = """
   Anim voluptate ex cillum ex. Velit cillum anim velit quis aliqua nostrud laborum. Ut laborum esse et anim duis laboris ex eu magna. Nisi reprehenderit aute id adipisicing incididunt nostrud id ullamco id dolore officia. Excepteur ea magna anim reprehenderit veniam cillum esse irure culpa sunt aute. Labore nisi anim non ex ea cillum et sit laborum.
 
@@ -139,16 +142,17 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
               height: size.height / 15,
               child: ElevatedButton(
                 onPressed: () {
+                  if (authService.user == null) {
+                    showErrorDialog(context, "You're not logged in");
+                    return;
+                  }
                   !cart.containsProduct(widget.product!)
                       ? {
-                          cart.addToCart(
-                            CartItem(
-                              product: widget.product,
-                              quantity: 1,
-                              price: widget.product!.price,
-                            )
-                          ),
-                          
+                          cart.addToCart(CartItem(
+                            product: widget.product,
+                            quantity: 1,
+                            price: widget.product!.price,
+                          )),
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text("Added to cart"),
@@ -158,14 +162,11 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
                         }
                       : ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Already in cart,"),
+                            content: Text("Already in cart"),
                             duration: Duration(milliseconds: 200),
                           ),
                         );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
                 child: const Text("Add to cart"),
               ),
             ),
@@ -173,11 +174,8 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
               width: size.width / 2.5,
               height: size.height / 15,
               child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                ),
                 onPressed: () {},
-                child: Text("Buy now"),
+                child: const Text("Buy now"),
               ),
             ),
           ],

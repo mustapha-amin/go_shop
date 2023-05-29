@@ -8,6 +8,7 @@ import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/consts.dart';
+import '../../widgets/error_dialog.dart';
 import '../../widgets/spacings.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -25,12 +26,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ValueNotifier<String> emailErrorMessage = ValueNotifier<String>('');
   ValueNotifier<String> passwordErrorMessage = ValueNotifier<String>('');
   ValueNotifier<String> confirmPasswordError = ValueNotifier<String>('');
-  ValueNotifier<bool> isLoading = ValueNotifier<bool>(false);
   bool obscureText = false;
   final _formKey = GlobalKey<FormState>();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
   final confirmPasswordFocusNode = FocusNode();
+  bool loading = false;
+  String error = '';
 
   void _validateEmail() {
     String value = _emailController.text;
@@ -79,24 +81,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
+
     super.initState();
   }
 
   void registerUser() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      isLoading.value = true;
+      setState(() {
+        loading = true;
+      });
       try {
         await authService.firebaseAuth.createUserWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text);
       } on FirebaseException catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message!),
-          ),
-        );
-        isLoading.value = false;
+        if (e.code == 'email-already-in-use') {
+          setState(() {
+            loading = false;
+            error = "email already in use";
+          });
+          showErrorDialog(context, error);
+        } else if (e.code == "network-request-failed") {
+          error = "A network occured, check your internet settings";
+          showErrorDialog(context, error);
+        } else {
+          error = e.message.toString();
+          showErrorDialog(context, error);
+        }
       }
     }
   }
@@ -104,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return isLoading.value
+    return loading
         ? const LoadingWidget()
         : Scaffold(
             resizeToAvoidBottomInset: false,
@@ -128,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           addVerticalSpacing(40),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            padding: const EdgeInsets.symmetric(vertical: 3),
                             child: ValueListenableBuilder(
                               valueListenable: emailErrorMessage,
                               builder: (context, value, child) {
@@ -147,7 +159,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     focusedErrorBorder:
                                         const OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Colors.grey,
+                                        color: Colors.green,
                                       ),
                                     ),
                                     filled: true,
@@ -163,7 +175,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            padding: const EdgeInsets.symmetric(vertical: 3),
                             child: ValueListenableBuilder(
                               valueListenable: passwordErrorMessage,
                               builder: (context, value, child) {
@@ -185,11 +197,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     focusedErrorBorder:
                                         const OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Colors.grey,
+                                        color: Colors.green,
                                       ),
                                     ),
                                     filled: true,
                                     errorText: passwordErrorMessage.value,
+                                    errorMaxLines: 2,
                                     hintText: "password",
                                     fillColor: Colors.white,
                                     suffixIcon: GestureDetector(
@@ -202,7 +215,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ),
                                   onChanged: (_) => {
-                                    _comparePasswords(),
+                                    _confirmPasswordController.text.isEmpty
+                                        ? null
+                                        : _comparePasswords(),
                                     _validatePassword()
                                   },
                                   obscureText: obscureText,
@@ -213,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2),
+                            padding: const EdgeInsets.symmetric(vertical: 3),
                             child: ValueListenableBuilder(
                               valueListenable: confirmPasswordError,
                               builder: (context, value, child) {
@@ -236,7 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     focusedErrorBorder:
                                         const OutlineInputBorder(
                                       borderSide: BorderSide(
-                                        color: Colors.grey,
+                                        color: Colors.green,
                                       ),
                                     ),
                                     filled: true,
@@ -265,12 +280,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  _passwordController.text.isNotEmpty &&
+                                          _confirmPasswordController
+                                              .text.isNotEmpty &&
+                                          _emailController.text.isNotEmpty
+                                      ? Colors.green[700]
+                                      : Colors.grey,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               fixedSize: Size(size.width, size.height / 12),
-                              backgroundColor: Colors.blue[800],
                             ),
                             onPressed: () {
                               registerUser();
@@ -295,7 +316,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     child: Text(
                                       "Sign in",
                                       style: TextStyle(
-                                        color: Colors.blue[800],
+                                        color: Theme.of(context).primaryColor,
                                       ),
                                     ),
                                   ),

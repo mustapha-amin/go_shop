@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/inner_screens/wishlist.dart';
 import 'package:go_shop/services/auth_service.dart';
@@ -55,7 +56,10 @@ class _UserState extends State<User> {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8),
-          child: Text(authService.user.email!),
+          child: Text(
+            authService.user != null ? authService.user!.email! : "Guest",
+            style: kTextStyle(20, context),
+          ),
         ),
         Divider(),
         ListTile(
@@ -67,7 +71,6 @@ class _UserState extends State<User> {
             ),
           ),
           leading: Icon(Icons.person),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
           onTap: () {
             showDialog(
                 context: context,
@@ -105,18 +108,15 @@ class _UserState extends State<User> {
         ListTile(
           title: Text("Orders"),
           leading: Icon(Icons.shopping_bag),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
         ),
         ListTile(
             title: Text("WishList"),
             leading: Icon(Icons.shopping_bag_sharp),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
             onTap: () {
               Navigator.pushNamed(context, WishlistScreen.routeName);
             }),
         ListTile(
           title: Text("Viewed products"),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
         ),
         SwitchListTile(
           title: Text(theme.themeStatus ? "Dark mode" : "Light mode"),
@@ -130,46 +130,49 @@ class _UserState extends State<User> {
         ListTile(
           title: Text("Forgot password"),
           leading: Icon(Icons.lock),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
         ),
         ListTile(
-          title: Text("Logout"),
-          leading: Icon(Icons.logout),
-          trailing: Icon(Icons.arrow_forward_ios_outlined),
+          title: Text(authService.user == null ? "Login" : "Logout"),
+          leading: Icon(authService.user == null ? Icons.login : Icons.logout),
           onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Row(
-                    children: const [
-                      Icon(Icons.logout),
-                      Text("Sign out"),
-                    ],
-                  ),
-                  content: Text("Do you want to sign out"),
-                  actions: [
-                    TextButton(
-                      onPressed: () async {
-                        Navigator.pop(context);
-                        await authService.firebaseAuth.signOut();
-                      },
-                      child: Text(
-                        "Yes",
-                        style: TextStyle(
-                          color: Colors.red,
+            authService.user == null
+                ? Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LogInScreen()),
+                    ModalRoute.withName(LogInScreen.routeName))
+                : showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Row(
+                          children: const [
+                            Icon(Icons.logout),
+                            Text("Sign out"),
+                          ],
                         ),
-                      ),
-                    ),
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text("Cancel")),
-                  ],
-                );
-              },
-            );
+                        content: Text("Do you want to sign out"),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.pop(context);
+                              await authService.firebaseAuth.signOut();
+                            },
+                            child: Text(
+                              "Yes",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancel")),
+                        ],
+                      );
+                    },
+                  );
           },
         ),
       ],

@@ -4,7 +4,7 @@ class MyTheme {
   static ThemeData themeData(BuildContext context, bool isDark) {
     return ThemeData(
       scaffoldBackgroundColor: isDark ? Colors.grey[900] : Colors.grey[100],
-      primaryColor: Colors.green,
+      colorSchemeSeed: Colors.green[700],
       listTileTheme: ListTileThemeData(
         textColor: isDark ? Colors.white : Colors.black,
         iconColor: isDark ? Colors.white : Colors.black,
@@ -30,6 +30,12 @@ class MyTheme {
           color: isDark ? Colors.white : Colors.black,
         ),
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green[700],
+        ),
+      ),
+      
     );
   }
 }

@@ -29,6 +29,7 @@ Future main() async {
     child: Builder(builder: (context) {
       bool themeStatus = Provider.of<ThemeProvider>(context).themeStatus;
       return MaterialApp(
+        
         home: const MyApp(),
         debugShowCheckedModeBanner: false,
         theme: MyTheme.themeData(context, themeStatus),
