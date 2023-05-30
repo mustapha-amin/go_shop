@@ -259,16 +259,14 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
+                            side: const BorderSide(),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            backgroundColor: Colors.black,
+                            backgroundColor: Colors.white,
                             fixedSize: Size(size.width, size.height / 15)),
-                        onPressed: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return const BottomBarScreen();
-                          }));
+                        onPressed: () async {
+                          await authService.firebaseAuth.signInAnonymously();
                         },
                         child: Text(
                           "Continue as guest",

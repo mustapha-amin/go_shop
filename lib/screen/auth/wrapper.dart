@@ -8,6 +8,8 @@ import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:go_shop/widgets/error_dialog.dart';
 
+import 'information.dart';
+
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
 
@@ -18,10 +20,10 @@ class Wrapper extends StatelessWidget {
       stream: authService.authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const BottomBarScreen();
+          return authService.user!.displayName == null ? const UserInfo() : const BottomBarScreen();
         }
         if (snapshot.hasError) {
-          return Center(
+          return const Center(
             child: Text("An error occured"),
           );
         } else {
