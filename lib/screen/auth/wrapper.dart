@@ -20,7 +20,9 @@ class Wrapper extends StatelessWidget {
       stream: authService.authStateChanges,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return authService.user!.displayName == null ? const UserInfo() : const BottomBarScreen();
+          return authService.user!.displayName == null
+              ? const UserInfo()
+              : const BottomBarScreen();
         }
         if (snapshot.hasError) {
           return const Center(

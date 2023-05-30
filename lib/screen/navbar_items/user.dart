@@ -43,7 +43,7 @@ class _UserState extends State<User> {
               ),
               children: [
                 TextSpan(
-                  text: "Name",
+                  text: "${authService.user!.displayName}",
                   style: GoogleFonts.lato(
                     fontSize: 27,
                     color: Colors.amber,

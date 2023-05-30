@@ -92,9 +92,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         loading = true;
       });
       try {
-        await authService.firebaseAuth.createUserWithEmailAndPassword(
-            email: _emailController.text.trim(),
-            password: _passwordController.text);
+        await authService.firebaseAuth
+            .createUserWithEmailAndPassword(
+                email: _emailController.text.trim(),
+                password: _passwordController.text)
+            .whenComplete(() => setState(
+                  () => loading = false,
+                ));
       } on FirebaseException catch (e) {
         if (e.code == 'email-already-in-use') {
           setState(() {

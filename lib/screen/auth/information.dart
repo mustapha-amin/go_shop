@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
+import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/widgets/spacings.dart';
 import 'package:go_shop/services/auth_service.dart';
 
@@ -47,7 +48,7 @@ class _UserInfoState extends State<UserInfo> {
                           ),
                         ),
                         validator: (val) =>
-                            val!.isEmpty ? "please enter your name" : "",
+                            val!.isEmpty ? "please enter your name" : null,
                       ),
                       addVerticalSpacing(20),
                       TextFormField(
@@ -59,7 +60,7 @@ class _UserInfoState extends State<UserInfo> {
                           ),
                         ),
                         validator: (val) =>
-                            val!.isEmpty ? "please enter your address" : "",
+                            val!.isEmpty ? "please enter your address" : null,
                         maxLines: 3,
                       ),
                     ],
@@ -79,8 +80,14 @@ class _UserInfoState extends State<UserInfo> {
                     formKey.currentState!.validate()
                         ? {
                             formKey.currentState!.save(),
-                            await authService.user!.updateDisplayName(displayNameController.text),
-                            
+                            await authService.user!
+                                .updateDisplayName(displayNameController.text)
+                                .whenComplete(
+                                  () => Navigator.pushNamed(
+                                    context,
+                                    BottomBarScreen.routeName,
+                                  ),
+                                ),
                           }
                         : null;
                   },
