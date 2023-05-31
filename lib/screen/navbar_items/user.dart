@@ -63,49 +63,6 @@ class _UserState extends State<User> {
         ),
         Divider(),
         ListTile(
-          title: Text("Address"),
-          subtitle: Text(
-            address,
-            style: TextStyle(
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          leading: Icon(Icons.person),
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("Update address"),
-                    content: TextField(
-                      decoration: InputDecoration(
-                        hintText: "Address",
-                      ),
-                      maxLines: 5,
-                      controller: _textEditingController,
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text("Cancel"),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            address = _textEditingController.text;
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Text("Update"),
-                      ),
-                    ],
-                  );
-                });
-          },
-        ),
-        ListTile(
           title: Text("Orders"),
           leading: Icon(Icons.shopping_bag),
         ),
