@@ -8,7 +8,7 @@ import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:go_shop/widgets/error_dialog.dart';
 
-import 'information.dart';
+import 'username.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
