@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/product.dart';
 import 'package:provider/provider.dart';

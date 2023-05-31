@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/auth/username.dart';
-import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
-import 'package:go_shop/screen/navbar_items/homescreen.dart';
 import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';

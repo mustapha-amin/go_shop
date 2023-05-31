@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/providers/wishlist_provider.dart';
 import 'package:go_shop/routes.dart';
 import 'package:go_shop/screen/auth/wrapper.dart';

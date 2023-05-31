@@ -4,7 +4,6 @@ import 'package:go_shop/models/product.dart';
 
 class CartProvider extends ChangeNotifier {
   List<CartItem> myCart = [];
-  int _productCount = 0;
   int price = 0;
 
   void updateQuantity(CartItem item, int qty) {

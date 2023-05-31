@@ -40,8 +40,6 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    int priceByQty =
-        widget.product!.price! * int.parse(_quantityController.text);
     var cart = Provider.of<CartProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(

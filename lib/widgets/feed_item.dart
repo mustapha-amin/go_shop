@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/widgets/product.dart';
 

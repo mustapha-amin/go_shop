@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import 'package:go_shop/global_products.dart';
 import 'package:go_shop/widgets/product.dart';
-
-import '../../models/product.dart';
 
 class DiscountScreen extends StatefulWidget {
   static const routeName = '/discountScreen';

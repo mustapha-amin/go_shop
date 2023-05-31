@@ -18,8 +18,6 @@ class User extends StatefulWidget {
 
 class _UserState extends State<User> {
   AuthService authService = AuthService();
-  String address = "Not set";
-  TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/services/database.dart';
-import 'package:go_shop/widgets/spacings.dart';
 import 'package:go_shop/services/auth_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserInfo extends StatefulWidget {
   const UserInfo({super.key});

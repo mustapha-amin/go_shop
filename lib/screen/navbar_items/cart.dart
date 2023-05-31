@@ -15,7 +15,6 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   void formatPrice(int price) {
     String stringPrice = price.toString();
-    int stringlenght = stringPrice.length;
     for (var i = 0; i < stringPrice.length; i++) {}
   }
 
