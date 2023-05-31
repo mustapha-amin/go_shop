@@ -18,7 +18,13 @@ class _UserInfoState extends State<UserInfo> {
   final TextEditingController addressController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   AuthService authService = AuthService();
-  DatabaseService databaseService = DatabaseService();
+  DatabaseService? databaseService;
+
+  @override
+  void initState() {
+    databaseService = DatabaseService(authService: authService);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +78,13 @@ class _UserInfoState extends State<UserInfo> {
                             formKey.currentState!.save(),
                             await authService.user!
                                 .updateDisplayName(displayNameController.text),
-                            databaseService.createCustomer(),
+                            databaseService!.createCustomer(),
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BottomBarScreen(),
+                              ),
+                            )
                           }
                         : null;
                   },

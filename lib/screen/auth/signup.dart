@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_shop/screen/auth/login.dart';
+import 'package:go_shop/screen/auth/username.dart';
+import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/screen/navbar_items/homescreen.dart';
 import 'package:go_shop/services/auth_service.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
@@ -96,9 +98,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
             .createUserWithEmailAndPassword(
                 email: _emailController.text.trim(),
                 password: _passwordController.text)
-            .whenComplete(() => setState(
-                  () => loading = false,
-                ));
+            .whenComplete(() => setState(() => loading = false));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserInfo(),
+          ),
+        );
       } on FirebaseException catch (e) {
         if (e.code == 'email-already-in-use') {
           setState(() {
