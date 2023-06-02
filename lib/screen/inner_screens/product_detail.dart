@@ -10,6 +10,8 @@ import 'package:go_shop/widgets/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/button.dart';
+
 class ProductDetail extends StatefulWidget {
   Product? product;
   ProductDetail({super.key, this.product});
@@ -135,12 +137,13 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            SizedBox(
+            AppButton(
+              isElevated: true,
               width: size.width / 2.5,
               height: size.height / 15,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (authService.user == null) {
+              labelText: "Add to cart",
+              onTap: (){
+                if (authService.user == null) {
                     showErrorDialog(context, "You're not logged in");
                     return;
                   }
@@ -164,17 +167,14 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
                             duration: Duration(milliseconds: 200),
                           ),
                         );
-                },
-                child: const Text("Add to cart"),
-              ),
+              }, 
             ),
-            SizedBox(
+            AppButton(
+              isElevated: true,
               width: size.width / 2.5,
               height: size.height / 15,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Buy now"),
-              ),
+              labelText: "Buy now",
+              onTap: (){}
             ),
           ],
         ),

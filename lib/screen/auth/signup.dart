@@ -8,6 +8,7 @@ import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/consts.dart';
+import '../../widgets/button.dart';
 import '../../widgets/error_dialog.dart';
 import '../../widgets/spacings.dart';
 
@@ -286,25 +287,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  _passwordController.text.isNotEmpty &&
-                                          _confirmPasswordController
-                                              .text.isNotEmpty &&
-                                          _emailController.text.isNotEmpty
-                                      ? Colors.green[700]
-                                      : Colors.grey,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              fixedSize: Size(size.width, size.height / 12),
-                            ),
-                            onPressed: () {
-                              registerUser();
-                            },
-                            child: const Text("Sign up"),
+                          AppButton(
+                            height: size.height / 12,
+                            isElevated: true,
+                            labelText: "Sign Up",
+                            onTap: () => registerUser()
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),

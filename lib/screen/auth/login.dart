@@ -9,6 +9,7 @@ import '../../widgets/google_button.dart';
 import '../../constants/consts.dart';
 import '../../services/auth_service.dart';
 import '../../widgets/spacings.dart';
+import '../../widgets/button.dart';
 import 'signup.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -211,25 +212,14 @@ class _LogInScreenState extends State<LogInScreen> {
                           child: const Text("Forgot passsword?"),
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            backgroundColor: _emailController.text.isEmpty &&
-                                    _passwordController.text.isEmpty
-                                ? Colors.grey
-                                : Theme.of(context).primaryColor,
-                            fixedSize: Size(size.width, size.height / 15)),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            signIn();
-                          }
-                        },
-                        child: const Text("Log in"),
-                      ),
 
+                      AppButton(
+                        height: size.height / 13,
+                        labelText: "Log In",
+                        isElevated: true,
+                        onTap: () =>
+                            _formKey.currentState!.validate() ? signIn() : null,
+                      ),
                       // add google logo later
                       addVerticalSpacing(10),
                       GoogleButton(size: size, basePath: basePath),

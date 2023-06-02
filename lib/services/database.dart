@@ -3,7 +3,8 @@ import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/services/auth_service.dart';
 
 class DatabaseService {
-  FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  static const collection = "customers";
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   AuthService? authService;
   DatabaseService({this.authService});
 
@@ -16,8 +17,9 @@ class DatabaseService {
       createdAt: DateTime.now(),
     );
     await _firebaseFirestore
-        .collection("customers")
+        .collection(collection)
         .doc(authService!.userid)
         .set(customer.toJson());
   }
+  
 }
