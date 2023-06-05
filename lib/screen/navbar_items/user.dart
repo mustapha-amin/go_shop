@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/inner_screens/wishlist.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:go_shop/providers/theme_provider.dart';

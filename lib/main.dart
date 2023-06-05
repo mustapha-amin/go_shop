@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/providers/wishlist_provider.dart';
 import 'package:go_shop/routes.dart';
 import 'package:go_shop/screen/auth/wrapper.dart';
@@ -16,6 +17,9 @@ Future main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
+        create: (_) => AuthService(),
+      ),
+      ChangeNotifierProvider(
         create: (_) => ThemeProvider(),
       ),
       ChangeNotifierProvider(
@@ -28,7 +32,6 @@ Future main() async {
     child: Builder(builder: (context) {
       bool themeStatus = Provider.of<ThemeProvider>(context).themeStatus;
       return MaterialApp(
-        
         home: const MyApp(),
         debugShowCheckedModeBanner: false,
         theme: MyTheme.themeData(context, themeStatus),

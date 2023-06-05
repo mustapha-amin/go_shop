@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_shop/models/customer.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 
 class DatabaseService {
   static const collection = "customers";

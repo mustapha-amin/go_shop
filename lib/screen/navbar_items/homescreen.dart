@@ -2,7 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/screen/inner_screens/on_sale.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/product.dart';
 import 'package:go_shop/widgets/spacings.dart';

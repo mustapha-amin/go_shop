@@ -5,9 +5,10 @@ import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:go_shop/widgets/error_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/google_button.dart';
 import '../../constants/consts.dart';
-import '../../services/auth_service.dart';
+import '../../providers/auth_service.dart';
 import '../../widgets/spacings.dart';
 import '../../widgets/button.dart';
 import 'signup.dart';
@@ -20,15 +21,13 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  AuthService authService = AuthService();
   static String basePath = 'assets/images/general';
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
+  ValueNotifier<bool> fieldsFilled = ValueNotifier<bool>(false);
   late FocusNode passwordFocusNode, emailFocusNode;
-  bool loading = false;
-  String error = '';
   Color buttonColor = Colors.grey;
 
   @override
@@ -40,57 +39,25 @@ class _LogInScreenState extends State<LogInScreen> {
     super.initState();
   }
 
+  void confirmFieldsFilled() {
+    if (_formKey.currentState!.validate()) {
+      fieldsFilled.value = true;
+    } else {
+      fieldsFilled.value = false;
+    }
+  }
+
   void passwordVisibility() {
     setState(() {
       obscureText = !obscureText;
     });
   }
 
-  void signIn() async {
-    setState(() {
-      loading = true;
-    });
-    try {
-      await authService.firebaseAuth.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-    } on FirebaseException catch (e) {
-      setState(() {
-        loading = false;
-      });
-      if (e.code == 'user-not-found') {
-        setState(() {
-          loading = false;
-          error = "User not found";
-        });
-        showErrorDialog(context, error);
-      } else if (e.code == "wrong-password") {
-        setState(() {
-          loading = false;
-          error = "Incorrect password";
-        });
-        showErrorDialog(context, error);
-      } else if (e.code == "network-request-failed") {
-        setState(() {
-          loading = false;
-          error = "A network occured, check your internet settings";
-        });
-        showErrorDialog(context, error);
-      } else {
-        setState(() {
-          loading = false;
-          error = e.message.toString();
-        });
-        showErrorDialog(context, error);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
-    return loading
+    return provider.isLoading
         ? const LoadingWidget()
         : Scaffold(
             resizeToAvoidBottomInset: false,
@@ -146,11 +113,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                 : Colors.white,
                             suffixIcon: const Icon(Icons.email),
                           ),
-                          onChanged: (_) =>
-                              _passwordController.text.isNotEmpty &&
-                                      _emailController.text.isNotEmpty
-                                  ? buttonColor = Theme.of(context).primaryColor
-                                  : Colors.grey,
+                          onChanged: (_) => confirmFieldsFilled(),
                           keyboardType: TextInputType.emailAddress,
                           validator: (val) =>
                               val!.isNotEmpty ? null : "Enter an email",
@@ -185,15 +148,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                           ),
-                          onChanged: (_) => _passwordController
-                                      .text.isNotEmpty &&
-                                  _emailController.text.isNotEmpty
-                              ? setState(() {
-                                  buttonColor = Theme.of(context).primaryColor;
-                                })
-                              : setState(() {
-                                  buttonColor = Colors.grey;
-                                }),
+                          onChanged: (_) => confirmFieldsFilled(),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (val) =>
                               val!.isNotEmpty ? null : "Enter a password",
@@ -212,13 +167,17 @@ class _LogInScreenState extends State<LogInScreen> {
                           child: const Text("Forgot passsword?"),
                         ),
                       ),
-
                       AppButton(
                         height: size.height / 13,
                         labelText: "Log In",
                         isElevated: true,
-                        onTap: () =>
-                            _formKey.currentState!.validate() ? signIn() : null,
+                        onTap: () => _formKey.currentState!.validate()
+                            ? provider.signIn(
+                                context,
+                                _emailController.text,
+                                _passwordController.text,
+                              )
+                            : null,
                       ),
                       // add google logo later
                       addVerticalSpacing(10),
@@ -248,14 +207,15 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
-                            side: const BorderSide(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            backgroundColor: Colors.white,
-                            fixedSize: Size(size.width, size.height / 15)),
-                        onPressed: () async {
-                          await authService.firebaseAuth.signInAnonymously();
+                          side: const BorderSide(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          backgroundColor: Colors.black,
+                          fixedSize: Size(size.width, size.height / 15),
+                        ),
+                        onPressed: () {
+                          provider.signInAnon();
                         },
                         child: Text(
                           "Continue as guest",

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/auth/username.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
 import '../../constants/consts.dart';
 import '../../widgets/button.dart';
 import '../../widgets/error_dialog.dart';
@@ -27,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ValueNotifier<String> emailErrorMessage = ValueNotifier<String>('');
   ValueNotifier<String> passwordErrorMessage = ValueNotifier<String>('');
   ValueNotifier<String> confirmPasswordError = ValueNotifier<String>('');
+  ValueNotifier<bool> fieldsFilled = ValueNotifier<bool>(false);
   bool obscureText = false;
   final _formKey = GlobalKey<FormState>();
   final emailFocusNode = FocusNode();
@@ -92,40 +93,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         loading = true;
       });
-      try {
-        await authService.firebaseAuth
-            .createUserWithEmailAndPassword(
-                email: _emailController.text.trim(),
-                password: _passwordController.text)
-            .whenComplete(() => setState(() => loading = false));
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UserInfo(),
-          ),
-        );
-      } on FirebaseException catch (e) {
-        if (e.code == 'email-already-in-use') {
-          setState(() {
-            loading = false;
-            error = "email already in use";
-          });
-          showErrorDialog(context, error);
-        } else if (e.code == "network-request-failed") {
-          error = "A network occured, check your internet settings";
-          showErrorDialog(context, error);
-        } else {
-          error = e.message.toString();
-          showErrorDialog(context, error);
-        }
-      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AuthService>(context);
     var size = MediaQuery.of(context).size;
-    return loading
+    return provider.isLoading
         ? const LoadingWidget()
         : Scaffold(
             resizeToAvoidBottomInset: false,
@@ -227,7 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     _confirmPasswordController.text.isEmpty
                                         ? null
                                         : _comparePasswords(),
-                                    _validatePassword()
+                                    _validatePassword(),
                                   },
                                   obscureText: obscureText,
                                   controller: _passwordController,
@@ -291,7 +266,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: size.height / 12,
                             isElevated: true,
                             labelText: "Sign Up",
-                            onTap: () => registerUser()
+                            onTap: () => _formKey.currentState!.validate()
+                                ? provider.signUp(
+                                    context,
+                                    _emailController.text,
+                                    _passwordController.text,
+                                  )
+                                : null,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),

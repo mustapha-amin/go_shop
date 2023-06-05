@@ -3,7 +3,7 @@ import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/screen/navbar_items/cart.dart';
 import 'package:go_shop/screen/navbar_items/categories.dart';
 import 'package:go_shop/screen/navbar_items/homescreen.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:provider/provider.dart';
 
 import '../navbar_items/user.dart';

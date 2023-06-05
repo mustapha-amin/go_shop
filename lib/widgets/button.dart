@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppButton extends StatelessWidget {
   double? width, height;
-  Color? color;
   VoidCallback? onTap;
   String? labelText;
   bool? isElevated;
@@ -34,14 +33,15 @@ class AppButton extends StatelessWidget {
                 ),
               ),
               onPressed: onTap,
-              child: Text(labelText!, style: GoogleFonts.lato(
-                fontSize: 18,
-                color: Colors.white,
-              )),
+              child: Text(labelText!,
+                  style: GoogleFonts.lato(
+                    fontSize: 18,
+                    color: Colors.white,
+                  )),
             )
           : TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: color,
+                backgroundColor: Theme.of(context).primaryColor,
               ),
               onPressed: onTap,
               child: Text(

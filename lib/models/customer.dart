@@ -21,11 +21,26 @@ class Customer {
 
   static Customer fromJson(Map<String, dynamic> json) {
     return Customer(
-      name: json["name"] as String,
-      email: json["email"] as String,
-      cart: json["cart"] as List,
-      wishlist: json["wishlist"] as List,
-      createdAt: (json["createdAt"] as Timestamp).toDate()
+        name: json["name"] as String,
+        email: json["email"] as String,
+        cart: json["cart"] as List,
+        wishlist: json["wishlist"] as List,
+        createdAt: (json["createdAt"] as Timestamp).toDate());
+  }
+
+  Customer copyWith({
+    String? name,
+    String? email,
+    List? cart,
+    List? wishlist,
+    DateTime? createdAt,
+  }) {
+    return Customer(
+      name: name ?? this.name,
+      email: email ?? this.email,
+      cart: cart ?? this.cart,
+      wishlist: wishlist ?? this.wishlist,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }

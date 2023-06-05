@@ -3,7 +3,7 @@ import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/providers/cart_provider.dart';
-import 'package:go_shop/services/auth_service.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/error_dialog.dart';
 import 'package:go_shop/widgets/spacings.dart';
