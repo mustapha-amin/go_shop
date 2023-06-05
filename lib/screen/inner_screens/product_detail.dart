@@ -142,40 +142,39 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
               width: size.width / 2.5,
               height: size.height / 15,
               labelText: "Add to cart",
-              onTap: (){
-                if (authService.user == null) {
-                    showErrorDialog(context, "You're not logged in");
-                    return;
-                  }
-                  !cart.containsProduct(widget.product!)
-                      ? {
-                          cart.addToCart(CartItem(
-                            product: widget.product,
-                            quantity: 1,
-                            price: widget.product!.price,
-                          )),
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Added to cart"),
-                              duration: Duration(milliseconds: 200),
-                            ),
-                          )
-                        }
-                      : ScaffoldMessenger.of(context).showSnackBar(
+              onTap: () {
+                if (authService.user!.isAnonymous) {
+                  showErrorDialog(context, "You're not logged in");
+                  return;
+                }
+                !cart.containsProduct(widget.product!)
+                    ? {
+                        cart.addToCart(CartItem(
+                          product: widget.product,
+                          quantity: 1,
+                          price: widget.product!.price,
+                        )),
+                        ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text("Already in cart"),
+                            content: Text("Added to cart"),
                             duration: Duration(milliseconds: 200),
                           ),
-                        );
-              }, 
+                        )
+                      }
+                    : ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Already in cart"),
+                          duration: Duration(milliseconds: 200),
+                        ),
+                      );
+              },
             ),
             AppButton(
-              isElevated: true,
-              width: size.width / 2.5,
-              height: size.height / 15,
-              labelText: "Buy now",
-              onTap: (){}
-            ),
+                isElevated: true,
+                width: size.width / 2.5,
+                height: size.height / 15,
+                labelText: "Buy now",
+                onTap: () {}),
           ],
         ),
       ),

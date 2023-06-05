@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/auth/login.dart';
+import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:go_shop/screen/inner_screens/wishlist.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,7 +42,8 @@ class _UserState extends State<User> {
               ),
               children: [
                 TextSpan(
-                  text: "${authService.user!.displayName}",
+                  text:
+                      "${authService.user!.isAnonymous ? "Guest" : authService.user!.displayName}",
                   style: GoogleFonts.lato(
                     fontSize: 27,
                     color: Colors.amber,
@@ -55,7 +57,7 @@ class _UserState extends State<User> {
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text(
-            authService.user != null ? authService.user!.email! : "Guest",
+            !authService.user!.isAnonymous ? authService.user!.email! : "Guest",
             style: kTextStyle(20, context),
           ),
         ),
@@ -87,10 +89,11 @@ class _UserState extends State<User> {
           leading: Icon(Icons.lock),
         ),
         ListTile(
-          title: Text(authService.user == null ? "Login" : "Logout"),
-          leading: Icon(authService.user == null ? Icons.login : Icons.logout),
+          title: Text(authService.user!.isAnonymous ? "Login" : "Logout"),
+          leading:
+              Icon(authService.user!.isAnonymous ? Icons.login : Icons.logout),
           onTap: () {
-            authService.user == null
+            authService.user!.isAnonymous
                 ? Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => LogInScreen()),
@@ -110,7 +113,12 @@ class _UserState extends State<User> {
                           TextButton(
                             onPressed: () async {
                               Navigator.pop(context);
-                              await authService.firebaseAuth.signOut();
+                              context.read<AuthService>().signOut();
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => Wrapper(),
+                                  ),
+                                  (route) => false);
                             },
                             child: Text(
                               "Yes",

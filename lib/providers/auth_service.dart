@@ -48,6 +48,10 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  Future<void> signOut() async {
+    await firebaseAuth.signOut();
+  }
+
   Future<void> signUp(
       BuildContext context, String email, String password) async {
     isLoading = true;
