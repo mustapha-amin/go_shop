@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/cart_item.dart';
-import 'package:go_shop/providers/cart_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import '../services/utils.dart';
 
@@ -28,7 +26,6 @@ class _CartWidgetState extends State<CartWidget> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var product = widget.cartItem!.product;
-    var cart = Provider.of<CartProvider>(context, listen: true);
     return SizedBox(
       height: size.height / 5,
       width: size.width,
@@ -55,19 +52,7 @@ class _CartWidgetState extends State<CartWidget> {
                     children: [
                       OutlinedButton(
                         onPressed: () {
-                          setState(() {
-                            int qty =
-                                int.tryParse(_quantityController.text) as int;
-                            qty <= 1 ? null : qty--;
-                            _quantityController.text = qty.toString();
-                          });
-                          widget.cartItem!.price = product.price! *
-                              int.parse(_quantityController.text);
-                          cart.refreshPrice();
-                          cart.updateQuantity(
-                            widget.cartItem!,
-                            int.parse(_quantityController.text),
-                          );
+                          
                         },
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red,
@@ -101,19 +86,7 @@ class _CartWidgetState extends State<CartWidget> {
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          setState(() {
-                            int qty =
-                                int.tryParse(_quantityController.text) as int;
-                            qty < 10 ? qty++ : null;
-                            _quantityController.text = qty.toString();
-                          });
-                          widget.cartItem!.price = product.price! *
-                              int.parse(_quantityController.text);
-                          cart.refreshPrice();
-                          cart.updateQuantity(
-                            widget.cartItem!,
-                            int.parse(_quantityController.text),
-                          );
+                          
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -157,9 +130,7 @@ class _CartWidgetState extends State<CartWidget> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    cart.removeFromCart(
-                                        widget.cartItem!.product!);
-                                    Navigator.pop(context);
+                                    
                                   },
                                   child: const Text("Yes"),
                                 ),

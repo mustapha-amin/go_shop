@@ -1,14 +1,17 @@
-import 'package:uuid/uuid.dart';
-
 class Product {
-  String id;
   String? imgPath;
   String? name;
-  int? price;
+  double? price;
   String? description;
-  bool discounted;
 
-  Product({this.imgPath, this.name, this.price, this.description, this.discounted = false}) : id = Uuid().v4();
+  Product({this.imgPath, this.name, this.price, this.description});
 
- 
+  static Product fromJson(Map<String, dynamic> json) {
+    return Product(
+      imgPath: json['imgPath'],
+      name: json['name'],
+      price: json['price'],
+      description: json['description'],
+    );
+  }
 }

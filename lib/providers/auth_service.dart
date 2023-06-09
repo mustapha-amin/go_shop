@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
+import 'package:go_shop/services/database.dart';
 import '../widgets/error_dialog.dart';
 
 class AuthService extends ChangeNotifier {
@@ -57,17 +58,12 @@ class AuthService extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      await firebaseAuth
-          .createUserWithEmailAndPassword(
+      await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
-      )
-          .whenComplete(
-        () {
-          isLoading = false;
-          notifyListeners();
-        },
       );
+      isLoading = false;
+      notifyListeners();
     } on FirebaseException catch (e) {
       isLoading = false;
       notifyListeners();

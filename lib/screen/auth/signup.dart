@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/auth/username.dart';
 import 'package:go_shop/providers/auth_service.dart';
+import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   ValueNotifier<String> passwordErrorMessage = ValueNotifier<String>('');
   ValueNotifier<String> confirmPasswordError = ValueNotifier<String>('');
   ValueNotifier<bool> fieldsFilled = ValueNotifier<bool>(false);
-  bool obscureText = false;
+  bool obscureTextA = true;
+  bool obscureTextB = true;
   final _formKey = GlobalKey<FormState>();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
@@ -72,9 +74,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  void passwordVisibility() {
+  void passwordVisibilityA() {
     setState(() {
-      obscureText = !obscureText;
+      obscureTextA = !obscureTextA;
+    });
+  }
+
+  void passwordVisibilityB() {
+    setState(() {
+      obscureTextB = !obscureTextB;
     });
   }
 
@@ -149,6 +157,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     filled: true,
                                     fillColor: Colors.white,
                                     suffixIcon: const Icon(Icons.email),
+                                    suffixIconColor: Colors.grey[700],
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   onChanged: (_) => _validateEmail(),
@@ -189,10 +198,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     errorMaxLines: 2,
                                     hintText: "password",
                                     fillColor: Colors.white,
+                                    suffixIconColor: Colors.grey[700],
                                     suffixIcon: GestureDetector(
-                                      onTap: passwordVisibility,
+                                      onTap: passwordVisibilityA,
                                       child: Icon(
-                                        obscureText
+                                        obscureTextA
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                       ),
@@ -204,7 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         : _comparePasswords(),
                                     _validatePassword(),
                                   },
-                                  obscureText: obscureText,
+                                  obscureText: obscureTextA,
                                   controller: _passwordController,
                                   focusNode: passwordFocusNode,
                                 );
@@ -241,17 +251,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     filled: true,
                                     hintText: "confirm password",
                                     fillColor: Colors.white,
+                                    suffixIconColor: Colors.grey[700],
                                     suffixIcon: GestureDetector(
-                                      onTap: passwordVisibility,
+                                      onTap: passwordVisibilityB,
                                       child: Icon(
-                                        obscureText
+                                        obscureTextB
                                             ? Icons.visibility
                                             : Icons.visibility_off,
                                       ),
                                     ),
                                   ),
                                   onChanged: (_) => _comparePasswords(),
-                                  obscureText: obscureText,
+                                  obscureText: obscureTextB,
                                   controller: _confirmPasswordController,
                                 );
                               },
@@ -267,11 +278,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             isElevated: true,
                             labelText: "Sign Up",
                             onTap: () => _formKey.currentState!.validate()
-                                ? provider.signUp(
-                                    context,
-                                    _emailController.text,
-                                    _passwordController.text,
-                                  )
+                                ? {
+                                    provider
+                                        .signUp(
+                                          context,
+                                          _emailController.text,
+                                          _passwordController.text,
+                                        )
+                                        .whenComplete(
+                                          () => Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                              return Wrapper();
+                                            }),
+                                          ),
+                                        ),
+                                  }
                                 : null,
                           ),
                           Padding(

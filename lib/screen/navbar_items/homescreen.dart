@@ -19,27 +19,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AuthService authService = AuthService();
-  static String basePath = 'assets/images/offers';
-  List<Product> products = [
-    Product(
-      name: "Nike air",
-      imgPath: '$basePath/shoe.png',
-      discounted: true,
-      price: 80000,
-    ),
-    Product(
-      name: "T-shirt",
-      imgPath: '$basePath/shirt.png',
-      discounted: true,
-      price: 75000,
-    ),
-    Product(
-      name: "HP laptop",
-      imgPath: '$basePath/laptop.png',
-      discounted: true,
-      price: 90000,
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -47,84 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: size.height / 3,
-              child: Swiper(
-                itemBuilder: (context, index) {
-                  return Image.asset(
-                    products[index].imgPath!,
-                    fit: BoxFit.contain,
-                  );
-                },
-                autoplay: false,
-                itemCount: products.length,
-                pagination: const SwiperPagination(
-                  alignment: Alignment.bottomCenter,
-                  builder: DotSwiperPaginationBuilder(
-                    color: Colors.white,
-                    activeColor: Colors.redAccent,
-                  ),
-                ),
-                control: const SwiperControl(),
-              ),
-            ),
-            addVerticalSpacing(6),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, DiscountScreen.routeName);
-              },
-              child: const Text(
-                "View all",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                RotatedBox(
-                  quarterTurns: -1,
-                  child: Row(
-                    children: [
-                      Text(
-                        "30% off",
-                        style: GoogleFonts.abel(
-                          color: Colors.red,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.discount_outlined,
-                        color:
-                            Utils(context).isDark ? Colors.white : Colors.red,
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    height: size.height / 4,
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        ...products.map(
-                          (e) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: ProductWidget(
-                              product: e,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            addVerticalSpacing(10),
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10),
               child: Row(

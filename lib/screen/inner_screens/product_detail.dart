@@ -42,7 +42,6 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var cart = Provider.of<CartProvider>(context);
     return Scaffold(
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -138,37 +137,16 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AppButton(
-              isElevated: true,
-              width: size.width / 2.5,
-              height: size.height / 15,
-              labelText: "Add to cart",
-              onTap: () {
-                if (authService.user!.isAnonymous) {
-                  showErrorDialog(context, "You're not logged in");
-                  return;
-                }
-                !cart.containsProduct(widget.product!)
-                    ? {
-                        cart.addToCart(CartItem(
-                          product: widget.product,
-                          quantity: 1,
-                          price: widget.product!.price,
-                        )),
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Added to cart"),
-                            duration: Duration(milliseconds: 200),
-                          ),
-                        )
-                      }
-                    : ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text("Already in cart"),
-                          duration: Duration(milliseconds: 200),
-                        ),
-                      );
-              },
-            ),
+                isElevated: true,
+                width: size.width / 2.5,
+                height: size.height / 15,
+                labelText: "Add to cart",
+                onTap: () {
+                  if (authService.user!.isAnonymous) {
+                    showErrorDialog(context, "You're not logged in");
+                    return;
+                  }
+                }),
             AppButton(
                 isElevated: true,
                 width: size.width / 2.5,

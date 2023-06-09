@@ -13,23 +13,21 @@ class LoadingWidget extends StatefulWidget {
 class _LoadingWidgetState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SpinKitFadingCircle(
-              duration: const Duration(milliseconds: 500),
-              size: 60,
-              color: Utils(context).color,
-            ),
-            Text(
-              "Please wait",
-              style: kTextStyle(20, context),
-            )
-          ],
-        ),
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SpinKitFadingCircle(
+            duration: const Duration(milliseconds: 500),
+            size: 60,
+            color: Utils(context).color,
+          ),
+          Text(
+            "Please wait",
+            style: kTextStyle(20, context),
+          )
+        ],
       ),
     );
   }

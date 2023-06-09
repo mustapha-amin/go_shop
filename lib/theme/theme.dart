@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class MyTheme {
   static ThemeData themeData(BuildContext context, bool isDark) {
     return ThemeData(
+      useMaterial3: true,
       scaffoldBackgroundColor: isDark ? Colors.grey[900] : Colors.grey[100],
       colorSchemeSeed: Colors.green[700],
       listTileTheme: ListTileThemeData(
@@ -25,17 +26,11 @@ class MyTheme {
         thickness: 1,
         color: isDark ? Colors.grey : Colors.black,
       ),
-      textTheme: TextTheme(
-        bodyText2: TextStyle(
-          color: isDark ? Colors.white : Colors.black,
-        ),
-      ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green[700],
         ),
       ),
-      
     );
   }
 }

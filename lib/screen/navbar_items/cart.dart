@@ -5,6 +5,8 @@ import 'package:go_shop/widgets/cart_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/customer.dart';
+
 class Cart extends StatefulWidget {
   const Cart({super.key});
 
@@ -13,16 +15,11 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  void formatPrice(int price) {
-    String stringPrice = price.toString();
-    for (var i = 0; i < stringPrice.length; i++) {}
-  }
-
   @override
   Widget build(BuildContext context) {
-    var cart = Provider.of<CartProvider>(context);
+    var customer = Provider.of<Customer>(context);
     var size = MediaQuery.of(context).size;
-    return cart.myCart.isEmpty
+    return customer.cart!.isEmpty
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -44,7 +41,7 @@ class _CartState extends State<Cart> {
         : Scaffold(
             appBar: AppBar(
               title: Text(
-                "Cart (${cart.myCart.length})",
+                "Cart (${customer.cart!.length})",
                 style: TextStyle(
                   color: Utils(context).color,
                 ),
@@ -68,7 +65,6 @@ class _CartState extends State<Cart> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                cart.clearCart();
                                 Navigator.pop(context);
                               },
                               child: const Text("Yes"),
@@ -115,7 +111,7 @@ class _CartState extends State<Cart> {
                         )),
                       ),
                       Text(
-                        "Total: ${cart.price}",
+                        "Total: ",
                         style: GoogleFonts.lato(
                           fontSize: 18,
                         ),
@@ -124,9 +120,9 @@ class _CartState extends State<Cart> {
                   ),
                   Expanded(
                     child: ListView.builder(
-                      itemCount: cart.myCart.length,
+                      itemCount: customer.cart!.length,
                       itemBuilder: (context, index) {
-                        var item = cart.myCart[index];
+                        var item = customer.cart![index];
                         return CartWidget(
                           cartItem: item,
                         );

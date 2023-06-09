@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_shop/models/category_model.dart';
+import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/providers/auth_service.dart';
-import 'package:go_shop/providers/wishlist_provider.dart';
 import 'package:go_shop/routes.dart';
 import 'package:go_shop/screen/auth/wrapper.dart';
+import 'package:go_shop/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:go_shop/providers/theme_provider.dart';
 import 'package:go_shop/theme/theme.dart';
@@ -22,12 +25,18 @@ Future main() async {
       ChangeNotifierProvider(
         create: (_) => ThemeProvider(),
       ),
-      ChangeNotifierProvider(
-        create: (_) => CartProvider(),
+      StreamProvider<User?>.value(
+        value: AuthService().authStateChanges,
+        initialData: null
       ),
-      ChangeNotifierProvider(
-        create: (_) => WishlistProvider(),
+      StreamProvider<Customer>.value(
+        value: DatabaseService.getCustomer(),
+        initialData: Customer(),
       ),
+      StreamProvider<List<Category>>.value(
+        value: DatabaseService().getCategories(),
+        initialData: [],
+      )
     ],
     child: Builder(builder: (context) {
       bool themeStatus = Provider.of<ThemeProvider>(context).themeStatus;

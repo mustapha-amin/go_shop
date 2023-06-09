@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/constants/extensions.dart';
+import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/services/utils.dart';
+import 'package:go_shop/widgets/shimmer.dart';
 import 'package:provider/provider.dart';
 import '../constants/consts.dart';
-import '../providers/cart_provider.dart';
-import '../providers/wishlist_provider.dart';
 import '../screen/inner_screens/product_detail.dart';
 
 class ProductWidget extends StatefulWidget {
@@ -21,13 +22,11 @@ class _ProductWidgetState extends State<ProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var wishlist = Provider.of<WishlistProvider>(context);
-    var cart = Provider.of<CartProvider>(context);
+    var cart = Provider.of<Customer>(context).cart;
     var size = MediaQuery.of(context).size;
     Product? product = widget.product;
     return GestureDetector(
       onTap: () {
-        debugPrint(cart.myCart.contains(product).toString());
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ProductDetail(
             product: product,
@@ -51,39 +50,23 @@ class _ProductWidgetState extends State<ProductWidget> {
         child: Stack(
           children: [
             Positioned(
-                top: 10,
-                right: 5,
-                child: IconButton(
-                  icon: Icon(
-                    wishlist.containsProduct(widget.product!)
-                        ? Icons.shopping_bag
-                        : Icons.shopping_bag_outlined,
-                    color: Utils(context).isDark
-                        ? Colors.white
-                        : Colors.black.withOpacity(0.1),
-                    size: 30,
-                    shadows: const [
-                      Shadow(
-                        blurRadius: 0.5,
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                    wishlist.containsProduct(widget.product!)
-                        ? wishlist.removeFromWishlist(widget.product!)
-                        : wishlist.addToWishlist(widget.product!);
-                  },
-                )),
-            Positioned(
               top: 10,
               left: 5,
               child: Hero(
                 transitionOnUserGestures: true,
                 tag: widget.product.hashCode,
-                child: Image.asset(
-                  widget.product!.imgPath!,
-                  height: size.height / 7,
-                ),
+                child: Image.network(widget.product!.imgPath!,
+                    height: size.height / 7,
+                    frameBuilder: (context, child, frame, _) {
+                  if (frame == null) {
+                    // fallback to placeholder
+                    return ShimmerWidget(
+                      height: size.height / 7,
+                      width: size.width / 3,
+                    );
+                  }
+                  return child;
+                }),
               ),
             ),
             Positioned(
@@ -93,11 +76,11 @@ class _ProductWidgetState extends State<ProductWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Product",
+                    widget.product!.name!,
                     style: kTextStyle(20, context),
                   ),
                   Text(
-                    "N10,000",
+                    widget.product!.price!.toMoney,
                     style: kTextStyle(15, context),
                   )
                 ],

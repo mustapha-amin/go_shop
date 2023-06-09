@@ -4,14 +4,14 @@ import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/services/database.dart';
 import 'package:go_shop/providers/auth_service.dart';
 
-class UserInfo extends StatefulWidget {
-  const UserInfo({super.key});
+class UserName extends StatefulWidget {
+  const UserName({super.key});
 
   @override
-  State<UserInfo> createState() => _UserInfoState();
+  State<UserName> createState() => _UserNameState();
 }
 
-class _UserInfoState extends State<UserInfo> {
+class _UserNameState extends State<UserName> {
   final TextEditingController displayNameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -20,7 +20,7 @@ class _UserInfoState extends State<UserInfo> {
 
   @override
   void initState() {
-    databaseService = DatabaseService(authService: authService);
+    databaseService = DatabaseService();
     super.initState();
   }
 
@@ -86,7 +86,10 @@ class _UserInfoState extends State<UserInfo> {
                           }
                         : null;
                   },
-                  child: const Text("proceed"),
+                  child: const Text(
+                    "proceed",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               )
             ],

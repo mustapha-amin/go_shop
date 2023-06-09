@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/providers/cart_provider.dart';
+import 'package:go_shop/screen/auth/username.dart';
 import 'package:go_shop/screen/navbar_items/cart.dart';
 import 'package:go_shop/screen/navbar_items/categories.dart';
 import 'package:go_shop/screen/navbar_items/homescreen.dart';
@@ -34,7 +35,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cart = Provider.of<CartProvider>(context);
     return Scaffold(
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -72,7 +72,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                         color: Colors.blue[600],
                       ),
                       child: Text(
-                        cart.myCart.length.toString(),
+                        '',
                         style: TextStyle(
                           color: Colors.white,
                         ),

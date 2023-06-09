@@ -4,17 +4,17 @@ class Customer {
   String? name;
   String? email;
   List? cart;
-  List? wishlist;
+  List? orders;
   DateTime? createdAt;
 
-  Customer({this.name, this.email, this.cart, this.wishlist, this.createdAt});
+  Customer({this.name, this.email, this.cart, this.orders, this.createdAt});
 
   Map<String, dynamic> toJson() {
     return {
       "name": name,
       "email": email,
       "cart": [],
-      "wishlist": [],
+      "orders": [],
       "createdAt": createdAt,
     };
   }
@@ -24,7 +24,7 @@ class Customer {
         name: json["name"] as String,
         email: json["email"] as String,
         cart: json["cart"] as List,
-        wishlist: json["wishlist"] as List,
+        orders: json["orders"] as List,
         createdAt: (json["createdAt"] as Timestamp).toDate());
   }
 
@@ -32,14 +32,14 @@ class Customer {
     String? name,
     String? email,
     List? cart,
-    List? wishlist,
+    List? orders,
     DateTime? createdAt,
   }) {
     return Customer(
       name: name ?? this.name,
       email: email ?? this.email,
       cart: cart ?? this.cart,
-      wishlist: wishlist ?? this.wishlist,
+      orders: orders ?? this.orders,
       createdAt: createdAt ?? this.createdAt,
     );
   }

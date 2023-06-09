@@ -28,7 +28,7 @@ class CategoryWidget extends StatelessWidget {
                 color: Colors.white,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage(category.imgPath!),
+                  image: NetworkImage(category.imgPath!),
                   filterQuality: FilterQuality.high,
                 ),
                 borderRadius: BorderRadius.circular(6),

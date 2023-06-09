@@ -211,7 +211,6 @@ class _LogInScreenState extends State<LogInScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          backgroundColor: Colors.black,
                           fixedSize: Size(size.width, size.height / 15),
                         ),
                         onPressed: () {
@@ -219,7 +218,10 @@ class _LogInScreenState extends State<LogInScreen> {
                         },
                         child: Text(
                           "Continue as guest",
-                          style: kTextStyle(15, context),
+                          style: GoogleFonts.lato(
+                            color: Colors.black,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                       Padding(

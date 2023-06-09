@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_shop/global_products.dart';
 import 'package:go_shop/widgets/product.dart';
 
 class DiscountScreen extends StatefulWidget {
@@ -24,14 +23,7 @@ class _DiscountScreenState extends State<DiscountScreen> {
         childAspectRatio: size.width / (size.height * 0.45),
         shrinkWrap: true,
         children: [
-          ...GlobalProducts.products.map(
-            (e) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ProductWidget(
-                product: e,
-              ),
-            ),
-          )
+          
         ],
       ),
     );
