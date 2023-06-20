@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/constants/consts.dart';
+import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/cart_item.dart';
+import 'package:go_shop/widgets/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 import '../services/utils.dart';
 
@@ -27,125 +31,89 @@ class _CartWidgetState extends State<CartWidget> {
     var size = MediaQuery.of(context).size;
     var product = widget.cartItem!.product;
     return SizedBox(
-      height: size.height / 5,
+      height: 23.h,
       width: size.width,
       child: Card(
         color: Colors.grey[100],
-        child: Row(
-          children: [
-            Image.asset(
-              product!.imgPath!,
-              width: size.width / 3.4,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  product.name!,
-                  style: GoogleFonts.lato(
-                    fontSize: 25,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.network(
+                  product!.imgPath!,
+                  width: 30.w,
+                  height: 15.h,
+                  fit: BoxFit.fill,
                 ),
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: [
-                      OutlinedButton(
-                        onPressed: () {
-                          
-                        },
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                          minimumSize: Size(size.width / 8, size.height / 20),
-                          elevation: 0,
-                          backgroundColor:  Colors.grey[100],
-                          shape: const CircleBorder(),
+              ),
+              addHorizontalSpacing(5.w),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name!,
+                      style: kTextStyle(size: 20, context: context),
+                    ),
+                    Text(
+                      '$nairaSymbol${product.price!.toMoney}',
+                      style: kTextStyle(size: 15, context: context),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 15.w,
+                          height: 10.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            shape: BoxShape.rectangle,
+                            color: Colors.red,
+                          ),
+                          child: Icon(
+                            Icons.remove,
+                            size: 5.w,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.remove,
-                          color: Colors.red,
-                        ),
-                      ),
-                      SizedBox(
-                        width: size.width / 9,
-                        child: Padding(
-                          padding: const EdgeInsets.all(3.0),
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            controller: _quantityController,
-                            keyboardType: TextInputType.number,
-                            style: TextStyle(
-                              color:  Colors.black,
+                        SizedBox(
+                          width: 10.w,
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              controller: _quantityController,
+                              keyboardType: TextInputType.number,
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () {
-                          
-                        },
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.green,
-                          shape: const CircleBorder(),
-                          minimumSize: Size(size.width / 8, size.height / 20),
-                          elevation: 0,
+                        Container(
+                          width: 15.w,
+                          height: 10.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            shape: BoxShape.rectangle,
+                            color: Colors.green,
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 5.w,
+                          ),
                         ),
-                        child: const Icon(
-                          Icons.add,
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                              title: Text(
-                                "Clear cart",
-                              ),
-                              content: Text(
-                                  "Do you want to remove this product from your cart?",
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    
-                                  },
-                                  child: const Text("Yes"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.delete_forever,
-                        size: 35,
-                        color:  Colors.red,
-                      )),
-                  Text('N${widget.cartItem!.price}'),
-                ],
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

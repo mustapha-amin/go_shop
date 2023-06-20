@@ -3,6 +3,7 @@ import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/cart_widget.dart';
+import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +19,9 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    var customer = Provider.of<Customer>(context);
+    var customer = Provider.of<Customer?>(context);
     var size = MediaQuery.of(context).size;
-    return customer.cart!.isEmpty || AuthService().user!.isAnonymous 
+    return customer!.cart!.isEmpty || AuthService().user!.isAnonymous 
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -38,12 +39,11 @@ class _CartState extends State<Cart> {
                 ),
               ],
             ),
-          )
+          ) : customer.cart == null ? const LoadingWidget()
         : Scaffold(
             appBar: AppBar(
               title: Text(
-                "Cart (${customer.cart!.length})",
-                
+                "Cart (${customer.cart!.length})", 
               ),
               elevation: 0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,

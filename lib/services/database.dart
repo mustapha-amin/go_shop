@@ -63,7 +63,7 @@ class DatabaseService {
         .collection(customersCollection)
         .doc(authService!.userid)
         .update({
-      'cart': FieldValue.arrayUnion([cartItem]),
+      'cart': FieldValue.arrayUnion([cartItem.toJson()]),
     });
   }
 
@@ -72,7 +72,7 @@ class DatabaseService {
         .collection(customersCollection)
         .doc(authService!.userid)
         .update({
-      'order': FieldValue.arrayUnion([cartItem]),
+      'order': FieldValue.arrayUnion([cartItem.toJson()]),
     });
   }
 
@@ -81,12 +81,13 @@ class DatabaseService {
         .collection(customersCollection)
         .doc(authService!.userid)
         .update({
-      'cart': FieldValue.arrayRemove([product])
+      'cart': FieldValue.arrayRemove([product.toJson()])
     });
   }
 
+
   Stream<Iterable<Product>> fetchProducts() {
-   return _firebaseFirestore
+    return _firebaseFirestore
         .collection('products')
         .snapshots()
         .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));

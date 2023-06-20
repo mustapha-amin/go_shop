@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static ThemeData themeData(BuildContext context) {
+  static ThemeData appThemeData() {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: Colors.grey[100],

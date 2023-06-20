@@ -1,3 +1,4 @@
+import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/category_model.dart';
@@ -18,32 +19,33 @@ Future main() async {
   await Firebase.initializeApp();
   await ThemeSettings().init();
   runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(
-        create: (_) => AuthService(),
-      ),
-      StreamProvider<Customer?>.value(
-        value: DatabaseService.getCustomer(),
-        initialData: null,
-      ),
-      StreamProvider<List<Category>>.value(
-        value: DatabaseService().getCategories(),
-        initialData: [],
-      ),
-      StreamProvider<Iterable<Product>>.value(
-        value: DatabaseService().fetchProducts(),
-        initialData: [],
-      )
-    ],
-    child: Builder(builder: (context) {
-      return MaterialApp(
-        home: const MyApp(),
-        debugShowCheckedModeBanner: false,
-        theme: MyTheme.themeData(context),
-        routes: AppRoutes.routes,
-      );
-    }),
-  ));
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthService(),
+        ),
+        StreamProvider<Customer?>.value(
+          value: DatabaseService.getCustomer(),
+          initialData: null,
+        ),
+        StreamProvider<List<Category>>.value(
+          value: DatabaseService().getCategories(),
+          initialData: [],
+        ),
+        StreamProvider<Iterable<Product>>.value(
+          value: DatabaseService().fetchProducts(),
+          initialData: [],
+        )
+      ],
+      child: Sizer(
+        builder: (context, _, __) {
+          return MaterialApp(
+            home: const MyApp(),
+            debugShowCheckedModeBanner: false,
+            theme: MyTheme.appThemeData(),
+            routes: AppRoutes.routes,
+          );
+        },
+      )));
 }
 
 class MyApp extends StatefulWidget {

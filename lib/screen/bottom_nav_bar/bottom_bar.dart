@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/constants/consts.dart';
+import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/screen/auth/username.dart';
 import 'package:go_shop/screen/navbar_items/cart.dart';
@@ -19,7 +21,7 @@ class BottomBarScreen extends StatefulWidget {
 
 class _BottomBarScreenState extends State<BottomBarScreen> {
   AuthService authService = AuthService();
-  int _selectedIndex = 0;
+  late int _selectedIndex;
   final List pages = const [
     HomeScreen(),
     Categories(),
@@ -34,7 +36,14 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   }
 
   @override
+  void initState() {
+    _selectedIndex = 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var cartProvider = Provider.of<Customer?>(context);
     return Scaffold(
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -63,17 +72,19 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                         : Icons.shopping_cart_outlined,
                   ),
                   Positioned(
-                    top: -3,
+                    top: 1,
                     right: 0,
                     child: Container(
-                      padding: EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.blue[600],
+                        color: Theme.of(context).primaryColor,
                       ),
                       child: Text(
-                        '',
-                        style: TextStyle(
+                        cartProvider!.cart!.length.toString(),
+                        style: kTextStyle(
+                          size: 9,
+                          context: context,
                           color: Colors.white,
                         ),
                       ),

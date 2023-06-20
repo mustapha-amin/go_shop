@@ -48,6 +48,7 @@ dependencies:
   uuid: ^3.0.7
   flutter_spinkit:
   intl: ^0.18.1
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
