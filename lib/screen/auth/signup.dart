@@ -138,6 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               builder: (context, value, child) {
                                 return TextFormField(
                                   decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(7),
                                     hintText: "email",
                                     errorText: emailErrorMessage.value,
                                     border: OutlineInputBorder(
@@ -179,6 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ],
                                   decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(7),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -233,6 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ],
                                   decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(7),
                                     errorText: confirmPasswordError.value,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -290,7 +293,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                              return Wrapper();
+                                              return const Wrapper();
                                             }),
                                           ),
                                         ),

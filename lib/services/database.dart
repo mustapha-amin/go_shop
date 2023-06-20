@@ -4,7 +4,6 @@ import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/providers/auth_service.dart';
-
 import '../models/product.dart';
 
 class DatabaseService {
@@ -47,17 +46,6 @@ class DatabaseService {
         (snap) => snap.docs.map((e) => Category.fromJson(e.data())).toList());
   }
 
-  Stream<List<Product>> getProducts(String? categoryId) {
-    return _firebaseFirestore
-        .collection('categories')
-        .doc(categoryId)
-        .collection('products')
-        .snapshots()
-        .map(
-          (snap) => snap.docs.map((e) => Product.fromJson(e.data())).toList(),
-        );
-  }
-
   static Stream<Customer> getCustomer() {
     if (FirebaseAuth.instance.currentUser != null) {
       return _firebaseFirestore
@@ -95,5 +83,12 @@ class DatabaseService {
         .update({
       'cart': FieldValue.arrayRemove([product])
     });
+  }
+
+  Stream<Iterable<Product>> fetchProducts() {
+   return _firebaseFirestore
+        .collection('products')
+        .snapshots()
+        .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));
   }
 }

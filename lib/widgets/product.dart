@@ -4,7 +4,6 @@ import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/shimmer.dart';
-import 'package:provider/provider.dart';
 import '../constants/consts.dart';
 import '../screen/inner_screens/product_detail.dart';
 
@@ -22,7 +21,6 @@ class _ProductWidgetState extends State<ProductWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var cart = Provider.of<Customer>(context).cart;
     var size = MediaQuery.of(context).size;
     Product? product = widget.product;
     return GestureDetector(
@@ -80,7 +78,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     style: kTextStyle(20, context),
                   ),
                   Text(
-                    widget.product!.price!.toMoney,
+                    '₦${widget.product!.price!.toMoney}',
                     style: kTextStyle(15, context),
                   )
                 ],

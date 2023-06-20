@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/customer.dart';
+import 'package:go_shop/models/product.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/routes.dart';
 import 'package:go_shop/screen/auth/wrapper.dart';
@@ -25,16 +26,16 @@ Future main() async {
       ChangeNotifierProvider(
         create: (_) => ThemeProvider(),
       ),
-      StreamProvider<User?>.value(
-        value: AuthService().authStateChanges,
-        initialData: null
-      ),
-      StreamProvider<Customer>.value(
+      StreamProvider<Customer?>.value(
         value: DatabaseService.getCustomer(),
-        initialData: Customer(),
+        initialData: null,
       ),
       StreamProvider<List<Category>>.value(
         value: DatabaseService().getCategories(),
+        initialData: [],
+      ),
+      StreamProvider<Iterable<Product>>.value(
+        value: DatabaseService().fetchProducts(),
         initialData: [],
       )
     ],

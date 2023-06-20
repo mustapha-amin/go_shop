@@ -3,6 +3,7 @@ import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
 import 'package:go_shop/services/database.dart';
 import 'package:go_shop/providers/auth_service.dart';
+import 'package:go_shop/widgets/loading_widget.dart';
 
 class UserName extends StatefulWidget {
   const UserName({super.key});
@@ -17,6 +18,7 @@ class _UserNameState extends State<UserName> {
   final formKey = GlobalKey<FormState>();
   AuthService authService = AuthService();
   DatabaseService? databaseService;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _UserNameState extends State<UserName> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Padding(
+        body: isLoading ? const LoadingWidget() : Padding(
           padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -74,6 +76,9 @@ class _UserNameState extends State<UserName> {
                     formKey.currentState!.validate()
                         ? {
                             formKey.currentState!.save(),
+                            setState(() {
+                              isLoading = true;
+                            }),
                             await authService.user!
                                 .updateDisplayName(displayNameController.text),
                             databaseService!.createCustomer(),

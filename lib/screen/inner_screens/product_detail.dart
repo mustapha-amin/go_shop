@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
+import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/providers/cart_provider.dart';
@@ -25,13 +26,6 @@ class _ProductDetailState extends State<ProductDetail> {
   TextEditingController _quantityController = TextEditingController();
   bool heartIsTapped = false;
   AuthService authService = AuthService();
-  String text = """
-  Anim voluptate ex cillum ex. Velit cillum anim velit quis aliqua nostrud laborum. Ut laborum esse et anim duis laboris ex eu magna. Nisi reprehenderit aute id adipisicing incididunt nostrud id ullamco id dolore officia. Excepteur ea magna anim reprehenderit veniam cillum esse irure culpa sunt aute. Labore nisi anim non ex ea cillum et sit laborum.
-
-Est eiusmod et amet duis deserunt officia veniam voluptate amet. Cillum nostrud ut anim commodo Lorem id officia ut. Qui do eu incididunt non occaecat magna est non. Eu occaecat cupidatat magna excepteur fugiat nulla eu enim sunt velit aliqua. Laboris non excepteur cupidatat aliquip laborum ex qui cupidatat ea. Id minim exercitation esse tempor magna qui in consectetur ipsum exercitation laborum ex adipisicing. Qui culpa aliquip adipisicing magna labore non ipsum consequat adipisicing qui irure eu adipisicing. Elit do occaecat occaecat elit qui esse velit excepteur mollit. Sunt exercitation tempor labore ad sit. In reprehenderit ad veniam nisi mollit irure dolor consequat elit commodo laborum cillum. Non irure dolor exercitation cupidatat commodo. Aute irure pariatur nisi aliqua nisi officia amet exercitation eiusmod nostrud qui irure exercitation quis.
-
-Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint. Sit aute id commodo sit ad veniam eu eiusmod. Adipisicing voluptate sint culpa tempor aliquip tempor ea nisi laboris aliqua in ex est. Labore Lorem id ea non culpa irure anim excepteur incididunt anim labore ex dolor.
-""";
 
   @override
   void initState() {
@@ -58,12 +52,12 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
                     child: Stack(
                       children: [
                         Center(
-                          child: Image.asset(widget.product!.imgPath!),
+                          child: Image.network(widget.product!.imgPath!),
                         ),
                         Positioned(
                           left: -10,
                           child: Card(
-                            color: Theme.of(context).scaffoldBackgroundColor,
+                            color: Colors.transparent,
                             elevation: 0,
                             child: IconButton(
                               onPressed: () {
@@ -93,7 +87,7 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
                         ),
                       ),
                       Text(
-                        'N${widget.product!.price!}',
+                        '₦${widget.product!.price!.toMoney}',
                         style: GoogleFonts.lato(
                           fontSize: 20,
                         ),
@@ -123,7 +117,7 @@ Proident pariatur dolor nulla veniam cillum laboris culpa minim aliqua sunt sint
               ),
               addVerticalSpacing(20),
               Text(
-                text,
+                widget.product!.description!,
                 style: kTextStyle(14, context),
               ),
             ],

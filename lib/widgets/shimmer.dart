@@ -21,8 +21,8 @@ class _ShimmerWidgetState extends State<ShimmerWidget> {
         height: widget.height,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          color: Colors.grey,
-          borderRadius:BorderRadius.circular(5),
+          color: Colors.grey[100],
+          borderRadius: BorderRadius.circular(5),
         ),
       ),
     );

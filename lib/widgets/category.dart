@@ -30,6 +30,7 @@ class CategoryWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                   image: NetworkImage(category.imgPath!),
                   filterQuality: FilterQuality.high,
+                  
                 ),
                 borderRadius: BorderRadius.circular(6),
               ),

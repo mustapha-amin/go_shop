@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/cart_widget.dart';
@@ -19,7 +20,7 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     var customer = Provider.of<Customer>(context);
     var size = MediaQuery.of(context).size;
-    return customer.cart!.isEmpty
+    return customer.cart!.isEmpty || AuthService().user!.isAnonymous 
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

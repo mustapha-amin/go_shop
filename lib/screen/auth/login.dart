@@ -91,19 +91,25 @@ class _LogInScreenState extends State<LogInScreen> {
                           focusNode: emailFocusNode,
                           decoration: InputDecoration(
                             hintText: "email",
-                            border: const OutlineInputBorder(),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            contentPadding: const EdgeInsets.all(7),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
                                 color: Colors.green,
                               ),
                             ),
-                            focusedErrorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
-                            errorBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
                                 color: Colors.grey,
                               ),
                             ),
@@ -128,8 +134,12 @@ class _LogInScreenState extends State<LogInScreen> {
                         child: TextFormField(
                           focusNode: passwordFocusNode,
                           decoration: InputDecoration(
-                            border: const OutlineInputBorder(),
-                            focusedBorder: const OutlineInputBorder(
+                            contentPadding: const EdgeInsets.all(7),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
                                 color: Colors.green,
                               ),
