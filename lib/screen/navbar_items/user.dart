@@ -7,7 +7,6 @@ import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:go_shop/providers/theme_provider.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -21,7 +20,6 @@ class _UserState extends State<User> {
 
   @override
   Widget build(BuildContext context) {
-    var theme = Provider.of<ThemeProvider>(context);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
@@ -59,7 +57,7 @@ class _UserState extends State<User> {
               !authService.user!.isAnonymous
                   ? authService.user!.email!
                   : "Guest",
-              style: kTextStyle(20, context),
+              style: kTextStyle(size: 20, context: context,),
             ),
           ),
           Divider(),
@@ -67,16 +65,7 @@ class _UserState extends State<User> {
             title: Text("Orders"),
             leading: Icon(Icons.shopping_bag),
           ),
-          SwitchListTile(
-            title: Text(theme.themeStatus ? "Dark mode" : "Light mode"),
-            value: theme.themeStatus,
-            onChanged: (val) {
-              context.read<ThemeProvider>().toggleTheme();
-            },
-            secondary: Icon(theme.themeStatus
-                ? Icons.dark_mode
-                : Icons.light_mode_outlined),
-          ),
+          
           ListTile(
             title: Text("Forgot password"),
             leading: Icon(Icons.lock),

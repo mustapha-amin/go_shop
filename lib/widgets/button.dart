@@ -47,8 +47,7 @@ class AppButton extends StatelessWidget {
               child: Text(
                 labelText!,
                 style: kTextStyle(
-                  18,
-                  context,
+                  size: 18, context: context,
                 ),
               ),
             ),

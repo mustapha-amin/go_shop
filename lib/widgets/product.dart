@@ -34,7 +34,7 @@ class _ProductWidgetState extends State<ProductWidget> {
       child: Container(
         width: size.width / 2,
         decoration: BoxDecoration(
-          color: Utils(context).isDark ? Colors.grey[800] : Colors.white,
+          color: Colors.white,
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
@@ -75,11 +75,11 @@ class _ProductWidgetState extends State<ProductWidget> {
                 children: [
                   Text(
                     widget.product!.name!,
-                    style: kTextStyle(20, context),
+                    style: kTextStyle(size: 20, context: context,),
                   ),
                   Text(
                     '₦${widget.product!.price!.toMoney}',
-                    style: kTextStyle(15, context),
+                    style: kTextStyle(size: 20, context: context,),
                   )
                 ],
               ),

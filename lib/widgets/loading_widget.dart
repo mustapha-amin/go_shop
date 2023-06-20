@@ -20,11 +20,11 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         SpinKitFadingCircle(
           duration: const Duration(milliseconds: 500),
           size: 60,
-          color: Utils(context).color,
+          color: Colors.black,
         ),
         Text(
           "Please wait",
-          style: kTextStyle(20, context),
+          style: kTextStyle(size: 20, context: context,),
         )
       ],
     );

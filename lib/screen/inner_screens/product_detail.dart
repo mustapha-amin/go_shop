@@ -65,7 +65,6 @@ class _ProductDetailState extends State<ProductDetail> {
                               },
                               icon: Icon(
                                 Icons.arrow_back,
-                                color: Utils(context).color,
                               ),
                             ),
                           ),
@@ -113,12 +112,12 @@ class _ProductDetailState extends State<ProductDetail> {
               addVerticalSpacing(20),
               Text(
                 "Product description",
-                style: kTextStyle(20, context, true),
+                style: kTextStyle(size: 20, context: context, isBold: true),
               ),
               addVerticalSpacing(20),
               Text(
                 widget.product!.description!,
-                style: kTextStyle(14, context),
+                style: kTextStyle(size: 14, context: context,),
               ),
             ],
           ),

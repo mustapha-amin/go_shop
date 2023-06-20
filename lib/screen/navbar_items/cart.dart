@@ -43,9 +43,7 @@ class _CartState extends State<Cart> {
             appBar: AppBar(
               title: Text(
                 "Cart (${customer.cart!.length})",
-                style: TextStyle(
-                  color: Utils(context).color,
-                ),
+                
               ),
               elevation: 0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -57,9 +55,7 @@ class _CartState extends State<Cart> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          backgroundColor: Utils(context).isDark
-                              ? Colors.grey[600]
-                              : Colors.white,
+                          backgroundColor: Colors.white,
                           title: const Text("Clear cart"),
                           content:
                               const Text("Do you want to clear your cart?"),

@@ -30,7 +30,7 @@ class _CartWidgetState extends State<CartWidget> {
       height: size.height / 5,
       width: size.width,
       child: Card(
-        color: Utils(context).isDark ? Colors.grey[800] : Colors.grey[100],
+        color: Colors.grey[100],
         child: Row(
           children: [
             Image.asset(
@@ -58,9 +58,7 @@ class _CartWidgetState extends State<CartWidget> {
                           foregroundColor: Colors.red,
                           minimumSize: Size(size.width / 8, size.height / 20),
                           elevation: 0,
-                          backgroundColor: Utils(context).isDark
-                              ? Colors.white
-                              : Colors.grey[100],
+                          backgroundColor:  Colors.grey[100],
                           shape: const CircleBorder(),
                         ),
                         child: const Icon(
@@ -77,9 +75,7 @@ class _CartWidgetState extends State<CartWidget> {
                             controller: _quantityController,
                             keyboardType: TextInputType.number,
                             style: TextStyle(
-                              color: Utils(context).isDark
-                                  ? Colors.white
-                                  : Colors.black,
+                              color:  Colors.black,
                             ),
                           ),
                         ),
@@ -118,15 +114,10 @@ class _CartWidgetState extends State<CartWidget> {
                                   Theme.of(context).scaffoldBackgroundColor,
                               title: Text(
                                 "Clear cart",
-                                style: TextStyle(
-                                  color: Utils(context).color,
-                                ),
                               ),
                               content: Text(
                                   "Do you want to remove this product from your cart?",
-                                  style: TextStyle(
-                                    color: Utils(context).color,
-                                  )),
+                              ),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -148,9 +139,7 @@ class _CartWidgetState extends State<CartWidget> {
                       icon: Icon(
                         Icons.delete_forever,
                         size: 35,
-                        color: Utils(context).isDark
-                            ? Colors.red[400]
-                            : Colors.red,
+                        color:  Colors.red,
                       )),
                   Text('N${widget.cartItem!.price}'),
                 ],

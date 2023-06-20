@@ -64,9 +64,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     },
                     icon: Icon(
                       Icons.arrow_back_ios,
-                      color: Utils(context).isDark
-                          ? Colors.grey[300]
-                          : Colors.black,
+                      
                     ),
                   ),
                   Container(

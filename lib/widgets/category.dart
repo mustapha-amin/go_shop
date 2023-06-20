@@ -17,7 +17,7 @@ class CategoryWidget extends StatelessWidget {
       width: size.width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color: Utils(context).isDark ? Colors.grey[800] : Colors.grey[400],
+        color:  Colors.grey[400],
       ),
       child: Column(
         children: [

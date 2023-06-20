@@ -114,9 +114,7 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                             filled: true,
-                            fillColor: Utils(context).isDark
-                                ? Colors.grey[300]
-                                : Colors.white,
+                          
                             suffixIcon: const Icon(Icons.email),
                           ),
                           onChanged: (_) => confirmFieldsFilled(),
@@ -146,9 +144,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                             filled: true,
                             hintText: "password",
-                            fillColor: Utils(context).isDark
-                                ? Colors.grey[300]
-                                : Colors.white,
+                          
                             suffixIcon: GestureDetector(
                               onTap: passwordVisibility,
                               child: Icon(

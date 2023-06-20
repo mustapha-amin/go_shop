@@ -40,7 +40,7 @@ class _UserNameState extends State<UserName> {
             children: [
               Text(
                 "Username",
-                style: kTextStyle(30, context, true),
+                style: kTextStyle(size: 30, context: context, isBold: true),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30),
