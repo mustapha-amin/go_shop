@@ -1,14 +1,9 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/product.dart';
-import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:go_shop/widgets/product.dart';
 import 'package:provider/provider.dart';
 
-import '../services/database.dart';
 
 class FeedsWidget extends StatefulWidget {
   FeedsWidget({Key? key}) : super(key: key);

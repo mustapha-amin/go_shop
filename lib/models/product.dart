@@ -6,13 +6,14 @@ class Product {
   String? description;
   String? category;
 
-  Product(
-      {this.id,
-      this.imgPath,
-      this.name,
-      this.price,
-      this.description,
-      this.category});
+  Product({
+    this.id,
+    this.imgPath,
+    this.name,
+    this.price,
+    this.description,
+    this.category,
+  });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(

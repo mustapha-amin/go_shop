@@ -17,8 +17,8 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SpinKitFadingCircle(
-          duration: const Duration(milliseconds: 500),
+        const SpinKitFadingCircle(
+          duration: Duration(milliseconds: 500),
           size: 60,
           color: Colors.black,
         ),

@@ -114,7 +114,6 @@ class _LogInScreenState extends State<LogInScreen> {
                               ),
                             ),
                             filled: true,
-                          
                             suffixIcon: const Icon(Icons.email),
                           ),
                           onChanged: (_) => confirmFieldsFilled(),
@@ -144,7 +143,6 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                             filled: true,
                             hintText: "password",
-                          
                             suffixIcon: GestureDetector(
                               onTap: passwordVisibility,
                               child: Icon(
@@ -220,7 +218,7 @@ class _LogInScreenState extends State<LogInScreen> {
                           fixedSize: Size(size.width, size.height / 15),
                         ),
                         onPressed: () {
-                          provider.signInAnon();
+                          provider.signInAnon(context);
                         },
                         child: Text(
                           "Continue as guest",

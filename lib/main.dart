@@ -1,3 +1,4 @@
+import 'package:go_shop/screen/navbar_items/homescreen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await ThemeSettings().init();
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthService(),
@@ -45,7 +47,9 @@ Future main() async {
             routes: AppRoutes.routes,
           );
         },
-      )));
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

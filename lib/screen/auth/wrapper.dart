@@ -14,7 +14,7 @@ class Wrapper extends StatelessWidget {
       stream: AuthService().authStateChanges,
       builder: (context, snapsot) {
         if (snapsot.connectionState == ConnectionState.waiting) {
-          return const LoadingWidget();
+          return const Scaffold(body: LoadingWidget());
         }
         if (snapsot.hasData) {
           return const BottomBarScreen();

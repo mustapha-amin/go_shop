@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/cart_item.dart';
+import 'package:go_shop/widgets/shimmer.dart';
 import 'package:go_shop/widgets/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -48,6 +49,16 @@ class _CartWidgetState extends State<CartWidget> {
                   width: 30.w,
                   height: 15.h,
                   fit: BoxFit.fill,
+                  frameBuilder: (context, child, frame, _) {
+                    if (frame == null) {
+                      // fallback to placeholder
+                      return ShimmerWidget(
+                        height: size.height / 7,
+                        width: size.width / 3,
+                      );
+                    }
+                    return child;
+                  },
                 ),
               ),
               addHorizontalSpacing(5.w),

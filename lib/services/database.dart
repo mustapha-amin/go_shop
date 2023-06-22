@@ -4,6 +4,7 @@ import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/providers/auth_service.dart';
+import '../models/featured_products.dart';
 import '../models/product.dart';
 
 class DatabaseService {
@@ -91,5 +92,12 @@ class DatabaseService {
         .collection('products')
         .snapshots()
         .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));
+  }
+
+  Stream<List<FeaturedProduct>> getFeaturedProducts() {
+    return _firebaseFirestore
+        .collection('featured')
+        .snapshots()
+        .map((snap) => snap.docs.map((e) => FeaturedProduct.fromJson(e.data())).toList());
   }
 }

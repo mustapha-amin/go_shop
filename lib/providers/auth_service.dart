@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/screen/bottom_nav_bar/bottom_bar.dart';
@@ -14,8 +16,16 @@ class AuthService extends ChangeNotifier {
   User? get user => firebaseAuth.currentUser;
 
   Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
-  Future<void> signInAnon() async {
-    await firebaseAuth.signInAnonymously();
+
+  Future<void> signInAnon(BuildContext context) async {
+    try {
+      await firebaseAuth.signInAnonymously();
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => BottomBarScreen()),
+          (route) => false);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> signIn(
@@ -30,9 +40,6 @@ class AuthService extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => BottomBarScreen()),
-          (route) => false);
     } on FirebaseException catch (e) {
       isLoading = false;
       notifyListeners();

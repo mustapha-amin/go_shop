@@ -10,7 +10,7 @@ Future<void> showErrorDialog(BuildContext context, String text) {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context).pop;
             },
             child: const Text("Ok"),
           )
