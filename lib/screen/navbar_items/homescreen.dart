@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/widgets/featured_products_swiper.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:card_swiper/card_swiper.dart';
+import '../../models/product.dart';
 import '../../widgets/feed_item.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   AuthService authService = AuthService();
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var products = Provider.of<Iterable<Product>>(context).toList();
     return SafeArea(
       child: Scaffold(
         body: ListView(
@@ -51,30 +53,21 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 30.h, child: const FeaturedProducts()),
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     "Our products",
                     style: kTextStyle(
-                      size: 18,
+                      size: 25,
                       isBold: true,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Browse all",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            FeedsWidget(),
+            FeedsWidget(products : products),
           ],
         ),
       ),

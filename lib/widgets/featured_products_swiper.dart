@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/featured_products.dart';
+import 'package:go_shop/screen/inner_screens/product_detail.dart';
 import 'package:go_shop/services/database.dart';
 import 'package:go_shop/widgets/shimmer.dart';
 import 'package:provider/provider.dart';
@@ -56,14 +57,6 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //   width: 20.w,
-                  //   height: 40.h,
-                  //   decoration: BoxDecoration(
-                  //     shape: BoxShape.circle,
-                  //     color: Colors.amber,
-                  //   ),
-                  // ),
                   Positioned(
                     top: 3,
                     left: 8,
@@ -100,7 +93,14 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ProductDetail(
+                            product: products[index].product,
+                          );
+                        }));
+                      },
                       child: Text(
                         "Shop now",
                         style: kTextStyle(size: 15),
