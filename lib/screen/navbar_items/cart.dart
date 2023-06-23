@@ -3,6 +3,7 @@ import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/providers/cart_provider.dart';
+import 'package:go_shop/services/database.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/cart_widget.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
@@ -68,6 +69,7 @@ class _CartState extends State<Cart> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
+                                    DatabaseService().clearCart();
                                     Navigator.pop(context);
                                   },
                                   child: const Text("Yes"),

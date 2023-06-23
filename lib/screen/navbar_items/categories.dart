@@ -32,7 +32,9 @@ class _CategoriesState extends State<Categories> {
                 ...categories.map(
                   (category) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: CategoryWidget(category: category),
+                    child: GestureDetector(
+                      child: CategoryWidget(category: category),
+                    ),
                   ),
                 ),
               ],

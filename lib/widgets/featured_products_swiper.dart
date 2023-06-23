@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/models/featured_products.dart';
 import 'package:go_shop/services/database.dart';
 import 'package:go_shop/widgets/shimmer.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 import '../constants/consts.dart';
@@ -16,107 +17,99 @@ class FeaturedProducts extends StatefulWidget {
 
 class _FeaturedProductsState extends State<FeaturedProducts> {
   final SwiperController swiperController = SwiperController();
-  late Stream<List<FeaturedProduct>> featuredProducts;
   int index = 0;
 
   @override
-  void initState() {
-    featuredProducts = DatabaseService().getFeaturedProducts();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<FeaturedProduct>?>(
-      stream: featuredProducts,
-      builder: (context, snapshot) {
-        List<FeaturedProduct>? products = snapshot.data!;
-        return Swiper(
-          index: index,
-          onIndexChanged: (newIndex) {
-            index = newIndex;
-          },
-          itemCount: products.length,
-          controller: swiperController,
-          curve: Curves.easeInOutQuart,
-          pagination: const SwiperPagination(
-            alignment: Alignment.bottomCenter,
-            builder: DotSwiperPaginationBuilder(
-              activeColor: Colors.amber,
+    var products = Provider.of<List<FeaturedProduct>?>(context);
+    return products!.isEmpty
+        ? ShimmerWidget(
+            height: 30.h,
+            width: 38.w,
+          )
+        : Swiper(
+            index: index,
+            onIndexChanged: (newIndex) {
+              products.length == 1 ? null : index = newIndex;
+            },
+            itemCount: products.length,
+            controller: swiperController,
+            curve: Curves.easeInOutQuart,
+            pagination: SwiperPagination(
+              alignment: Alignment.bottomCenter,
+              builder: DotSwiperPaginationBuilder(
+                activeColor: Colors.amber,
+                size: 3.w,
+                activeSize: 3.w,
+              ),
             ),
-          ),
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Container(
-                  color: Colors.green[800]!.withOpacity(0.9),
-                  width: 100.w,
-                  height: 30.h,
-                ),
-                // Container(
-                //   width: 20.w,
-                //   height: 40.h,
-                //   decoration: BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: Colors.amber,
-                //   ),
-                // ),
-                Positioned(
-                  top: 2,
-                  left: 3,
-                  width: 60.w,
-                  child: Text(
-                    products[index].message!,
-                    style: kTextStyle(
-                      size: 23,
-                      color: Colors.white,
-                      isBold: true,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 5,
-                  right: 3,
-                  child: Image.network(
-                    products[index].product!.imgPath!,
-                    width: 40.w,
-                    height: 20.h,
-                    colorBlendMode: BlendMode.color,
-                    frameBuilder: (context, child, frame, _) {
-                      if (frame == null) {
-                        // fallback to placeholder
-                        return ShimmerWidget(
-                          height: 20.h,
-                          width: 40.w,
-                        );
-                      }
-                      return child;
-                    },
-                  ),
-                ),
-                Positioned(
-                  bottom: 3,
-                  left: 3,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
+            itemBuilder: (context, index) {
+              return Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 98.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
+                        color: Colors.green[800]!.withOpacity(0.9),
                       ),
                     ),
-                    onPressed: () {},
-                    child: Text(
-                      "Shop now",
-                      style: kTextStyle(size: 13),
+                  ),
+                  // Container(
+                  //   width: 20.w,
+                  //   height: 40.h,
+                  //   decoration: BoxDecoration(
+                  //     shape: BoxShape.circle,
+                  //     color: Colors.amber,
+                  //   ),
+                  // ),
+                  Positioned(
+                    top: 3,
+                    left: 8,
+                    width: 60.w,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        products[index].message!,
+                        style: kTextStyle(
+                          size: 20,
+                          color: Colors.white,
+                          isBold: true,
+                        ),
+                      ),
                     ),
                   ),
-                )
-              ],
-            );
-          },
-        );
-      },
-    );
+                  Positioned(
+                    bottom: 5,
+                    right: 3,
+                    child: Image.network(
+                      products[index].product!.imgPath!,
+                      width: 40.w,
+                      height: 20.h,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 3,
+                    left: 8,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        "Shop now",
+                        style: kTextStyle(size: 15),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          );
   }
 }

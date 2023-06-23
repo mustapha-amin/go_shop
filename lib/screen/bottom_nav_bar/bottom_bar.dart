@@ -81,7 +81,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                         color: Theme.of(context).primaryColor,
                       ),
                       child: Text(
-                        cartProvider!.cart!.length.toString(),
+                        cartProvider == null ? "" :  cartProvider.cart!.length.toString(),
                         style: kTextStyle(
                           size: 9,
                           context: context,

@@ -86,6 +86,14 @@ class DatabaseService {
     });
   }
 
+  Future<void> clearCart() async {
+    await _firebaseFirestore
+        .collection(customersCollection)
+        .doc(authService!.userid)
+        .update({
+      'cart': [],
+    });
+  }
 
   Stream<Iterable<Product>> fetchProducts() {
     return _firebaseFirestore
@@ -94,10 +102,8 @@ class DatabaseService {
         .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));
   }
 
-  Stream<List<FeaturedProduct>> getFeaturedProducts() {
-    return _firebaseFirestore
-        .collection('featured')
-        .snapshots()
-        .map((snap) => snap.docs.map((e) => FeaturedProduct.fromJson(e.data())).toList());
+  Stream<List<FeaturedProduct>> fetchFeaturedProducts() {
+    return _firebaseFirestore.collection('featured').snapshots().map((snap) =>
+        snap.docs.map((e) => FeaturedProduct.fromJson(e.data())).toList());
   }
 }
