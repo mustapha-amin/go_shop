@@ -57,7 +57,7 @@ class _UserState extends State<User> {
               !authService.user!.isAnonymous
                   ? authService.user!.email!
                   : "Guest",
-              style: kTextStyle(size: 20, context: context,),
+              style: kTextStyle(size: 20,),
             ),
           ),
           Divider(),

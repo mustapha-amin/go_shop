@@ -117,14 +117,13 @@ class _ProductDetailState extends State<ProductDetail> {
                 addVerticalSpacing(20),
                 Text(
                   "Product description",
-                  style: kTextStyle(size: 20, context: context, isBold: true),
+                  style: kTextStyle(size: 20, isBold: true),
                 ),
                 addVerticalSpacing(20),
                 Text(
                   widget.product!.description!,
                   style: kTextStyle(
                     size: 14,
-                    context: context,
                   ),
                 ),
               ],

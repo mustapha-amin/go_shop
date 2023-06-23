@@ -24,7 +24,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
         ),
         Text(
           "Please wait",
-          style: kTextStyle(size: 20, context: context,),
+          style: kTextStyle(size: 20, ),
         )
       ],
     );

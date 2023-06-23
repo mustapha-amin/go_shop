@@ -62,7 +62,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                     left: 8,
                     width: 60.w,
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(12.0),
                       child: Text(
                         products[index].message!,
                         style: kTextStyle(
@@ -84,7 +84,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                   ),
                   Positioned(
                     bottom: 3,
-                    left: 8,
+                    left: 18.sp,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.amber,

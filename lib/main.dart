@@ -13,13 +13,11 @@ import 'package:go_shop/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:go_shop/theme/theme.dart';
 import 'providers/cart_provider.dart';
-import '/services/theme_prefs.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await ThemeSettings().init();
   runApp(
     MultiProvider(
       providers: [

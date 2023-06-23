@@ -37,7 +37,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
 
   @override
   void initState() {
-    _selectedIndex = 0;
+    _selectedIndex = 2;
     super.initState();
   }
 
@@ -81,10 +81,11 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                         color: Theme.of(context).primaryColor,
                       ),
                       child: Text(
-                        cartProvider == null ? "" :  cartProvider.cart!.length.toString(),
+                        cartProvider == null
+                            ? ""
+                            : cartProvider.cart!.length.toString(),
                         style: kTextStyle(
                           size: 9,
-                          context: context,
                           color: Colors.white,
                         ),
                       ),

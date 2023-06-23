@@ -20,11 +20,24 @@ class CartWidget extends StatefulWidget {
 
 class _CartWidgetState extends State<CartWidget> {
   final TextEditingController _quantityController = TextEditingController();
+  
 
   @override
   void initState() {
     _quantityController.text = widget.cartItem!.quantity.toString();
     super.initState();
+  }
+
+  void increment() {
+    int quantity = int.parse(_quantityController.text);
+    quantity < 20 ? quantity++ : null;
+    _quantityController.text = quantity.toString();
+  }
+
+  void decrement() {
+    int quantity = int.parse(_quantityController.text);
+    quantity > 0 ? quantity-- : null;
+    _quantityController.text = quantity.toString();
   }
 
   @override
@@ -69,55 +82,81 @@ class _CartWidgetState extends State<CartWidget> {
                   children: [
                     Text(
                       product.name!,
-                      style: kTextStyle(size: 20, context: context),
+                      style: kTextStyle(
+                        size: 20,
+                      ),
                     ),
                     Text(
                       '$nairaSymbol${product.price!.toMoney}',
-                      style: kTextStyle(size: 15, context: context),
+                      style: kTextStyle(
+                        size: 15,
+                      ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 15.w,
-                          height: 10.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            shape: BoxShape.rectangle,
-                            color: Colors.red,
-                          ),
-                          child: Icon(
-                            Icons.remove,
-                            size: 5.w,
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 15.w,
+                            height: 10.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[100],
+                              border: Border.all(
+                                color: Colors.red,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.remove,
+                              size: 5.w,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                         SizedBox(
-                          width: 10.w,
+                          width: 8.w,
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: TextField(
                               textAlign: TextAlign.center,
                               controller: _quantityController,
                               keyboardType: TextInputType.number,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.black,
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 15.w,
-                          height: 10.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            shape: BoxShape.rectangle,
-                            color: Colors.green,
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            size: 5.w,
+                        GestureDetector(
+                          onTap: increment,
+                          child: Container(
+                            width: 10.w,
+                            height: 10.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey[100],
+                              border: Border.all(
+                                color: Colors.green,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 5.w,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 20.sp),
+                          child: GestureDetector(
+                            onTap: decrement,
+                            child: const Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ],

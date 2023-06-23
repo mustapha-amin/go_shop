@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 kTextStyle(
-        {double? size, BuildContext? context, isBold = false, Color? color}) =>
+        {double? size, isBold = false, Color? color}) =>
     GoogleFonts.lato(
         fontSize: size!.sp,
         fontWeight: isBold ? FontWeight.bold : FontWeight.normal,

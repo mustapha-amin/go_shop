@@ -77,14 +77,12 @@ class _ProductWidgetState extends State<ProductWidget> {
                     widget.product!.name!,
                     style: kTextStyle(
                       size: 15,
-                      context: context,
                     ),
                   ),
                   Text(
                     '$nairaSymbol${widget.product!.price!.toMoney}',
                     style: kTextStyle(
                       size: 20,
-                      context: context,
                     ),
                   )
                 ],

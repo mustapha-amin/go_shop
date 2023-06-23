@@ -127,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Text(
                             "Create an account:",
                             style: GoogleFonts.lato(
-                              textStyle: kTextStyle(size: 25, context: context,),
+                              textStyle: kTextStyle(size: 25),
                             ),
                           ),
                           addVerticalSpacing(40),

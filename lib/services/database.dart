@@ -102,6 +102,23 @@ class DatabaseService {
         .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));
   }
 
+  Future<void> updateCartProductQuantity(String? id, int newQuantity) async {
+    final doc = await _firebaseFirestore
+        .collection(customersCollection)
+        .doc(authService!.userid)
+        .get();
+    final customer = Customer.fromJson(doc.data()!);
+    final cartItem =
+        customer.cart!.firstWhere((element) => element.product!.id == id);
+    final cartItemIndex = customer.cart!.indexOf(cartItem);
+    customer.cart![cartItemIndex].quantity = newQuantity;
+
+    await _firebaseFirestore
+        .collection(customersCollection)
+        .doc(authService!.userid)
+        .set(customer.toJson());
+  }
+
   Stream<List<FeaturedProduct>> fetchFeaturedProducts() {
     return _firebaseFirestore.collection('featured').snapshots().map((snap) =>
         snap.docs.map((e) => FeaturedProduct.fromJson(e.data())).toList());
