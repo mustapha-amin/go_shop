@@ -24,9 +24,9 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     var customer = Provider.of<Customer?>(context);
     double total = customer!.cart!.fold(0,
-        (previousValue, element) => previousValue + element.price!.toDouble());
+        (previousValue, element) => previousValue + element.totalPrice!.toDouble());
     var size = MediaQuery.of(context).size;
-    return customer!.cart!.isEmpty || AuthService().user!.isAnonymous
+    return customer.cart!.isEmpty || AuthService().user!.isAnonymous
         ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

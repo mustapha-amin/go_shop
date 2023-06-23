@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 12.h,
               width: 95.w,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: SearchBar(
                   controller: searchbarController,
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -51,7 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 30.h, child: const FeaturedProducts()),
+            SizedBox(
+                height: 30.h,
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: FeaturedProducts(),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Row(
@@ -67,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            FeedsWidget(products : products),
+            FeedsWidget(products: products),
           ],
         ),
       ),

@@ -152,7 +152,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                     CartItem(
                                       product: widget.product,
                                       quantity: 1,
-                                      price: widget.product!.price,
+                                      basePrice: widget.product!.price,
+                                      totalPrice: widget.product!.price,
                                     ),
                                   )
                                   .whenComplete(() =>

@@ -77,12 +77,12 @@ class DatabaseService {
     });
   }
 
-  Future<void> deleteFromCart(Product product) async {
+  Future<void> deleteFromCart(CartItem cartItem) async {
     await _firebaseFirestore
         .collection(customersCollection)
         .doc(authService!.userid)
         .update({
-      'cart': FieldValue.arrayRemove([product.toJson()])
+      'cart': FieldValue.arrayRemove([cartItem.toJson()])
     });
   }
 
@@ -116,7 +116,9 @@ class DatabaseService {
     await _firebaseFirestore
         .collection(customersCollection)
         .doc(authService!.userid)
-        .set(customer.toJson());
+        .update({
+          'cart' : customer.cart!.map((element) => element.toJson()).toList(),
+        });
   }
 
   Stream<List<FeaturedProduct>> fetchFeaturedProducts() {

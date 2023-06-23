@@ -53,7 +53,13 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       height: 30.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: Colors.green[800]!.withOpacity(0.9),
+                        gradient: LinearGradient(
+                          end: Alignment.topRight,
+                          colors: [
+                            Colors.green[500]!.withOpacity(0.9),
+                            Colors.amber.withOpacity(0.5),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -66,7 +72,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       child: Text(
                         products[index].message!,
                         style: kTextStyle(
-                          size: 20,
+                          size: 23,
                           color: Colors.white,
                           isBold: true,
                         ),
@@ -83,7 +89,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                     ),
                   ),
                   Positioned(
-                    bottom: 3,
+                    bottom: 10.sp,
                     left: 18.sp,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/cart_item.dart';
+import 'package:go_shop/services/database.dart';
 import 'package:go_shop/widgets/shimmer.dart';
 import 'package:go_shop/widgets/spacings.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,6 +21,7 @@ class CartWidget extends StatefulWidget {
 
 class _CartWidgetState extends State<CartWidget> {
   final TextEditingController _quantityController = TextEditingController();
+  ValueNotifier<bool> buttonTapped = ValueNotifier<bool>(false);
   
 
   @override
@@ -29,14 +31,16 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   void increment() {
+    buttonTapped.value = true;
     int quantity = int.parse(_quantityController.text);
     quantity < 20 ? quantity++ : null;
     _quantityController.text = quantity.toString();
   }
 
   void decrement() {
+    buttonTapped.value = true;
     int quantity = int.parse(_quantityController.text);
-    quantity > 0 ? quantity-- : null;
+    quantity > 1 ? quantity-- : null;
     _quantityController.text = quantity.toString();
   }
 
@@ -87,16 +91,16 @@ class _CartWidgetState extends State<CartWidget> {
                       ),
                     ),
                     Text(
-                      '$nairaSymbol${product.price!.toMoney}',
+                      '$nairaSymbol${widget.cartItem!.totalPrice!.toMoney}',
                       style: kTextStyle(
                         size: 15,
                       ),
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: decrement,
                           child: Container(
                             width: 15.w,
                             height: 10.w,
@@ -149,12 +153,27 @@ class _CartWidgetState extends State<CartWidget> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 20.sp),
-                          child: GestureDetector(
-                            onTap: decrement,
-                            child: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
+                          child: ValueListenableBuilder(
+                            valueListenable: buttonTapped,
+                            builder: (_, value, __) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  value == true
+                                      ? await DatabaseService()
+                                          .updateCartProductQuantity(
+                                              product.id,
+                                              int.parse(
+                                                  _quantityController.text))
+                                      : await DatabaseService()
+                                          .deleteFromCart(widget.cartItem!);
+                                  buttonTapped.value = false;
+                                },
+                                child: Icon(
+                                  value == true ? Icons.check : Icons.delete,
+                                  color: Colors.red,
+                                ),
+                              );
+                            },
                           ),
                         )
                       ],
