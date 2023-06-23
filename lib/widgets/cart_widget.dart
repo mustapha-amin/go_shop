@@ -22,11 +22,12 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   final TextEditingController _quantityController = TextEditingController();
   ValueNotifier<bool> buttonTapped = ValueNotifier<bool>(false);
-  
+  late ValueNotifier<double> price;
 
   @override
   void initState() {
     _quantityController.text = widget.cartItem!.quantity.toString();
+    price = ValueNotifier<double>(widget.cartItem!.totalPrice!);
     super.initState();
   }
 
@@ -42,6 +43,11 @@ class _CartWidgetState extends State<CartWidget> {
     int quantity = int.parse(_quantityController.text);
     quantity > 1 ? quantity-- : null;
     _quantityController.text = quantity.toString();
+  }
+
+  void updatePrice() {
+    price.value =
+        widget.cartItem!.basePrice! * int.parse(_quantityController.text);
   }
 
   @override
@@ -90,17 +96,26 @@ class _CartWidgetState extends State<CartWidget> {
                         size: 20,
                       ),
                     ),
-                    Text(
-                      '$nairaSymbol${widget.cartItem!.totalPrice!.toMoney}',
-                      style: kTextStyle(
-                        size: 15,
-                      ),
-                    ),
+                    ValueListenableBuilder(
+                        valueListenable: price,
+                        builder: (_, value, __) {
+                          return Text(
+                            '$nairaSymbol${value.toMoney}',
+                            style: kTextStyle(
+                              size: 15,
+                            ),
+                          );
+                        }),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         GestureDetector(
-                          onTap: decrement,
+                          onTap: () {
+                            {
+                              decrement();
+                              updatePrice();
+                            }
+                          },
                           child: Container(
                             width: 15.w,
                             height: 10.w,
@@ -133,7 +148,12 @@ class _CartWidgetState extends State<CartWidget> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: increment,
+                          onTap: () {
+                            {
+                              increment();
+                              updatePrice();
+                            }
+                          },
                           child: Container(
                             width: 10.w,
                             height: 10.w,
