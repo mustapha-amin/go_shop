@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:go_shop/models/featured_products.dart';
@@ -29,6 +31,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
             width: 38.w,
           )
         : Swiper(
+            autoplay: true,
             index: index,
             onIndexChanged: (newIndex) {
               products.length == 1 ? null : index = newIndex;
@@ -45,75 +48,82 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
               ),
             ),
             itemBuilder: (context, index) {
-              return Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      width: 98.w,
-                      height: 30.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          end: Alignment.topRight,
-                          colors: [
-                            Colors.green[500]!.withOpacity(0.9),
-                            Colors.amber.withOpacity(0.5),
-                          ],
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 98.w,
+                        height: 30.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                            end: Alignment.topRight,
+                            colors: [
+                              Colors.green[500]!.withOpacity(0.9),
+                              Colors.amber.withOpacity(0.5),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    top: 3,
-                    left: 8,
-                    width: 60.w,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Text(
-                        products[index].message!,
-                        style: kTextStyle(
-                          size: 23,
-                          color: Colors.white,
-                          isBold: true,
+                    Positioned(
+                      top: 3,
+                      left: 8,
+                      width: 60.w,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          products[index].message!,
+                          style: kTextStyle(
+                            size: 23,
+                            color: Colors.white,
+                            isBold: true,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 5,
-                    right: 3,
-                    child: Image.network(
-                      products[index].product!.imgPath!,
-                      width: 40.w,
-                      height: 20.h,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 10.sp,
-                    left: 18.sp,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                    Positioned(
+                      bottom: 5,
+                      right: 3,
+                      child: Hero(
+                        tag: "${products[index].product!.id!}featured",
+                        child: Image.network(
+                          products[index].product!.imgPath!,
+                          width: 40.w,
+                          height: 20.h,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return ProductDetail(
-                            product: products[index].product,
-                          );
-                        }));
-                      },
-                      child: Text(
-                        "Shop now",
-                        style: kTextStyle(size: 15),
-                      ),
                     ),
-                  )
-                ],
+                    Positioned(
+                      bottom: 5.sp,
+                      left: 18.sp,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return ProductDetail(
+                              product: products[index].product,
+                              heroTag: "${products[index].product!.id}featured",
+                            );
+                          }));
+                        },
+                        child: Text(
+                          "Shop now",
+                          style: kTextStyle(size: 15),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               );
             },
           );

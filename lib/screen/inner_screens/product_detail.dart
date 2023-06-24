@@ -17,7 +17,8 @@ import '../../widgets/button.dart';
 
 class ProductDetail extends StatefulWidget {
   Product? product;
-  ProductDetail({super.key, this.product});
+  String? heroTag;
+  ProductDetail({super.key, this.product, this.heroTag});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -50,7 +51,7 @@ class _ProductDetailState extends State<ProductDetail> {
               physics: const BouncingScrollPhysics(),
               children: [
                 Hero(
-                    tag: widget.product!.hashCode,
+                    tag: widget.heroTag!,
                     transitionOnUserGestures: true,
                     child: SizedBox(
                       height: size.height / 2.4,

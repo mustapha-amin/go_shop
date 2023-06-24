@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_shop/constants/consts.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:go_shop/services/utils.dart';
 
@@ -17,7 +18,7 @@ class CategoryWidget extends StatelessWidget {
       width: size.width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        color:  Colors.grey[400],
+        color: Colors.grey[300],
       ),
       child: Column(
         children: [
@@ -30,16 +31,12 @@ class CategoryWidget extends StatelessWidget {
                   fit: BoxFit.cover,
                   image: NetworkImage(category.imgPath!),
                   filterQuality: FilterQuality.high,
-                  
                 ),
                 borderRadius: BorderRadius.circular(6),
               ),
             ),
           ),
-          Text(
-            category.name!,
-            style: GoogleFonts.lato(fontSize: 20),
-          ),
+          Text(category.name!, style: kTextStyle(size: 15)),
         ],
       ),
     );

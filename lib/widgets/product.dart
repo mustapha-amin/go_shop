@@ -28,6 +28,8 @@ class _ProductWidgetState extends State<ProductWidget> {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ProductDetail(
             product: product,
+            heroTag: product!.id,
+            
           );
         }));
       },
@@ -52,7 +54,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               left: 5,
               child: Hero(
                 transitionOnUserGestures: true,
-                tag: widget.product.hashCode,
+                tag: widget.product!.id!,
                 child: Image.network(widget.product!.imgPath!,
                     height: size.height / 7,
                     frameBuilder: (context, child, frame, _) {

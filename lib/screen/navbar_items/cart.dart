@@ -23,8 +23,12 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     var customer = Provider.of<Customer?>(context);
-    double total = customer!.cart!.fold(0,
-        (previousValue, element) => previousValue + element.totalPrice!.toDouble());
+    double total = customer!.cart!.isNotEmpty
+        ? customer.cart!.fold(
+            0,
+            (previousValue, element) =>
+                previousValue + element.totalPrice!.toDouble())
+        : 0;
     var size = MediaQuery.of(context).size;
     return customer.cart!.isEmpty || AuthService().user!.isAnonymous
         ? Center(
@@ -49,9 +53,6 @@ class _CartState extends State<Cart> {
             ? const LoadingWidget()
             : Scaffold(
                 appBar: AppBar(
-                  title: Text(
-                    "Cart (${customer.cart!.length})",
-                  ),
                   elevation: 0,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   foregroundColor: Colors.black,
@@ -98,22 +99,23 @@ class _CartState extends State<Cart> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 3),
-                            height: size.height / 17,
-                            width: size.width / 3.3,
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                                child: Text(
-                              "Order now",
-                              style: GoogleFonts.lato(
+                          ElevatedButton.icon(
+                            label: Text(
+                              "Checkout",
+                              style: kTextStyle(
+                                size: 16,
                                 color: Colors.white,
-                                fontSize: 17,
+                                isBold: true,
                               ),
-                            )),
+                            ),
+                            icon: const Icon(Icons.shopping_cart_checkout),
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
                           ),
                           Text(
                             "Total: $nairaSymbol${total.toMoney}",

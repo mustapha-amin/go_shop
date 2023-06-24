@@ -184,8 +184,33 @@ class _CartWidgetState extends State<CartWidget> {
                                               product.id,
                                               int.parse(
                                                   _quantityController.text))
-                                      : await DatabaseService()
-                                          .deleteFromCart(widget.cartItem!);
+                                      : showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text(
+                                                  "Delete from cart"),
+                                              content: const Text(
+                                                  "Do you want to remove this product from your cart"),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    await DatabaseService()
+                                                        .deleteFromCart(
+                                                            widget.cartItem!);
+                                                  },
+                                                  child: const Text("Yes"),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("No"),
+                                                )
+                                              ],
+                                            );
+                                          });
                                   buttonTapped.value = false;
                                 },
                                 child: Icon(
