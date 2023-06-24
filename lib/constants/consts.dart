@@ -16,3 +16,4 @@ RegExp emailRegex = RegExp(
 
 RegExp passwordRegex = RegExp(
     r'''^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+[{\]};:\'",<.>/?\\|`~])[^\s]{8,}$''');
+

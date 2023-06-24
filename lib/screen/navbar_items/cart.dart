@@ -117,7 +117,9 @@ class _CartState extends State<Cart> {
                                   ? null
                                   : Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                      return const OrderScreen();
+                                      return OrderScreen(
+                                        items: selectedItems,
+                                      );
                                     }));
                             },
                             style: ElevatedButton.styleFrom(

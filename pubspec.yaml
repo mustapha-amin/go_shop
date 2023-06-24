@@ -49,6 +49,7 @@ dependencies:
   flutter_spinkit:
   intl: ^0.18.1
   sizer: ^2.0.15
+  nigerian_states_and_lga: ^1.0.0
 
 dev_dependencies:
   flutter_test:

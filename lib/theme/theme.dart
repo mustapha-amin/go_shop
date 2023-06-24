@@ -8,21 +8,20 @@ class MyTheme {
       scaffoldBackgroundColor: Colors.grey[100],
       colorSchemeSeed: Colors.green[700],
       appBarTheme: AppBarTheme(
-        titleTextStyle: kTextStyle(size: 15)
+        titleTextStyle: kTextStyle(size: 20),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         selectedIconTheme: IconThemeData(
-          color:  Colors.black,
+          color: Colors.black,
         ),
         unselectedIconTheme: IconThemeData(
           color: Colors.grey[600],
         ),
-        selectedItemColor:   Colors.black,
-        unselectedItemColor:  Colors.white,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
         elevation: 6,
-        backgroundColor:   Colors.white,
+        backgroundColor: Colors.white,
       ),
-      
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green[700],
