@@ -4,7 +4,6 @@ import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/models/product.dart';
-import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/services/database.dart';
 import 'package:go_shop/services/utils.dart';

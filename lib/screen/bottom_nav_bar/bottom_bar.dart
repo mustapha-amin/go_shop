@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/models/customer.dart';
-import 'package:go_shop/providers/cart_provider.dart';
 import 'package:go_shop/screen/auth/username.dart';
 import 'package:go_shop/screen/navbar_items/cart.dart';
 import 'package:go_shop/screen/navbar_items/categories.dart';

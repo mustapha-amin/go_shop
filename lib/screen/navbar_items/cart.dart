@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/providers/auth_service.dart';
-import 'package:go_shop/providers/cart_provider.dart';
+import 'package:go_shop/screen/inner_screens/order_screen.dart';
 import 'package:go_shop/services/database.dart';
-import 'package:go_shop/services/utils.dart';
 import 'package:go_shop/widgets/cart_widget.dart';
 import 'package:go_shop/widgets/loading_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../models/cart_item.dart';
 import '../../models/customer.dart';
 
 class Cart extends StatefulWidget {
@@ -20,6 +21,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  List<CartItem> selectedItems = [];
+
   @override
   Widget build(BuildContext context) {
     var customer = Provider.of<Customer?>(context);
@@ -101,7 +104,7 @@ class _CartState extends State<Cart> {
                         children: [
                           ElevatedButton.icon(
                             label: Text(
-                              "Checkout",
+                              "Checkout (${selectedItems.length})",
                               style: kTextStyle(
                                 size: 16,
                                 color: Colors.white,
@@ -109,8 +112,17 @@ class _CartState extends State<Cart> {
                               ),
                             ),
                             icon: const Icon(Icons.shopping_cart_checkout),
-                            onPressed: () {},
+                            onPressed: () {
+                              selectedItems.isEmpty
+                                  ? null
+                                  : Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                      return const OrderScreen();
+                                    }));
+                            },
                             style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  selectedItems.isEmpty ? Colors.grey : null,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -130,8 +142,28 @@ class _CartState extends State<Cart> {
                           itemCount: customer.cart!.length,
                           itemBuilder: (context, index) {
                             var item = customer.cart![index];
-                            return CartWidget(
-                              cartItem: item,
+                            return Row(
+                              children: [
+                                SizedBox(
+                                  width: 10.w,
+                                  child: Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    value: selectedItems.contains(item),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        val!
+                                            ? selectedItems.add(item)
+                                            : selectedItems.remove(item);
+                                      });
+                                    },
+                                  ),
+                                ),
+                                CartWidget(
+                                  cartItem: item,
+                                ),
+                              ],
                             );
                           },
                         ),

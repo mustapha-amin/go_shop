@@ -55,22 +55,21 @@ class _CartWidgetState extends State<CartWidget> {
     var size = MediaQuery.of(context).size;
     var product = widget.cartItem!.product;
     return SizedBox(
-      height: 23.h,
-      width: size.width,
+      height: 20.h,
+      width: 85.w,
       child: Card(
         color: Colors.grey[100],
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
                   product!.imgPath!,
-                  width: 30.w,
-                  height: 15.h,
+                  height: 10.h,
                   fit: BoxFit.fill,
                   frameBuilder: (context, child, frame, _) {
                     if (frame == null) {
@@ -84,16 +83,15 @@ class _CartWidgetState extends State<CartWidget> {
                   },
                 ),
               ),
-              addHorizontalSpacing(5.w),
               Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(left: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       product.name!,
                       style: kTextStyle(
-                        size: 20,
+                        size: 18,
                       ),
                     ),
                     ValueListenableBuilder(
@@ -107,125 +105,126 @@ class _CartWidgetState extends State<CartWidget> {
                           );
                         }),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            {
-                              decrement();
-                              updatePrice();
-                            }
-                          },
-                          child: Container(
-                            width: 15.w,
-                            height: 10.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[100],
-                              border: Border.all(
-                                color: Colors.red,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.remove,
-                              size: 5.w,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 8.w,
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: TextField(
-                              textAlign: TextAlign.center,
-                              controller: _quantityController,
-                              keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            {
-                              increment();
-                              updatePrice();
-                            }
-                          },
-                          child: Container(
-                            width: 10.w,
-                            height: 10.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.grey[100],
-                              border: Border.all(
-                                color: Colors.green,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.add,
-                              size: 5.w,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20.sp),
-                          child: ValueListenableBuilder(
-                            valueListenable: buttonTapped,
-                            builder: (_, value, __) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  value == true
-                                      ? await DatabaseService()
-                                          .updateCartProductQuantity(
-                                              product.id,
-                                              int.parse(
-                                                  _quantityController.text))
-                                      : showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                  "Delete from cart"),
-                                              content: const Text(
-                                                  "Do you want to remove this product from your cart"),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    Navigator.pop(context);
-                                                    await DatabaseService()
-                                                        .deleteFromCart(
-                                                            widget.cartItem!);
-                                                  },
-                                                  child: const Text("Yes"),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text("No"),
-                                                )
-                                              ],
-                                            );
-                                          });
-                                  buttonTapped.value = false;
-                                },
-                                child: Icon(
-                                  value == true ? Icons.check : Icons.delete,
-                                  color: Colors.red,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                {
+                                  decrement();
+                                  updatePrice();
+                                }
+                              },
+                              child: Container(
+                                width: 8.w,
+                                height: 8.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[100],
+                                  border: Border.all(
+                                    color: Colors.red,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        )
+                                child: Icon(
+                                  Icons.remove,
+                                  size: 5.w,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 8.w,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 2),
+                                child: TextField(
+                                  textAlign: TextAlign.center,
+                                  controller: _quantityController,
+                                  keyboardType: TextInputType.number,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                {
+                                  increment();
+                                  updatePrice();
+                                }
+                              },
+                              child: Container(
+                                width: 8.w,
+                                height: 8.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey[100],
+                                  border: Border.all(
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  size: 5.w,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
+              Padding(
+                padding: EdgeInsets.only(top: 20.sp),
+                child: ValueListenableBuilder(
+                  valueListenable: buttonTapped,
+                  builder: (_, value, __) {
+                    return GestureDetector(
+                      onTap: () async {
+                        value == true
+                            ? await DatabaseService().updateCartProductQuantity(
+                                product.id, int.parse(_quantityController.text))
+                            : showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text("Delete from cart"),
+                                    content: const Text(
+                                        "Do you want to remove this product from your cart"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          await DatabaseService()
+                                              .deleteFromCart(widget.cartItem!);
+                                        },
+                                        child: const Text("Yes"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("No"),
+                                      )
+                                    ],
+                                  );
+                                });
+                        buttonTapped.value = false;
+                      },
+                      child: Icon(
+                        value == true ? Icons.check : Icons.delete,
+                        color: Colors.red,
+                      ),
+                    );
+                  },
+                ),
+              )
             ],
           ),
         ),
