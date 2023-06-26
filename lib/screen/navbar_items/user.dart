@@ -53,6 +53,10 @@ class _UserState extends State<User> {
             leading: Icon(Icons.shopping_bag),
           ),
           ListTile(
+            title: Text("Wishlist"),
+            leading: Icon(Icons.favorite),
+          ),
+          ListTile(
             title: Text("Forgot password"),
             leading: Icon(Icons.lock),
           ),

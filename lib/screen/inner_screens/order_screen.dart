@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/constants/extensions.dart';
 import 'package:go_shop/models/customer.dart';
+import 'package:go_shop/models/order_model.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:go_shop/screen/inner_screens/card_details_screen.dart';
+import 'package:go_shop/services/database.dart';
 import 'package:go_shop/widgets/spacings.dart';
 import 'package:nigerian_states_and_lga/nigerian_states_and_lga.dart';
 import 'package:provider/provider.dart';
@@ -166,10 +170,25 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CardDetailsScreen()));
+                log("press");
+                log(widget.items.length.toString());
+                widget.items
+                    .map((e) async => await DatabaseService()
+                        .createAnOrder(
+                          context,
+                          Order(
+                            productID: e.product!.id,
+                            customerID: AuthService().userid,
+                            quantity: e.quantity,
+                            price: e.totalPrice,
+                            state: selectedState,
+                            LGA: selectedLGA,
+                            address: addressController.text.trim(),
+                            orderDate: DateTime.now(),
+                          ),
+                        )
+                        .whenComplete(() => Navigator.pop(context)))
+                    .toList();
               },
               child: Text(
                 "Proceed to payment",
