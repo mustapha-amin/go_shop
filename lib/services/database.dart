@@ -5,6 +5,7 @@ import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/category_model.dart';
 import 'package:go_shop/models/customer.dart';
 import 'package:go_shop/providers/auth_service.dart';
+import 'package:go_shop/services/utils.dart';
 import 'package:uuid/uuid.dart';
 import '../models/featured_products.dart';
 import '../models/product.dart';
@@ -22,7 +23,6 @@ class DatabaseService {
       name: authService!.user!.displayName,
       email: authService!.user!.email,
       cart: [],
-      orders: [],
       createdAt: DateTime.now(),
     );
     await _firebaseFirestore
@@ -71,15 +71,6 @@ class DatabaseService {
     });
   }
 
-  Future<void> makeAnOrder(CartItem cartItem) async {
-    await _firebaseFirestore
-        .collection(customersCollection)
-        .doc(authService!.userid)
-        .update({
-      'order': FieldValue.arrayUnion([cartItem.toJson()]),
-    });
-  }
-
   Future<void> deleteFromCart(CartItem cartItem) async {
     await _firebaseFirestore
         .collection(customersCollection)
@@ -105,23 +96,28 @@ class DatabaseService {
         .map((snap) => snap.docs.map((e) => Product.fromJson(e.data())));
   }
 
-  Future<void> updateCartProductQuantity(String? id, int newQuantity) async {
-    final doc = await _firebaseFirestore
-        .collection(customersCollection)
-        .doc(authService!.userid)
-        .get();
-    final customer = Customer.fromJson(doc.data()!);
-    final cartItem =
-        customer.cart!.firstWhere((element) => element.product!.id == id);
-    final cartItemIndex = customer.cart!.indexOf(cartItem);
-    customer.cart![cartItemIndex].quantity = newQuantity;
+  Future<void> updateCartProductQuantity(
+      BuildContext context, String? id, int newQuantity) async {
+    try {
+      final doc = await _firebaseFirestore
+          .collection(customersCollection)
+          .doc(authService!.userid)
+          .get();
+      final customer = Customer.fromJson(doc.data()!);
+      final cartItem =
+          customer.cart!.firstWhere((element) => element.product!.id == id);
+      final cartItemIndex = customer.cart!.indexOf(cartItem);
+      customer.cart![cartItemIndex].quantity = newQuantity;
 
-    await _firebaseFirestore
-        .collection(customersCollection)
-        .doc(authService!.userid)
-        .update({
-      'cart': customer.cart!.map((element) => element.toJson()).toList(),
-    });
+      await _firebaseFirestore
+          .collection(customersCollection)
+          .doc(authService!.userid)
+          .update({
+        'cart': customer.cart!.map((element) => element.toJson()).toList(),
+      });
+    } catch (e) {
+      showSnackbar(context, "An error occured");
+    }
   }
 
   Stream<List<FeaturedProduct>> fetchFeaturedProducts() {
@@ -137,12 +133,8 @@ class DatabaseService {
           .doc(order.orderID)
           .set(order.toJson())
           .whenComplete(
-              () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Successful"),
-                    margin: EdgeInsets.all(10),
-                    duration: Duration(milliseconds: 500),
-                    behavior: SnackBarBehavior.floating,
-                  )));
+            () => showSnackbar(context, "Order successful"),
+          );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
@@ -160,5 +152,13 @@ class DatabaseService {
         .snapshots()
         .map((snap) =>
             snap.docs.map((e) => k.Order.fromJson(e.data())).toList());
+  }
+
+  Future<Product> fetchProductsByID(String? id) async {
+    final doc = await _firebaseFirestore
+        .collection('products')
+        .where('id', isEqualTo: id)
+        .get();
+    return Product.fromJson(doc.docs.first.data());
   }
 }

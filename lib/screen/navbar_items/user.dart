@@ -5,6 +5,7 @@ import 'package:go_shop/constants/consts.dart';
 import 'package:go_shop/screen/auth/login.dart';
 import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:go_shop/providers/auth_service.dart';
+import 'package:go_shop/screen/inner_screens/orders_history_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -25,32 +26,41 @@ class _UserState extends State<User> {
     return Scaffold(
       body: ListView(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                radius: 10.w,
-                child: Text(
-                  authService.user!.displayName![0],
-                  style: kTextStyle(size: 25, isBold: true),
+          authService.user!.isAnonymous
+              ? Text(
+                  "Guest",
+                  style: kTextStyle(size: 15),
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 10.w,
+                      child: Text(
+                        authService.user!.displayName![0],
+                        style: kTextStyle(size: 25, isBold: true),
+                      ),
+                    ),
+                    Text(
+                      authService.user!.displayName!,
+                      style: kTextStyle(size: 20),
+                    ),
+                    Text(
+                      authService.user!.email!,
+                      style: kTextStyle(
+                        size: 15,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Text(
-                authService.user!.displayName!,
-                style: kTextStyle(size: 20),
-              ),
-              Text(
-                authService.user!.email!,
-                style: kTextStyle(
-                  size: 15,
-                ),
-              ),
-            ],
-          ),
           Divider(),
           ListTile(
             title: Text("Orders"),
             leading: Icon(Icons.shopping_bag),
+            onTap: () =>
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return OrdersHistory();
+            })),
           ),
           ListTile(
             title: Text("Wishlist"),

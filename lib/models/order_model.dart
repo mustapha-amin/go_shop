@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Order {
-  String? productID;
+  String? productName;
+  String? imgUrl;
   String? customerID;
   String? orderID;
   int? quantity;
@@ -12,7 +13,8 @@ class Order {
   DateTime? orderDate;
 
   Order({
-    this.productID,
+    this.productName,
+    this.imgUrl,
     this.orderID,
     this.customerID,
     this.quantity,
@@ -25,7 +27,8 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(
-      productID: json['productID'],
+      productName: json['productName'],
+      imgUrl: json['imgUrl'],
       customerID: json['customerID'],
       orderID: json['orderID'],
       quantity: json['quantity'],
@@ -39,7 +42,8 @@ class Order {
 
   Map<String, dynamic> toJson() {
     return {
-      'productID': productID,
+      'productName': productName,
+      'imgUrl': imgUrl,
       'customerID': customerID,
       'orderID': orderID,
       'quantity': quantity,

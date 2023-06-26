@@ -170,14 +170,13 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               onPressed: () {
-                log("press");
-                log(widget.items.length.toString());
                 widget.items
                     .map((e) async => await DatabaseService()
                         .createAnOrder(
                           context,
                           Order(
-                            productID: e.product!.id,
+                            productName: e.product!.name,
+                            imgUrl: e.product!.imgPath,
                             customerID: AuthService().userid,
                             quantity: e.quantity,
                             price: e.totalPrice,
@@ -187,6 +186,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             orderDate: DateTime.now(),
                           ),
                         )
+                        .whenComplete(() => widget.items
+                            .map((e) => DatabaseService().deleteFromCart(e))
+                            .toList())
                         .whenComplete(() => Navigator.pop(context)))
                     .toList();
               },

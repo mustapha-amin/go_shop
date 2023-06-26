@@ -189,7 +189,9 @@ class _CartWidgetState extends State<CartWidget> {
                       onTap: () async {
                         value == true
                             ? await DatabaseService().updateCartProductQuantity(
-                                product.id, int.parse(_quantityController.text))
+                                context,
+                                product.id,
+                                int.parse(_quantityController.text))
                             : showDialog(
                                 context: context,
                                 builder: (context) {

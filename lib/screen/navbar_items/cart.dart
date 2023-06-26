@@ -59,7 +59,10 @@ class _CartState extends State<Cart> {
                   elevation: 0,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   foregroundColor: Colors.black,
-                  title: const Text("Cart"),
+                  title: Text(
+                    "Cart",
+                    style: kTextStyle(size: 20, isBold: true),
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () {

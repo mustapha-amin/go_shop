@@ -6,7 +6,6 @@ class Customer {
   String? name;
   String? email;
   List<CartItem>? cart;
-  List? orders;
   List<Product>? favorites;
   DateTime? createdAt;
 
@@ -14,7 +13,6 @@ class Customer {
       {this.name,
       this.email,
       this.cart,
-      this.orders,
       this.favorites,
       this.createdAt});
 
@@ -24,7 +22,6 @@ class Customer {
       "email": email,
       "cart": [],
       "favorites": [],
-      "orders": [],
       "createdAt": createdAt,
     };
   }
@@ -39,7 +36,6 @@ class Customer {
         // favorites: (json["favorites"] as List<dynamic>)
         //     .map((item) => Product.fromJson(item))
         //     .toList(),
-        orders: json["orders"] as List,
         createdAt: (json["createdAt"] as Timestamp).toDate());
   }
 
@@ -48,7 +44,6 @@ class Customer {
     String? email,
     List<CartItem>? cart,
     List<Product>? favorites,
-    List? orders,
     DateTime? createdAt,
   }) {
     return Customer(
@@ -56,7 +51,6 @@ class Customer {
       email: email ?? this.email,
       cart: cart ?? this.cart,
       favorites: favorites ?? this.favorites,
-      orders: orders ?? this.orders,
       createdAt: createdAt ?? this.createdAt,
     );
   }

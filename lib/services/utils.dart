@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CardNumberFormatter extends TextInputFormatter {
@@ -29,4 +30,13 @@ class CardNumberFormatter extends TextInputFormatter {
       ),
     );
   }
+}
+
+void showSnackbar(BuildContext context, String? text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    content: Text(text!),
+    margin: const EdgeInsets.all(10),
+    duration: const Duration(milliseconds: 500),
+    behavior: SnackBarBehavior.floating,
+  ));
 }

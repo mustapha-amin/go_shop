@@ -1,4 +1,5 @@
 import 'package:go_shop/models/featured_products.dart';
+import 'package:go_shop/models/order_model.dart';
 import 'package:go_shop/screen/navbar_items/homescreen.dart';
 import 'package:sizer/sizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +40,10 @@ Future main() async {
           value: DatabaseService().fetchFeaturedProducts(),
           initialData: [],
         ),
+        StreamProvider<List<Order>?>.value(
+          value: DatabaseService().fetchOrders(),
+          initialData: [],
+        )
       ],
       child: Sizer(
         builder: (context, _, __) {
