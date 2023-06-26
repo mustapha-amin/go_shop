@@ -22,6 +22,8 @@ class _CategoriesState extends State<Categories> {
     var products = Provider.of<Iterable<Product>>(context).toList();
     return Scaffold(
       appBar: AppBar(
+        title: Text("Categories"),
+        centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
       ),

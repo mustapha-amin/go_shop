@@ -59,8 +59,9 @@ class _CartState extends State<Cart> {
                   elevation: 0,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   foregroundColor: Colors.black,
+                  title: const Text("Cart"),
                   actions: [
-                    IconButton(
+                    TextButton(
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -89,8 +90,10 @@ class _CartState extends State<Cart> {
                           },
                         );
                       },
-                      color: Colors.red,
-                      icon: const Icon(Icons.delete_forever_sharp),
+                      child: Text(
+                        "Clear cart",
+                        style: kTextStyle(size: 15, color: Colors.red),
+                      ),
                     ),
                   ],
                 ),

@@ -7,6 +7,7 @@ import 'package:go_shop/screen/auth/wrapper.dart';
 import 'package:go_shop/providers/auth_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 class User extends StatefulWidget {
   const User({super.key});
@@ -24,48 +25,33 @@ class _UserState extends State<User> {
     return Scaffold(
       body: ListView(
         children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            constraints: BoxConstraints(
-              maxHeight: size.width * .18,
-            ),
-            child: RichText(
-              text: TextSpan(
-                text: "Hi, ",
-                style: GoogleFonts.lato(
-                  color: Colors.blue[600],
-                  fontSize: 27,
-                  fontWeight: FontWeight.bold,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                radius: 10.w,
+                child: Text(
+                  authService.user!.displayName![0],
+                  style: kTextStyle(size: 25, isBold: true),
                 ),
-                children: [
-                  TextSpan(
-                    text:
-                        "${authService.user!.isAnonymous ? "Guest" : authService.user!.displayName}",
-                    style: GoogleFonts.lato(
-                      fontSize: 27,
-                      color: Colors.amber,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: Text(
-              !authService.user!.isAnonymous
-                  ? authService.user!.email!
-                  : "Guest",
-              style: kTextStyle(size: 20,),
-            ),
+              Text(
+                authService.user!.displayName!,
+                style: kTextStyle(size: 20),
+              ),
+              Text(
+                authService.user!.email!,
+                style: kTextStyle(
+                  size: 15,
+                ),
+              ),
+            ],
           ),
           Divider(),
           ListTile(
             title: Text("Orders"),
             leading: Icon(Icons.shopping_bag),
           ),
-          
           ListTile(
             title: Text("Forgot password"),
             leading: Icon(Icons.lock),

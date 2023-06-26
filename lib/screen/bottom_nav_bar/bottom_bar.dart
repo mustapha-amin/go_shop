@@ -36,7 +36,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
 
   @override
   void initState() {
-    _selectedIndex = 2;
+    _selectedIndex = 0;
     super.initState();
   }
 

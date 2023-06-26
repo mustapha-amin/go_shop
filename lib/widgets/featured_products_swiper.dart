@@ -39,6 +39,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
             itemCount: products.length,
             controller: swiperController,
             curve: Curves.easeInOutQuart,
+            duration: 600,
             pagination: SwiperPagination(
               alignment: Alignment.bottomCenter,
               builder: DotSwiperPaginationBuilder(
@@ -102,6 +103,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.amber,
+                          minimumSize: Size(3.4.w, 6.h),
                           elevation: 3,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20),
