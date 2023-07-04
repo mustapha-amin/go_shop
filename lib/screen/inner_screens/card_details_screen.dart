@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_shop/constants/consts.dart';
+import 'package:go_shop/screen/inner_screens/payment_successful.dart';
 import 'package:go_shop/services/utils.dart';
 import 'package:sizer/sizer.dart';
 
@@ -105,7 +106,11 @@ class _CardDetailsScreenState extends State<CardDetailsScreen> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return PaymentSuccessful();
+                  }));
+                },
                 child: Text(
                   "Pay now",
                   style: kTextStyle(size: 18, color: Colors.white),

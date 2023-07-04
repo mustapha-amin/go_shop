@@ -52,133 +52,131 @@ class _CartState extends State<Cart> {
               ],
             ),
           )
-        : customer.cart == null
-            ? const LoadingWidget()
-            : Scaffold(
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                  foregroundColor: Colors.black,
-                  title: Text(
-                    "Cart",
-                    style: kTextStyle(size: 20, isBold: true),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.white,
-                              title: const Text("Clear cart"),
-                              content:
-                                  const Text("Do you want to clear your cart?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    DatabaseService().clearCart();
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("Yes"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No"),
-                                ),
-                              ],
-                            );
-                          },
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              foregroundColor: Colors.black,
+              title: Text(
+                "Cart",
+                style: kTextStyle(size: 20, isBold: true),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          title: const Text("Clear cart"),
+                          content:
+                              const Text("Do you want to clear your cart?"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                DatabaseService().clearCart();
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Yes"),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("No"),
+                            ),
+                          ],
                         );
                       },
-                      child: Text(
-                        "Clear cart",
-                        style: kTextStyle(size: 15, color: Colors.red),
-                      ),
-                    ),
-                  ],
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton.icon(
-                            label: Text(
-                              "Checkout (${selectedItems.length})",
-                              style: kTextStyle(
-                                size: 16,
-                                color: Colors.white,
-                                isBold: true,
-                              ),
-                            ),
-                            icon: const Icon(Icons.shopping_cart_checkout),
-                            onPressed: () {
-                              selectedItems.isEmpty
-                                  ? null
-                                  : Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                      return OrderScreen(
-                                        items: selectedItems,
-                                      );
-                                    }));
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  selectedItems.isEmpty ? Colors.grey : null,
-                              foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "Total: $nairaSymbol${total.toMoney}",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                            ),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: customer.cart!.length,
-                          itemBuilder: (context, index) {
-                            var item = customer.cart![index];
-                            return Row(
-                              children: [
-                                SizedBox(
-                                  width: 10.w,
-                                  child: Checkbox(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    value: selectedItems.contains(item),
-                                    onChanged: (val) {
-                                      setState(() {
-                                        val!
-                                            ? selectedItems.add(item)
-                                            : selectedItems.remove(item);
-                                      });
-                                    },
-                                  ),
-                                ),
-                                CartWidget(
-                                  cartItem: item,
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                    );
+                  },
+                  child: Text(
+                    "Clear cart",
+                    style: kTextStyle(size: 15, color: Colors.red),
                   ),
                 ),
-              );
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                        label: Text(
+                          "Checkout (${selectedItems.length})",
+                          style: kTextStyle(
+                            size: 16,
+                            color: Colors.white,
+                            isBold: true,
+                          ),
+                        ),
+                        icon: const Icon(Icons.shopping_cart_checkout),
+                        onPressed: () {
+                          selectedItems.isEmpty
+                              ? null
+                              : Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                  return OrderScreen(
+                                    items: selectedItems,
+                                  );
+                                }));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              selectedItems.isEmpty ? Colors.grey : null,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Total: $nairaSymbol${total.toMoney}",
+                        style: GoogleFonts.lato(
+                          fontSize: 18,
+                        ),
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: customer.cart!.length,
+                      itemBuilder: (context, index) {
+                        var item = customer.cart![index];
+                        return Row(
+                          children: [
+                            SizedBox(
+                              width: 10.w,
+                              child: Checkbox(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                value: selectedItems.contains(item),
+                                onChanged: (val) {
+                                  setState(() {
+                                    val!
+                                        ? selectedItems.add(item)
+                                        : selectedItems.remove(item);
+                                  });
+                                },
+                              ),
+                            ),
+                            CartWidget(
+                              cartItem: item,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
   }
 }

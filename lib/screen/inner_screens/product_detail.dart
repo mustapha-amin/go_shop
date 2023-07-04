@@ -25,15 +25,8 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   int quantity = 0;
-  TextEditingController _quantityController = TextEditingController();
   bool heartIsTapped = false;
   AuthService authService = AuthService();
-
-  @override
-  void initState() {
-    _quantityController.text = '1';
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,10 +137,9 @@ class _ProductDetailState extends State<ProductDetail> {
                           showErrorDialog(context, "You're not logged in");
                         } else {
                           cartProvider!.cart!.any((element) =>
-                                      element.product!.id !=
-                                      widget.product!.id) ||
-                                  cartProvider.cart!.isEmpty
-                              ? await DatabaseService()
+                                  element.product!.id == widget.product!.id)
+                              ? showSnackbar(context, "Already in cart")
+                              : await DatabaseService()
                                   .addToCart(
                                     CartItem(
                                       product: widget.product,
@@ -157,19 +149,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                     ),
                                   )
                                   .whenComplete(() =>
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text("Added to cart"),
-                                          duration: Duration(milliseconds: 800),
-                                        ),
-                                      ))
-                              : ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Already in cart"),
-                                    duration: Duration(milliseconds: 800),
-                                  ),
-                                );
+                                      showSnackbar(context, "Added to cart"));
+
                           // ignore: use_build_context_synchronously
                         }
                       }),

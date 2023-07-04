@@ -20,6 +20,7 @@ class DatabaseService {
 
   Future<void> createCustomer() async {
     Customer customer = Customer(
+      id: authService!.userid,
       name: authService!.user!.displayName,
       email: authService!.user!.email,
       cart: [],
@@ -131,10 +132,7 @@ class DatabaseService {
       await _firebaseFirestore
           .collection('orders')
           .doc(order.orderID)
-          .set(order.toJson())
-          .whenComplete(
-            () => showSnackbar(context, "Order successful"),
-          );
+          .set(order.toJson());
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(

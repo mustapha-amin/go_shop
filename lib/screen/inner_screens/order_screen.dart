@@ -13,6 +13,7 @@ import 'package:nigerian_states_and_lga/nigerian_states_and_lga.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import '../../models/cart_item.dart';
+import '../../services/utils.dart';
 
 class OrderScreen extends StatefulWidget {
   List<CartItem> items;
@@ -170,27 +171,34 @@ class _OrderScreenState extends State<OrderScreen> {
                 ),
               ),
               onPressed: () {
-                widget.items
-                    .map((e) async => await DatabaseService()
-                        .createAnOrder(
-                          context,
-                          Order(
-                            productName: e.product!.name,
-                            imgUrl: e.product!.imgPath,
-                            customerID: AuthService().userid,
-                            quantity: e.quantity,
-                            price: e.totalPrice,
-                            state: selectedState,
-                            LGA: selectedLGA,
-                            address: addressController.text.trim(),
-                            orderDate: DateTime.now(),
-                          ),
-                        )
-                        .whenComplete(() => widget.items
-                            .map((e) => DatabaseService().deleteFromCart(e))
-                            .toList())
-                        .whenComplete(() => Navigator.pop(context)))
-                    .toList();
+                selectedState != null &&
+                        selectedLGA != null &&
+                        addressController.text.isNotEmpty
+                    ? widget.items
+                        .map((e) async => await DatabaseService()
+                            .createAnOrder(
+                              context,
+                              Order(
+                                productName: e.product!.name,
+                                imgUrl: e.product!.imgPath,
+                                customerID: AuthService().userid,
+                                quantity: e.quantity,
+                                price: e.totalPrice,
+                                state: selectedState,
+                                LGA: selectedLGA,
+                                address: addressController.text.trim(),
+                                orderDate: DateTime.now(),
+                              ),
+                            )
+                            .whenComplete(() => widget.items
+                                .map((e) => DatabaseService().deleteFromCart(e))
+                                .toList())
+                            .whenComplete(() => Navigator.push(context,
+                                    MaterialPageRoute(builder: ((context) {
+                                  return CardDetailsScreen();
+                                })))))
+                        .toList()
+                    : showSnackbar(context, "Fill in the required details");
               },
               child: Text(
                 "Proceed to payment",

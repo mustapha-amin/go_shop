@@ -14,19 +14,24 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SpinKitFadingCircle(
-          duration: Duration(milliseconds: 500),
-          size: 60,
-          color: Colors.black,
-        ),
-        Text(
-          "Please wait",
-          style: kTextStyle(size: 20, ),
-        )
-      ],
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SpinKitFadingCircle(
+            duration: Duration(milliseconds: 500),
+            size: 60,
+            color: Colors.black,
+          ),
+          Text(
+            "Please wait",
+            style: kTextStyle(
+              size: 20,
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -110,6 +110,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                           ),
                         ),
                         onPressed: () {
+                          log(products[index].product!.imgPath.toString());
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
                             return ProductDetail(
