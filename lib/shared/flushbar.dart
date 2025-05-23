@@ -11,7 +11,7 @@ void displayFlushBar(
   Flushbar(
     message: message,
     icon: Icon(
-      isError ? Iconsax.tick_circle : Iconsax.danger,
+      !isError ? Iconsax.tick_circle : Iconsax.danger,
       size: 28.0,
       color: isError ? Colors.red : Colors.green,
     ),

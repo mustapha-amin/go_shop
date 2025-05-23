@@ -5,10 +5,12 @@ import 'package:go_shop/features/auth/view/auth_screen.dart';
 import 'package:go_shop/features/auth/view/profile_setup.dart';
 import 'package:go_shop/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:go_shop/features/cart/view/cart_screen.dart';
-import 'package:go_shop/features/favorite/view/favorites_screen.dart';
+import 'package:go_shop/features/favorite/view/notification_screen.dart';
+import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
 import 'package:go_shop/features/profile/view/profile.dart';
+import 'package:go_shop/models/product.dart';
 import 'package:go_shop/services/dependencies.dart';
 import 'package:go_shop/services/onboarding_settings.dart';
 
@@ -17,6 +19,19 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final appRoutes = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: HomeScreen.route,
+  errorBuilder: (context, state) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Unknown route')),
+      body: Center(
+        child: FilledButton(
+          onPressed: () {
+            context.go(HomeScreen.route);
+          },
+          child: const Text('Go to Home'),
+        ),
+      ),
+    );
+  },
   redirect: (context, state) {
     final hasSeenOnboarding =
         locator.get<OnboardingSettings>().hasSeenOnboarding;
@@ -57,16 +72,6 @@ final appRoutes = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: FavoritesScreen.route,
-              builder: (context, state) {
-                return FavoritesScreen();
-              },
-            ),
-          ],
-        ),
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
               path: CartScreen.route,
               builder: (context, state) {
                 return CartScreen();
@@ -74,6 +79,17 @@ final appRoutes = GoRouter(
             ),
           ],
         ),
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: NotificationScreen.route,
+              builder: (context, state) {
+                return NotificationScreen();
+              },
+            ),
+          ],
+        ),
+
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -85,6 +101,12 @@ final appRoutes = GoRouter(
           ],
         ),
       ],
+    ),
+    GoRoute(
+      path: '${DetailScreen.route}/:id',
+      builder: (context, state) {
+        return DetailScreen(id: state.pathParameters['id']!);
+      },
     ),
     GoRoute(
       path: AuthScreen.route,

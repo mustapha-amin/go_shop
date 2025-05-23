@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_shop/core/collection_paths.dart';
+import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/user.dart';
 import 'package:go_shop/services/dependencies.dart';
 
@@ -27,17 +29,17 @@ class CurrentUserNotifier extends StreamNotifier<GoShopUser> {
         .map((snap) => GoShopUser.fromMap(snap.data()!));
   }
 
-  Future<void> updateCart(String? id) async {
-    await firebaseFirestore
-        .collection(CollectionPaths.users)
-        .doc(firebaseAuth.currentUser!.uid)
-        .update({
-          'cart':
-              state.value!.cart.contains(id)
-                  ? FieldValue.arrayRemove([id])
-                  : FieldValue.arrayUnion([id]),
-        });
-    ref.invalidateSelf();
+  Future<void> updateUser(GoShopUser user) async {
+    state = const AsyncLoading();
+    try {
+      await firebaseFirestore
+          .collection(CollectionPaths.users)
+          .doc(firebaseAuth.currentUser!.uid)
+          .update(user.toMap());
+      state = AsyncData(user);
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
   }
 }
 

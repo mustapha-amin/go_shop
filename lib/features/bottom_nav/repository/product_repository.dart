@@ -18,4 +18,14 @@ class ProductRepository {
       throw Exception('Failed to load products');
     }
   }
+
+  Future<Product> getProductById(String id) async {
+    try {
+      final snapshot = await firestore.collection('products').doc(id).get();
+      return Product.fromMap(snapshot.data()!);
+    } catch (e) {
+      log(e.toString(), stackTrace: StackTrace.current);
+      throw Exception('Failed to load product');
+    }
+  }
 }

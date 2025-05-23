@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:go_shop/models/cart_item.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class GoShopUser {
@@ -8,29 +9,21 @@ class GoShopUser {
   String? name;
   String? email;
   int? phoneNumber;
-  List<String> cart;
 
-  GoShopUser({
-    this.uid,
-    this.name,
-    this.email,
-    this.phoneNumber,
-    required this.cart,
-  });
+  GoShopUser({this.uid, this.name, this.email, this.phoneNumber});
 
   GoShopUser copyWith({
     String? uid,
     String? name,
     String? email,
     int? phoneNumber,
-    List<String>? cart,
+    List<CartItem>? cart,
   }) {
     return GoShopUser(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      cart: cart ?? this.cart,
     );
   }
 
@@ -40,7 +33,6 @@ class GoShopUser {
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
-      'cart': cart,
     };
   }
 
@@ -50,13 +42,12 @@ class GoShopUser {
       name: map['name'],
       email: map['email'],
       phoneNumber: map['phoneNumber'],
-      cart: List<String>.from(map['cart']) ?? [],
     );
   }
 
   @override
   String toString() {
-    return 'GoShopUser(uid: $uid, name: $name, email: $email, phoneNumber: $phoneNumber, cart: $cart)';
+    return 'GoShopUser(uid: $uid, name: $name, email: $email, phoneNumber: $phoneNumber)';
   }
 
   @override
@@ -66,17 +57,12 @@ class GoShopUser {
     return other.uid == uid &&
         other.name == name &&
         other.email == email &&
-        other.phoneNumber == phoneNumber &&
-        listEquals(other.cart, cart);
+        other.phoneNumber == phoneNumber;
   }
 
   @override
   int get hashCode {
-    return uid.hashCode ^
-        name.hashCode ^
-        email.hashCode ^
-        phoneNumber.hashCode ^
-        cart.hashCode;
+    return uid.hashCode ^ name.hashCode ^ email.hashCode ^ phoneNumber.hashCode;
   }
 
   String toJson() => json.encode(toMap());

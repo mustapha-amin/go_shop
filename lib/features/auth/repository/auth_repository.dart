@@ -40,7 +40,6 @@ class AuthRepository {
         name: name,
         email: firebaseAuth.currentUser!.email,
         phoneNumber: phoneNumber,
-        cart: [],
       );
       await firebaseFirestore
           .collection(CollectionPaths.users)

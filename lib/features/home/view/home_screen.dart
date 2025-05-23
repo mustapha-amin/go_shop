@@ -7,6 +7,7 @@ import 'package:go_shop/core/extensions.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/home/widgets/product_card.dart';
+import 'package:go_shop/features/home/widgets/skeletal_home.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -42,37 +43,21 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   SizedBox(
                     height: 45,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SearchBar(
-                            padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
-                            elevation: WidgetStatePropertyAll(0),
-                            onTapOutside:
-                                (_) => FocusScope.of(context).unfocus(),
-                            backgroundColor: WidgetStatePropertyAll(
-                              Color(0xfffff7f7f7),
-                            ),
-                            hintText: "Search products",
-                            hintStyle: WidgetStatePropertyAll(
-                              kTextStyle(16, color: Colors.grey),
-                            ),
-                            leading: Icon(
-                              Iconsax.search_normal_1_copy,
-                              size: 20,
-                            ).padX(7),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfffff7f7f7),
-                          ),
-                          margin: EdgeInsets.only(left: 12),
-                          padding: EdgeInsets.all(16),
-                          child: Center(child: Icon(Iconsax.notification_copy)),
-                        ),
-                      ],
+                    child: SearchBar(
+                      padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
+                      elevation: WidgetStatePropertyAll(0),
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Color(0xfffff7f7f7),
+                      ),
+                      hintText: "Search products",
+                      hintStyle: WidgetStatePropertyAll(
+                        kTextStyle(16, color: Colors.grey),
+                      ),
+                      leading: Icon(
+                        Iconsax.search_normal_1_copy,
+                        size: 20,
+                      ).padX(7),
                     ),
                   ),
                   Expanded(
@@ -112,62 +97,7 @@ class HomeScreen extends ConsumerWidget {
             );
           },
           loading: () {
-            return Skeletonizer(
-              effect: SoldColorEffect(color: Colors.grey[300]!),
-              child: Column(
-                spacing: 10,
-                children: [
-                  SizedBox(
-                    height: 45,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SearchBar(
-                            padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
-                            elevation: WidgetStatePropertyAll(0),
-                            onTapOutside:
-                                (_) => FocusScope.of(context).unfocus(),
-                            backgroundColor: WidgetStatePropertyAll(
-                              Color(0xfffff7f7f7),
-                            ),
-                            hintText: "Search products",
-                            hintStyle: WidgetStatePropertyAll(
-                              kTextStyle(16, color: Colors.grey),
-                            ),
-                            leading: Icon(
-                              Iconsax.search_normal_1_copy,
-                              size: 20,
-                            ).padX(7),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xfffff7f7f7),
-                          ),
-                          margin: EdgeInsets.only(left: 12),
-                          padding: EdgeInsets.all(16),
-                          child: Center(child: Icon(Iconsax.notification_copy)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: GridView(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 6,
-                      ),
-                      children: [
-                        ...List.generate(10, (_) {
-                          return ProductCard(product: dummyProduct);
-                        }),
-                      ],
-                    ),
-                  ),
-                ],
-              ).padX(14),
-            );
+            return SkeletalHome();
           },
         );
   }

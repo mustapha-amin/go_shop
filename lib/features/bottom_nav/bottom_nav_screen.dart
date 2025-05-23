@@ -20,7 +20,6 @@ class BottomNavScreen extends ConsumerWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         toolbarHeight: 20,
-        title: Text(GoRouter.of(context).state.path!),
       ),
       body: child,
       bottomNavigationBar: NavigationBar(
@@ -45,23 +44,23 @@ class BottomNavScreen extends ConsumerWidget {
           ),
           NavigationDestination(
             icon: Icon(
-              Iconsax.heart_copy,
-              color: Theme.of(context).primaryColor,
-            ),
-            label: 'Favorites',
-            selectedIcon: Icon(
-              Iconsax.heart,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          NavigationDestination(
-            icon: Icon(
               Iconsax.shopping_cart_copy,
               color: Theme.of(context).primaryColor,
             ),
             label: 'Cart',
             selectedIcon: Icon(
               Iconsax.shopping_cart,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Iconsax.notification_copy,
+              color: Theme.of(context).primaryColor,
+            ),
+            label: 'Notifications',
+            selectedIcon: Icon(
+              Iconsax.notification,
               color: Theme.of(context).primaryColor,
             ),
           ),
