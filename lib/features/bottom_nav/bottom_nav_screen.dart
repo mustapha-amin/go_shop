@@ -1,9 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart' hide Order;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
+import 'package:go_shop/features/cart/controller/payment_controller.dart';
+import 'package:go_shop/features/cart/view/cart_screen.dart';
+import 'package:go_shop/models/order.dart';
+import 'package:go_shop/models/payment_status.dart';
+import 'package:go_shop/services/dependencies.dart';
+import 'package:go_shop/shared/flushbar.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:go_shop/features/bottom_nav/providers/nav_provider.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:uuid/uuid.dart';
 
 class BottomNavScreen extends ConsumerWidget {
   final StatefulNavigationShell child;
@@ -77,6 +86,52 @@ class BottomNavScreen extends ConsumerWidget {
           ),
         ],
       ),
+      floatingActionButton:
+          GoRouter.of(context).state.path != '/cart'
+              ? null
+              : FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                backgroundColor:
+                    ref.watch(selectedItemsProvider).isEmpty
+                        ? Colors.grey
+                        : Theme.of(context).primaryColor,
+                label: Row(
+                  spacing: 5,
+                  children: [
+                    Icon(Iconsax.shopping_bag, color: Colors.white, size: 20),
+                    Text(
+                      "Checkout ${NumberFormat.simpleCurrency(name: 'N', decimalDigits: 0).format(ref.watch(selectedProductsPriceProvider))}",
+                    ),
+                  ],
+                ),
+
+                onPressed:
+                    ref.watch(selectedItemsProvider).isEmpty
+                        ? null
+                        : () {
+                          ref
+                              .read(paymentNotifierProvider.notifier)
+                              .makePayment(
+                                context,
+                                ref,
+                                Order(
+                                  orderId: Uuid().v4(),
+                                  userId:
+                                      locator
+                                          .get<FirebaseAuth>()
+                                          .currentUser!
+                                          .uid,
+                                  items: ref.read(orderitemsProvider),
+                                  createdAt: Timestamp.now(),
+                                  totalAmount: ref.read(
+                                    selectedProductsPriceProvider,
+                                  ),
+                                ),
+                              );
+                        },
+              ),
     );
   }
 }

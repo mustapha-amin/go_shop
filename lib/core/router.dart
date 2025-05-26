@@ -5,6 +5,7 @@ import 'package:go_shop/features/auth/view/auth_screen.dart';
 import 'package:go_shop/features/auth/view/profile_setup.dart';
 import 'package:go_shop/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:go_shop/features/cart/view/cart_screen.dart';
+import 'package:go_shop/features/cart/view/payment_success.dart';
 import 'package:go_shop/features/favorite/view/notification_screen.dart';
 import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
@@ -54,6 +55,12 @@ final appRoutes = GoRouter(
         return OnboardingScreen();
       },
     ),
+     GoRoute(
+      path: PaymentSuccessScreen.route,
+      builder: (context, state) {
+        return const PaymentSuccessScreen();
+      },
+     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return BottomNavScreen(child: navigationShell);

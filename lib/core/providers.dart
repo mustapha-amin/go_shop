@@ -29,6 +29,8 @@ class CurrentUserNotifier extends StreamNotifier<GoShopUser> {
         .map((snap) => GoShopUser.fromMap(snap.data()!));
   }
 
+  GoShopUser get currentUser => state.value!;
+
   Future<void> updateUser(GoShopUser user) async {
     state = const AsyncLoading();
     try {

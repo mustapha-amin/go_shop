@@ -1,35 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/cart/controller/cart_controller.dart';
+import 'package:go_shop/features/cart/controller/payment_controller.dart';
+import 'package:go_shop/features/cart/widgets/cart_item_tile.dart';
 import 'package:go_shop/features/cart/widgets/skeletal_cart_item.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:sizer/sizer.dart';
+import 'package:go_shop/models/order_item.dart';
+import 'package:go_shop/models/payment_status.dart';
+import 'package:go_shop/models/product.dart';
+import 'package:go_shop/shared/flushbar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class CartScreen extends ConsumerWidget {
+final selectedItemsProvider = StateProvider((ref) {
+  return <String>[];
+});
+
+final selectedProductsPriceProvider = StateProvider((ref) {
+  return 0.0;
+});
+
+final orderitemsProvider = StateProvider((ref) {
+  return <OrderItem>[];
+});
+
+void updateOrderItems(WidgetRef ref, Product product, int? quantity) {
+  final containsProduct = ref
+      .read(orderitemsProvider.notifier)
+      .state
+      .any((order) => order.productID == product.id);
+  if (containsProduct) {
+    ref.read(orderitemsProvider.notifier).state =
+        ref
+            .read(orderitemsProvider)
+            .where((order) => order.productID != product.id)
+            .toList();
+  } else {
+    final newOrderItem = OrderItem(
+      productID: product.id,
+      quantity: quantity!,
+      price: product.basePrice * quantity,
+    );
+    ref.read(orderitemsProvider.notifier).state = [
+      ...ref.read(orderitemsProvider),
+      newOrderItem,
+    ];
+  }
+}
+
+class CartScreen extends ConsumerStatefulWidget {
   static const route = '/cart';
   const CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends ConsumerState<CartScreen> {
+  @override
+  Widget build(BuildContext context) {
+     ref.listen(paymentNotifierProvider, (_, next) {
+      if (next is PaymentSuccess) {
+          ref.invalidate(paymentNotifierProvider);
+        ref.invalidate(orderitemsProvider);
+        ref.invalidate(selectedItemsProvider);
+        ref.invalidate(selectedProductsPriceProvider);
+        context.push('/payment-success');   
+      } else if (next is PaymentFailed) {
+        displayFlushBar(context, next.error, isError: true);
+        ref.invalidate(paymentNotifierProvider);
+        ref.invalidate(orderitemsProvider);
+        ref.invalidate(selectedItemsProvider);
+        ref.invalidate(selectedProductsPriceProvider);
+      }
+    });
     return ref
         .watch(cartControllerProvider)
         .when(
           data: (cart) {
-            return Scaffold(
-              appBar: AppBar(title: Text('Cart')),
-              body:
-                  cart.isEmpty
-                      ? Center(
-                        child: Text(
-                          'Your cart is empty',
-                          style: kTextStyle(15),
-                        ),
-                      )
-                      : ListView.builder(
+            return cart.isEmpty
+                ? Center(
+                  child: Text('Your cart is empty', style: kTextStyle(15)),
+                )
+                : Column(
+                  children: [
+                    Text(
+                      "Your Cart",
+                      style: kTextStyle(20, fontweight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
                         itemCount: cart.length,
                         itemBuilder: (context, index) {
                           final cartItem = cart[index];
@@ -39,94 +100,95 @@ class CartScreen extends ConsumerWidget {
                               )
                               .when(
                                 data: (product) {
-                                  return ListTile(
-                                    leading: Container(
-                                      height: 50,
-                                      width: 50,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            product.imageUrls[0],
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
+                                  return Row(
+                                    children: [
+                                      Consumer(
+                                        builder: (context, ref, _) {
+                                          return Checkbox(
+                                            value: ref
+                                                .watch(selectedItemsProvider)
+                                                .contains(cartItem.id),
+                                            onChanged: (_) {
+                                              if (ref
+                                                  .read(selectedItemsProvider)
+                                                  .contains(cartItem.id)) {
+                                                ref
+                                                    .read(
+                                                      selectedProductsPriceProvider
+                                                          .notifier,
+                                                    )
+                                                    .state = ref
+                                                        .read(
+                                                          selectedProductsPriceProvider
+                                                              .notifier,
+                                                        )
+                                                        .state -
+                                                    product.basePrice *
+                                                        cartItem.quantity!;
+                                                updateOrderItems(
+                                                  ref,
+                                                  product,
+                                                  cartItem.quantity!,
+                                                );
+                                                ref
+                                                    .read(
+                                                      selectedItemsProvider
+                                                          .notifier,
+                                                    )
+                                                    .state = ref
+                                                        .read(
+                                                          selectedItemsProvider,
+                                                        )
+                                                        .where(
+                                                          (id) =>
+                                                              id != cartItem.id,
+                                                        )
+                                                        .toList();
+                                              } else {
+                                                ref
+                                                    .read(
+                                                      selectedProductsPriceProvider
+                                                          .notifier,
+                                                    )
+                                                    .state = ref
+                                                        .read(
+                                                          selectedProductsPriceProvider
+                                                              .notifier,
+                                                        )
+                                                        .state +
+                                                    product.basePrice *
+                                                        cartItem.quantity!;
+                                                updateOrderItems(
+                                                  ref,
+                                                  product,
+                                                  cartItem.quantity!,
+                                                );
+                                                ref
+                                                    .read(
+                                                      selectedItemsProvider
+                                                          .notifier,
+                                                    )
+                                                    .state = [
+                                                  ...ref
+                                                      .read(
+                                                        selectedItemsProvider
+                                                            .notifier,
+                                                      )
+                                                      .state,
+                                                  cartItem.id!,
+                                                ];
+                                              }
+                                            },
+                                          );
+                                        },
                                       ),
-                                    ),
-                                    title: Row(
-                                      spacing: 3,
-                                      children: [
-                                        Text(
-                                          product.name,
-                                          style: kTextStyle(15),
+                                      Expanded(
+                                        child: CartItemTile(
+                                          cartItem: cartItem,
+                                          product: product,
                                         ),
-                                        Text(
-                                          "(${cartItem.quantity})",
-                                          style: kTextStyle(
-                                            18,
-                                            fontweight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    subtitle: Text('N${product.basePrice}'),
-                                    trailing: IconButton(
-                                      icon: Icon(
-                                        Iconsax.minus_cirlce_copy,
-                                        size: 20,
                                       ),
-                                      onPressed: () {
-                                        showShadDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return ShadDialog(
-                                              radius: BorderRadius.circular(20),
-                                              constraints: BoxConstraints(
-                                                maxWidth: 80.w,
-                                              ),
-                                              actionsAxis: Axis.horizontal,
-                                              title: Text('Remove item'),
-                                              actions: [
-                                                Expanded(
-                                                  child: ShadButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Cancel'),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: ShadButton(
-                                                    backgroundColor:
-                                                        Colors.red[50],
-                                                    foregroundColor:
-                                                        Colors.red[500],
-                                                    onPressed: () {
-                                                      ref
-                                                          .read(
-                                                            cartControllerProvider
-                                                                .notifier,
-                                                          )
-                                                          .removeItem(
-                                                            cartItem.id!,
-                                                          );
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Remove'),
-                                                  ),
-                                                ),
-                                              ],
-                                              child: SizedBox(
-                                                width: 80.w,
-                                                child: Text(
-                                                  'Are you sure you want to remove this item from your cart?',
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
+                                    ],
                                   );
                                 },
                                 error: (e, _) {
@@ -169,7 +231,9 @@ class CartScreen extends ConsumerWidget {
                               );
                         },
                       ),
-            );
+                    ),
+                  ],
+                );
           },
           error: (error, stackTrace) => Center(child: Text('Error')),
           loading: () {
