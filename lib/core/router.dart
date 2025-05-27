@@ -10,9 +10,11 @@ import 'package:go_shop/features/favorite/view/notification_screen.dart';
 import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
+import 'package:go_shop/features/profile/view/order_items_screen.dart';
 import 'package:go_shop/features/profile/view/orders.dart';
 import 'package:go_shop/features/profile/view/profile.dart';
 import 'package:go_shop/models/order.dart';
+import 'package:go_shop/models/order_item.dart';
 import 'package:go_shop/services/dependencies.dart';
 import 'package:go_shop/services/onboarding_settings.dart';
 
@@ -111,6 +113,15 @@ final appRoutes = GoRouter(
                   builder: (context, state) {
                     return const OrdersScreen();
                   },
+                  routes: [
+                    GoRoute(
+                      path: OrderItemsScreen.route,
+                      builder: (context, state) {
+                        final orderItems = state.extra as List<OrderItem>;
+                        return OrderItemsScreen(orderItems: orderItems);
+                      },
+                    )
+                  ]
                 ),
               ],
             ),

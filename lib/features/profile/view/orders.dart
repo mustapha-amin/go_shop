@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/profile/controllers/order_controller.dart';
+import 'package:go_shop/features/profile/view/order_items_screen.dart';
+import 'package:go_shop/features/profile/view/profile.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -60,7 +63,14 @@ class OrdersScreen extends ConsumerWidget {
                               order.status,
                               style: kTextStyle(12, color: Colors.green),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.push(
+                                ProfileScreen.route +
+                                    OrdersScreen.route +
+                                    OrderItemsScreen.route,
+                                extra: order.items,
+                              );
+                            },
                           );
                         },
                         loading:
