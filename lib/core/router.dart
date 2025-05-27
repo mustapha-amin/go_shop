@@ -10,8 +10,9 @@ import 'package:go_shop/features/favorite/view/notification_screen.dart';
 import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
+import 'package:go_shop/features/profile/view/orders.dart';
 import 'package:go_shop/features/profile/view/profile.dart';
-import 'package:go_shop/models/product.dart';
+import 'package:go_shop/models/order.dart';
 import 'package:go_shop/services/dependencies.dart';
 import 'package:go_shop/services/onboarding_settings.dart';
 
@@ -55,12 +56,12 @@ final appRoutes = GoRouter(
         return OnboardingScreen();
       },
     ),
-     GoRoute(
+    GoRoute(
       path: PaymentSuccessScreen.route,
       builder: (context, state) {
         return const PaymentSuccessScreen();
       },
-     ),
+    ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, navigationShell) {
         return BottomNavScreen(child: navigationShell);
@@ -104,6 +105,14 @@ final appRoutes = GoRouter(
               builder: (context, state) {
                 return ProfileScreen();
               },
+              routes: [
+                GoRoute(
+                  path: OrdersScreen.route,
+                  builder: (context, state) {
+                    return const OrdersScreen();
+                  },
+                ),
+              ],
             ),
           ],
         ),

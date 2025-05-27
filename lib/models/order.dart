@@ -9,6 +9,7 @@ class Order {
   final List<OrderItem> items;
   final Timestamp createdAt;
   final  double totalAmount;
+  final String status;
 
   Order({
     required this.orderId,
@@ -16,6 +17,7 @@ class Order {
     required this.items,
     required this.createdAt,
     required this.totalAmount,
+    this.status = 'pending',
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class Order {
       'items': items.map((item) => item.toMap()).toList(),
       'createdAt': createdAt,
       'totalAmount': totalAmount,
+      'status': status,
     };
   }
 
@@ -40,7 +43,8 @@ class Order {
           map['createdAt'] is Timestamp
               ? map['createdAt'] as Timestamp
               : Timestamp.fromMillisecondsSinceEpoch(map['createdAt']),
-      totalAmount: map['totalAmount']
+      totalAmount: map['totalAmount'],
+      status: map['status'] ?? 'pending',
     );
   }
 
@@ -50,6 +54,7 @@ class Order {
     List<OrderItem>? items,
     Timestamp? createdAt,
     double? totalAmount,
+    String? status,
   }) {
     return Order(
       orderId: orderId ?? this.orderId,
@@ -57,6 +62,7 @@ class Order {
       items: items ?? this.items,
       createdAt: createdAt ?? this.createdAt,
       totalAmount: totalAmount ?? this.totalAmount,
+      status: status ?? this.status,
     );
   }
 }

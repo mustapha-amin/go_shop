@@ -43,7 +43,7 @@ class PaymentRepository {
             .get<FirebaseFirestore>()
             .collection('orders')
             .doc(response.txRef)
-            .set(order.copyWith(orderId: response.txRef).toMap());
+            .set(order.copyWith(orderId: response.txRef, status: 'Paid').toMap());
         return "Payment successful: ${response.txRef}";
       } else {
         return "Payment failed";

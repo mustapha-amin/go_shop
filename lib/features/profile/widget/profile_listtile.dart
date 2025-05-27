@@ -22,7 +22,7 @@ class ProfileListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.5.h),
+      margin: EdgeInsets.symmetric(vertical: 0.5.h),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
