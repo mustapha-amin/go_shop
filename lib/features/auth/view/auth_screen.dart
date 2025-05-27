@@ -232,7 +232,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ShadButton(
                       width: 100.w,
                       height: 50,
-                      onPressed: () {},
+                      onPressed: () {
+                        ref.read(authNotifierProvider.notifier).signinGoogle();
+                      },
                       leading: Icon(Iconsax.google_1, size: 24),
                       child: Text("Sign in with google"),
                     ),

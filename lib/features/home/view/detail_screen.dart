@@ -338,7 +338,7 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                     ],
                   ).padAll(8),
                 ],
-              );
+              ).padY(5);
             },
             error: (error, stackTrace) => Center(child: Text('Error: $error')),
             loading: () => SkeletalDetail(),

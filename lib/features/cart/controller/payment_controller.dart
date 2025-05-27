@@ -24,17 +24,29 @@ class PaymentNotifier extends StateNotifier<PaymentStatus> {
     required this.cartRepository,
   }) : super(PaymentInitial());
 
-  void makePayment(BuildContext context, WidgetRef ref, Order order) async {
+  Future<void> makePayment(
+    BuildContext context,
+    WidgetRef ref,
+    Order order,
+  ) async {
     state = PaymentPending();
     try {
-      await paymentRepository.handlePaymentInitialization(context, ref, order);
+      final result = await paymentRepository.handlePaymentInitialization(
+        context,
+        ref,
+        order,
+      );
       final cartItemIDs = ref.read(selectedItemsProvider.notifier).state;
       await Future.wait([
         for (var item in cartItemIDs) cartRepository.removeCartItem(item),
       ]);
-      state = PaymentSuccess();
+      if (result.contains('Payment successful')) {
+        state = PaymentSuccess();
+        log('success');
+      }
     } catch (e) {
       log(StackTrace.current.toString());
+      log(e.toString());
       state = PaymentFailed(e.toString());
     }
   }

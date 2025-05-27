@@ -139,32 +139,9 @@ class AuthRepository {
 
       return await firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      switch (e.code) {
-        case 'account-exists-with-different-credential':
-          throw AuthException(
-            'An account already exists with the same email address but different sign-in credentials.',
-          );
-        case 'invalid-credential':
-          throw AuthException('The Google sign-in credentials are invalid.');
-        case 'operation-not-allowed':
-          throw AuthException(
-            'Google sign-in is not enabled. Please contact support.',
-          );
-        case 'user-disabled':
-          throw AuthException(
-            'This account has been disabled. Please contact support.',
-          );
-        case 'user-not-found':
-          throw AuthException('No account found with this email.');
-        default:
-          throw AuthException(
-            'An error occurred during Google sign in. Please try again.',
-          );
-      }
+      throw Exception(e.toString());
     } catch (e) {
-      throw AuthException(
-        'An unexpected error occurred during Google sign in. Please try again.',
-      );
+      throw Exception(e.toString());
     }
   }
 

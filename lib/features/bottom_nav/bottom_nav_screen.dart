@@ -110,7 +110,7 @@ class BottomNavScreen extends ConsumerWidget {
                 onPressed:
                     ref.watch(selectedItemsProvider).isEmpty
                         ? null
-                        : () {
+                        : () async {
                           ref
                               .read(paymentNotifierProvider.notifier)
                               .makePayment(

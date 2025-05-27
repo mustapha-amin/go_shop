@@ -60,13 +60,13 @@ class CartScreen extends ConsumerStatefulWidget {
 class _CartScreenState extends ConsumerState<CartScreen> {
   @override
   Widget build(BuildContext context) {
-     ref.listen(paymentNotifierProvider, (_, next) {
+    ref.listen(paymentNotifierProvider, (_, next) {
       if (next is PaymentSuccess) {
-          ref.invalidate(paymentNotifierProvider);
+        ref.invalidate(paymentNotifierProvider);
         ref.invalidate(orderitemsProvider);
         ref.invalidate(selectedItemsProvider);
         ref.invalidate(selectedProductsPriceProvider);
-        context.push('/payment-success');   
+        ref.invalidate(cartControllerProvider);
       } else if (next is PaymentFailed) {
         displayFlushBar(context, next.error, isError: true);
         ref.invalidate(paymentNotifierProvider);

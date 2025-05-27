@@ -63,7 +63,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                   "Get started",
                   style: kTextStyle(16, color: Colors.white),
                 ),
-              ),
+              ).padY(5),
             ],
           ),
         ],

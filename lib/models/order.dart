@@ -1,4 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:go_shop/models/order_item.dart';
 
 class Order {
@@ -39,6 +41,22 @@ class Order {
               ? map['createdAt'] as Timestamp
               : Timestamp.fromMillisecondsSinceEpoch(map['createdAt']),
       totalAmount: map['totalAmount']
+    );
+  }
+
+  Order copyWith({
+    String? orderId,
+    String? userId,
+    List<OrderItem>? items,
+    Timestamp? createdAt,
+    double? totalAmount,
+  }) {
+    return Order(
+      orderId: orderId ?? this.orderId,
+      userId: userId ?? this.userId,
+      items: items ?? this.items,
+      createdAt: createdAt ?? this.createdAt,
+      totalAmount: totalAmount ?? this.totalAmount,
     );
   }
 }
