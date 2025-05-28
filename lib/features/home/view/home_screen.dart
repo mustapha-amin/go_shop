@@ -10,9 +10,9 @@ import 'package:go_shop/features/home/widgets/product_card.dart';
 import 'package:go_shop/features/home/widgets/skeletal_home.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 final List<String> productCategories = [
+  'All',
   'Appliances',
   'Phones and tablets',
   'Electronics',
@@ -21,12 +21,19 @@ final List<String> productCategories = [
   'Other',
 ];
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const route = '/home';
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeState();
+}
+
+class _HomeState extends ConsumerState<HomeScreen> {
+  ValueNotifier<String> selectedCategory = ValueNotifier(productCategories[0]);
+
+  @override
+  Widget build(BuildContext context) {
     return ref
         .watch(productNotifierProvider)
         .when(
@@ -60,18 +67,71 @@ class HomeScreen extends ConsumerWidget {
                       ).padX(7),
                     ),
                   ),
+                  SizedBox(
+                    height: 50,
+                    child: ValueListenableBuilder(
+                      valueListenable: selectedCategory,
+                      builder: (context, selected, _) {
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            spacing: 5,
+                            children: [
+                              ...productCategories.map((category) {
+                                return ChoiceChip(
+                                  side: BorderSide(width: 0.5),
+                                  checkmarkColor: Colors.white,
+                                  selectedColor: Theme.of(context).primaryColor,
+                                  label: Text(
+                                    category,
+                                    style: kTextStyle(
+                                      14,
+                                      color:
+                                          category == selected
+                                              ? Colors.white
+                                              : Colors.black,
+                                    ),
+                                  ),
+                                  selected: selected == category,
+                                  onSelected: (_) {
+                                    selectedCategory.value = category;
+                                  },
+                                );
+                              }),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                   Expanded(
-                    child: GridView(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                      ),
-                      children: [
-                        ...List.generate(20, (_) {
-                          return ProductCard(product: products[0]);
-                        }),
-                      ],
+                    child: ValueListenableBuilder(
+                      valueListenable: selectedCategory,
+                      builder: (context, selected, _) {
+                        return GridView(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 12,
+                                crossAxisSpacing: 12,
+                              ),
+                          children: [
+                            if (selected == productCategories[0]) ...{
+                              ...products.map(
+                                (product) => ProductCard(product: product),
+                              ),
+                            } else ...{
+                              ...products
+                                  .where(
+                                    (product) => product.category == selected,
+                                  )
+                                  .map(
+                                    (product) => ProductCard(product: product),
+                                  ),
+                            },
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ],
