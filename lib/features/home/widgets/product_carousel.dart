@@ -17,13 +17,16 @@ class ProductCarousel extends StatelessWidget {
           ...productImages.map(
             (imageUrl) => Stack(
               children: [
-                Container(
-                  height: 40.h,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(imageUrl),
-                      fit: BoxFit.cover,
+                Hero(
+                  tag: imageUrl,
+                  child: Container(
+                    height: 40.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

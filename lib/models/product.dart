@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 class Product {
   final String id;
   final String name;
@@ -23,6 +25,7 @@ class Product {
   });
 
   factory Product.fromMap(Map<String, dynamic> map) {
+    log(map.toString());
     return Product(
       id: map['id'] as String,
       name: map['name'] as String,
@@ -78,7 +81,8 @@ class Product {
 final dummyProduct = Product(
   id: '27285052-8fc0-4a62-833b-486a1d66636f',
   name: 'Samsung galaxy S24',
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum, libero non sagittis vestibulum, lacus lorem aliquet urna, sit amet facilisis orci odio in leo. Aliquam erat volutpat. Curabitur efficitur, arcu in sollicitudin gravida, nunc erat vehicula nibh, ut elementum neque odio non justo. Suspendisse potenti.  Proin a erat vel lorem facilisis dictum. Nullam venenatis, leo nec condimentum pharetra, eros arcu vulputate nunc, vel auctor velit metus ut metus. Phasellus interdum dui id libero porta, nec egestas turpis convallis. Integer at mi a purus tristique placerat.  Nunc porttitor vehicula nulla, vel fermentum eros. Fusce posuere sem et elit fermentum, at efficitur metus ultrices. Duis vulputate congue tortor, in cursus lectus suscipit id. Ut lacinia fringilla lectus, sed suscipit elit pellentesque id. Sed eget lacinia mi, ut consectetur nunc.',
+  description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus interdum, libero non sagittis vestibulum, lacus lorem aliquet urna, sit amet facilisis orci odio in leo. Aliquam erat volutpat. Curabitur efficitur, arcu in sollicitudin gravida, nunc erat vehicula nibh, ut elementum neque odio non justo. Suspendisse potenti.  Proin a erat vel lorem facilisis dictum. Nullam venenatis, leo nec condimentum pharetra, eros arcu vulputate nunc, vel auctor velit metus ut metus. Phasellus interdum dui id libero porta, nec egestas turpis convallis. Integer at mi a purus tristique placerat.  Nunc porttitor vehicula nulla, vel fermentum eros. Fusce posuere sem et elit fermentum, at efficitur metus ultrices. Duis vulputate congue tortor, in cursus lectus suscipit id. Ut lacinia fringilla lectus, sed suscipit elit pellentesque id. Sed eget lacinia mi, ut consectetur nunc.',
   category: 'Phones and tablets',
   brand: 'Samsung',
   basePrice: 600000,

@@ -2,14 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/extensions.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/home/widgets/product_card.dart';
 import 'package:go_shop/features/home/widgets/skeletal_home.dart';
-import 'package:go_shop/models/product.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 final List<String> productCategories = [
   'All',
@@ -30,8 +27,8 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeState extends ConsumerState<HomeScreen> {
-  ValueNotifier<String> selectedCategory = ValueNotifier(productCategories[0]);
-
+  ValueNotifier<String> selectedCategory = ValueNotifier('All');
+  
   @override
   Widget build(BuildContext context) {
     return ref
@@ -49,25 +46,6 @@ class _HomeState extends ConsumerState<HomeScreen> {
                 spacing: 10,
                 children: [
                   SizedBox(
-                    height: 45,
-                    child: SearchBar(
-                      padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
-                      elevation: WidgetStatePropertyAll(0),
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      backgroundColor: WidgetStatePropertyAll(
-                        Color(0xfffff7f7f7),
-                      ),
-                      hintText: "Search products",
-                      hintStyle: WidgetStatePropertyAll(
-                        kTextStyle(16, color: Colors.grey),
-                      ),
-                      leading: Icon(
-                        Iconsax.search_normal_1_copy,
-                        size: 20,
-                      ).padX(7),
-                    ),
-                  ),
-                  SizedBox(
                     height: 50,
                     child: ValueListenableBuilder(
                       valueListenable: selectedCategory,
@@ -78,7 +56,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                             spacing: 5,
                             children: [
                               ...productCategories.map((category) {
-                                return ChoiceChip(
+                                return FilterChip(
                                   side: BorderSide(width: 0.5),
                                   checkmarkColor: Colors.white,
                                   selectedColor: Theme.of(context).primaryColor,
@@ -116,7 +94,7 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                 crossAxisSpacing: 12,
                               ),
                           children: [
-                            if (selected == productCategories[0]) ...{
+                            if (selected == "All") ...{
                               ...products.map(
                                 (product) => ProductCard(product: product),
                               ),

@@ -1,28 +1,24 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_shop/features/auth/view/auth_screen.dart';
 import 'package:go_shop/features/auth/view/profile_setup.dart';
 import 'package:go_shop/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:go_shop/features/cart/view/cart_screen.dart';
-import 'package:go_shop/features/cart/view/payment_success.dart';
-import 'package:go_shop/features/favorite/view/notification_screen.dart';
+import 'package:go_shop/features/search/view/search_screen.dart';
 import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
 import 'package:go_shop/features/profile/view/order_items_screen.dart';
 import 'package:go_shop/features/profile/view/orders.dart';
 import 'package:go_shop/features/profile/view/profile.dart';
-import 'package:go_shop/models/order.dart';
+import 'package:go_shop/features/splash.dart';
 import 'package:go_shop/models/order_item.dart';
-import 'package:go_shop/services/dependencies.dart';
-import 'package:go_shop/services/onboarding_settings.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final appRoutes = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: HomeScreen.route,
+  initialLocation: SplashScreen.route,
   errorBuilder: (context, state) {
     return Scaffold(
       appBar: AppBar(title: const Text('Unknown route')),
@@ -36,32 +32,17 @@ final appRoutes = GoRouter(
       ),
     );
   },
-  redirect: (context, state) {
-    final hasSeenOnboarding =
-        locator.get<OnboardingSettings>().hasSeenOnboarding;
-    final user = locator.get<FirebaseAuth>().currentUser;
-    if (!hasSeenOnboarding) {
-      return OnboardingScreen.route;
-    }
-    if (user == null) {
-      return AuthScreen.route;
-    }
-    if (user.displayName == null) {
-      return ProfileSetup.route;
-    }
-    return null;
-  },
   routes: [
+    GoRoute(
+      path: SplashScreen.route,
+      builder: (context, state) {
+        return SplashScreen();
+      },
+    ),
     GoRoute(
       path: OnboardingScreen.route,
       builder: (context, state) {
         return OnboardingScreen();
-      },
-    ),
-    GoRoute(
-      path: PaymentSuccessScreen.route,
-      builder: (context, state) {
-        return const PaymentSuccessScreen();
       },
     ),
     StatefulShellRoute.indexedStack(
@@ -82,9 +63,9 @@ final appRoutes = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: CartScreen.route,
+              path: SearchScreen.route,
               builder: (context, state) {
-                return CartScreen();
+                return SearchScreen();
               },
             ),
           ],
@@ -92,14 +73,13 @@ final appRoutes = GoRouter(
         StatefulShellBranch(
           routes: [
             GoRoute(
-              path: NotificationScreen.route,
+              path: CartScreen.route,
               builder: (context, state) {
-                return NotificationScreen();
+                return CartScreen();
               },
             ),
           ],
         ),
-
         StatefulShellBranch(
           routes: [
             GoRoute(
@@ -120,8 +100,8 @@ final appRoutes = GoRouter(
                         final orderItems = state.extra as List<OrderItem>;
                         return OrderItemsScreen(orderItems: orderItems);
                       },
-                    )
-                  ]
+                    ),
+                  ],
                 ),
               ],
             ),

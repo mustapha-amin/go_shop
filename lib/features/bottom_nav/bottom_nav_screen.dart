@@ -28,7 +28,14 @@ class BottomNavScreen extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        toolbarHeight: 20,
+        toolbarHeight: 50,
+        title:
+            child.currentIndex == 0
+                ? Text(
+                  "Go Shop",
+                  style: kTextStyle(18, fontweight: FontWeight.bold),
+                )
+                : null,
       ),
       body: child,
       bottomNavigationBar: NavigationBar(
@@ -53,23 +60,23 @@ class BottomNavScreen extends ConsumerWidget {
           ),
           NavigationDestination(
             icon: Icon(
+              Iconsax.search_normal_copy,
+              color: Theme.of(context).primaryColor,
+            ),
+            label: 'Search',
+            selectedIcon: Icon(
+              Iconsax.search_normal,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          NavigationDestination(
+            icon: Icon(
               Iconsax.shopping_cart_copy,
               color: Theme.of(context).primaryColor,
             ),
             label: 'Cart',
             selectedIcon: Icon(
               Iconsax.shopping_cart,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Iconsax.notification_copy,
-              color: Theme.of(context).primaryColor,
-            ),
-            label: 'Notifications',
-            selectedIcon: Icon(
-              Iconsax.notification,
               color: Theme.of(context).primaryColor,
             ),
           ),

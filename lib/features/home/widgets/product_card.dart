@@ -27,10 +27,13 @@ class ProductCard extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(product.imageUrls[0]),
+              child: Hero(
+                tag: product.imageUrls[0],
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(product.imageUrls[0]),
+                    ),
                   ),
                 ),
               ),

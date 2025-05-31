@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/cart/controller/cart_controller.dart';
 import 'package:go_shop/features/cart/view/cart_screen.dart';
+import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -21,6 +23,9 @@ class CartItemTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
+      onTap: () {
+        context.push('${DetailScreen.route}/${product.id}');
+      },
       leading: Container(
         height: 50,
         width: 50,
