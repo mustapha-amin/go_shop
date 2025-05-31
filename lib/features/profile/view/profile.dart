@@ -25,7 +25,7 @@ class ProfileScreen extends ConsumerWidget {
                 final initials =
                     user.name!.split(' ').map((e) => e[0].toUpperCase()).join();
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 14),
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                   child: Column(
                     children: [
                       CircleAvatar(

@@ -33,7 +33,7 @@ class BottomNavScreen extends ConsumerWidget {
             child.currentIndex == 0
                 ? Text(
                   "Go Shop",
-                  style: kTextStyle(18, fontweight: FontWeight.bold),
+                  style: kTextStyle(28, fontweight: FontWeight.bold),
                 )
                 : null,
       ),
