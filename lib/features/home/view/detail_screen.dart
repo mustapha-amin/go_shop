@@ -96,6 +96,8 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
         backgroundColor: Colors.transparent,
         scrolledUnderElevation: 0,
         bottomOpacity: 0,
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
+        actionsPadding: EdgeInsets.only(right: 3),
       ),
       body: ref
           .watch(getProductByIDProvider(widget.id))
