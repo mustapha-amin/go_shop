@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:504738923921:android:fea5f22f0eaa87d74dc630",
         "android_client_info": {
-          "package_name": "com.example.go_shop"
+          "package_name": "com.mustapha.go_shop"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "504738923921-uj86i2v7sitg41kv3topusbt8ir11h5m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.go_shop",
+            "package_name": "com.mustapha.go_shop",
             "certificate_hash": "4ea19fa2649f14c6b460b62504ec6c60708a14b0"
           }
         },
