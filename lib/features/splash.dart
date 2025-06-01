@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       final hasSeenOnboarding =
           locator.get<OnboardingSettings>().hasSeenOnboarding;
       final user = locator.get<FirebaseAuth>().currentUser;
-      if (mounted) {
+     
         if (!hasSeenOnboarding) {
           context.go(OnboardingScreen.route);
         } else if (user == null) {
@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           context.go(HomeScreen.route);
         }
-      }
+      
     });
   }
 
