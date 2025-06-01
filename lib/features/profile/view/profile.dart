@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/providers.dart';
+import 'package:go_shop/features/auth/controllers/auth_controller.dart';
 import 'package:go_shop/features/profile/view/orders.dart';
 import 'package:go_shop/features/profile/widget/profile_listtile.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -127,8 +128,8 @@ class ProfileScreen extends ConsumerWidget {
                           color: Colors.red.withValues(alpha: 0.5),
                         ),
                         onTap: () {
-                          // ref.read(authProvider.notifier).logout();
-                          context.go('/login');
+                          ref.read(authNotifierProvider.notifier).signOut(context);
+                          
                         },
                       ),
                     ],

@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/providers.dart';
 import 'package:go_shop/features/auth/repository/auth_repository.dart';
+import 'package:go_shop/features/auth/view/auth_screen.dart';
 import 'package:go_shop/models/auth_state.dart';
 import 'package:go_shop/services/dependencies.dart';
 import 'package:go_shop/services/onboarding_settings.dart';
@@ -57,11 +60,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     try {
       state = AuthLoading();
       await locator.get<AuthRepository>().signOut();
       state = AuthSuccess();
+      context.go(AuthScreen.route);
     } catch (e) {
       state = AuthFailure(error: e.toString());
     }

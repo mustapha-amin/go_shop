@@ -17,7 +17,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileSetup extends ConsumerStatefulWidget {
-  static const route = '/profile';
+  static const route = '/profile_setup';
   const ProfileSetup({super.key});
 
   @override
