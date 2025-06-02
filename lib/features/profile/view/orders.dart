@@ -16,13 +16,7 @@ class OrdersScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My Orders',
-          style: kTextStyle(18, fontweight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
+      appBar: AppBar(),
       body: ref
           .watch(fetchOrdersProvider)
           .when(

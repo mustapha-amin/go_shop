@@ -23,8 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      final hasSeenOnboarding =
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+       final hasSeenOnboarding =
           locator.get<OnboardingSettings>().hasSeenOnboarding;
       final user = locator.get<FirebaseAuth>().currentUser;
      
@@ -37,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           context.go(HomeScreen.route);
         }
-      
     });
   }
 

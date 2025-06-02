@@ -87,25 +87,23 @@ final appRoutes = GoRouter(
               builder: (context, state) {
                 return ProfileScreen();
               },
-              routes: [
-                GoRoute(
-                  path: OrdersScreen.route,
-                  builder: (context, state) {
-                    return const OrdersScreen();
-                  },
-                  routes: [
-                    GoRoute(
-                      path: OrderItemsScreen.route,
-                      builder: (context, state) {
-                        final orderItems = state.extra as List<OrderItem>;
-                        return OrderItemsScreen(orderItems: orderItems);
-                      },
-                    ),
-                  ],
-                ),
-              ],
             ),
           ],
+        ),
+      ],
+    ),
+    GoRoute(
+      path: OrdersScreen.route,
+      builder: (context, state) {
+        return const OrdersScreen();
+      },
+      routes: [
+        GoRoute(
+          path: OrderItemsScreen.route,
+          builder: (context, state) {
+            final orderItems = state.extra as List<OrderItem>;
+            return OrderItemsScreen(orderItems: orderItems);
+          },
         ),
       ],
     ),

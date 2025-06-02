@@ -78,15 +78,15 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     final quantity = int.tryParse(_quantityController.text) ?? 1;
 
     if (!cartNotifier.itemInCart(cartItem.productID!)) {
-      // Add to cart
+      
       cartNotifier.addItem(cartItem);
       displayFlushBar(context, "Product added to cart");
     } else {
-      // Update cart
+      
       cartNotifier.updateItem(cartItem);
       displayFlushBar(context, "Cart updated");
     }
-    setState(() {}); // Refresh button text
+    setState(() {}); 
   }
 
   @override

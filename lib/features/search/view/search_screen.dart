@@ -35,43 +35,41 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       children: [
         SizedBox(
           height: 45,
-          child: Expanded(
-            child: SearchBar(
-              controller: searchController,
-              padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
-              elevation: WidgetStatePropertyAll(0),
-              onTap: () {
-                setState(() {
-                  isSearching = true;
-                });
-              },
-              onTapOutside: (_) {
-                FocusScope.of(context).unfocus();
-                resetSearchConfigs();
-              },
-              onChanged: (value) {
-                setState(() {
-                  results =
-                      value.isEmpty
-                          ? []
-                          : ref
-                              .watch(productNotifierProvider)
-                              .value!
-                              .where(
-                                (product) => product.name
-                                    .toLowerCase()
-                                    .startsWith(value.toLowerCase()),
-                              )
-                              .toList();
-                });
-              },
-              backgroundColor: WidgetStatePropertyAll(Color(0xfffff7f7f7)),
-              hintText: "Search products",
-              hintStyle: WidgetStatePropertyAll(
-                kTextStyle(16, color: Colors.grey),
-              ),
-              leading: Icon(Iconsax.search_normal_1_copy, size: 20).padX(7),
+          child: SearchBar(
+            controller: searchController,
+            padding: WidgetStatePropertyAll(EdgeInsets.all(3)),
+            elevation: WidgetStatePropertyAll(0),
+            onTap: () {
+              setState(() {
+                isSearching = true;
+              });
+            },
+            onTapOutside: (_) {
+              FocusScope.of(context).unfocus();
+              resetSearchConfigs();
+            },
+            onChanged: (value) {
+              setState(() {
+                results =
+                    value.isEmpty
+                        ? []
+                        : ref
+                            .watch(productNotifierProvider)
+                            .value!
+                            .where(
+                              (product) => product.name
+                                  .toLowerCase()
+                                  .startsWith(value.toLowerCase()),
+                            )
+                            .toList();
+              });
+            },
+            backgroundColor: WidgetStatePropertyAll(Color(0xfffff7f7f7)),
+            hintText: "Search products",
+            hintStyle: WidgetStatePropertyAll(
+              kTextStyle(16, color: Colors.grey),
             ),
+            leading: Icon(Iconsax.search_normal_1_copy, size: 20).padX(7),
           ),
         ),
         Expanded(

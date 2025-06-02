@@ -29,13 +29,12 @@ class BottomNavScreen extends ConsumerWidget {
         elevation: 0,
         scrolledUnderElevation: 0,
         toolbarHeight: 50,
-        title:
-            child.currentIndex == 0
-                ? Text(
-                  "Go Shop",
-                  style: kTextStyle(28, fontweight: FontWeight.bold),
-                )
-                : null,
+        title: Text(switch (child.currentIndex) {
+          0 => "GoShop",
+          1 => "Search",
+          2 => "Cart",
+          _ => "Profile",
+        }, style: kTextStyle(28, fontweight: FontWeight.bold)),
       ),
       body: child,
       bottomNavigationBar: NavigationBar(

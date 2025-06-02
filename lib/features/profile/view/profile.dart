@@ -72,10 +72,7 @@ class ProfileScreen extends ConsumerWidget {
                         title: 'My Orders',
                         subtitle: 'View order history',
                         icon: Iconsax.shopping_bag,
-                        onTap:
-                            () => context.push(
-                              ProfileScreen.route + OrdersScreen.route,
-                            ),
+                        onTap: () => context.push(OrdersScreen.route),
                       ),
                       ProfileListTile(
                         title: 'Returns & Refunds',
@@ -128,8 +125,9 @@ class ProfileScreen extends ConsumerWidget {
                           color: Colors.red.withValues(alpha: 0.5),
                         ),
                         onTap: () {
-                          ref.read(authNotifierProvider.notifier).signOut(context);
-                          
+                          ref
+                              .read(authNotifierProvider.notifier)
+                              .signOut(context);
                         },
                       ),
                     ],
