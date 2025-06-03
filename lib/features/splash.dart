@@ -1,43 +1,25 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:go_shop/features/auth/view/auth_screen.dart';
-import 'package:go_shop/features/auth/view/profile_setup.dart';
-import 'package:go_shop/features/home/view/home_screen.dart';
-import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_shop/core/providers.dart';
 import 'package:go_shop/services/dependencies.dart';
-import 'package:go_shop/services/onboarding_settings.dart';
 import 'package:go_shop/shared/loader.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
-import 'package:sizer/sizer.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   static const route = '/';
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-       final hasSeenOnboarding =
-          locator.get<OnboardingSettings>().hasSeenOnboarding;
-      final user = locator.get<FirebaseAuth>().currentUser;
-     
-        if (!hasSeenOnboarding) {
-          context.go(OnboardingScreen.route);
-        } else if (user == null) {
-          context.go(AuthScreen.route);
-        } else if (user.displayName == null) {
-          context.go(ProfileSetup.route);
-        } else {
-          context.go(HomeScreen.route);
-        }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.delayed(Duration(seconds: 2));
+      ref.read(appStateProvider).refreshState();
     });
+    super.initState();
   }
 
   @override

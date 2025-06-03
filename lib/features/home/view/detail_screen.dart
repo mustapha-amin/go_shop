@@ -4,11 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/extensions.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/cart/controller/cart_controller.dart';
+import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/product.dart';
 import 'package:go_shop/shared/flushbar.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 import 'package:uuid/uuid.dart';
 import '../widgets/widgets.dart';
@@ -78,15 +80,13 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
     final quantity = int.tryParse(_quantityController.text) ?? 1;
 
     if (!cartNotifier.itemInCart(cartItem.productID!)) {
-      
       cartNotifier.addItem(cartItem);
       displayFlushBar(context, "Product added to cart");
     } else {
-      
       cartNotifier.updateItem(cartItem);
       displayFlushBar(context, "Cart updated");
     }
-    setState(() {}); 
+    setState(() {});
   }
 
   @override
@@ -95,8 +95,26 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            context.go(HomeScreen.route);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
         bottomOpacity: 0,
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await SharePlus.instance.share(
+                ShareParams(
+                  text:
+                      'go-shop-site.vercel.app${DetailScreen.route}/${widget.id}',
+                ),
+              );
+            },
+            icon: Icon(Icons.share),
+          ),
+        ],
         actionsPadding: EdgeInsets.only(right: 3),
       ),
       body: ref

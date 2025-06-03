@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +9,51 @@ import 'package:go_shop/core/collection_paths.dart';
 import 'package:go_shop/models/cart_item.dart';
 import 'package:go_shop/models/user.dart';
 import 'package:go_shop/services/dependencies.dart';
+import 'package:go_shop/services/onboarding_settings.dart';
+
+class GoRouterRefreshStream extends ChangeNotifier {
+  late final StreamSubscription<User?> _subscription;
+
+  GoRouterRefreshStream(Stream<User?> stream) {
+    _subscription = stream.asBroadcastStream().listen((_) {
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
+
+final appStateProvider = ChangeNotifierProvider((ref) {
+  return AppState();
+});
+
+class AppState extends ChangeNotifier {
+  bool hasSeenOnboarding = true;
+  bool isLoggedIn = false;
+  bool hasDisplayName = false;
+
+  AppState() {
+    refreshState();
+  }
+
+  void refreshState() {
+    hasSeenOnboarding = locator.get<OnboardingSettings>().hasSeenOnboarding;
+    isLoggedIn = locator.get<FirebaseAuth>().currentUser != null;
+    hasDisplayName =
+        locator.get<FirebaseAuth>().currentUser != null &&
+        locator.get<FirebaseAuth>().currentUser!.displayName != null;
+    notifyListeners();
+    log(
+      hasSeenOnboarding.toString() +
+          isLoggedIn.toString() +
+          hasDisplayName.toString()
+    );
+  }
+}
 
 final currentUserNotifierProvider =
     StreamNotifierProvider<CurrentUserNotifier, GoShopUser>(

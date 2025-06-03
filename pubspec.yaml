@@ -47,6 +47,7 @@ dependencies:
   iconsax_flutter: ^1.0.0
   pattern_formatter: ^4.0.0
   shadcn_ui: ^0.26.0
+  share_plus: ^11.0.0
   shared_preferences: ^2.5.3
   sizer: ^3.0.5
   skeletonizer: ^2.0.0-pre

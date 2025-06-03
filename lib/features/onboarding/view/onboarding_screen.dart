@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/extensions.dart';
+import 'package:go_shop/core/providers.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/auth/view/auth_screen.dart';
+import 'package:go_shop/features/splash.dart';
 import 'package:go_shop/services/dependencies.dart';
 import 'package:go_shop/services/onboarding_settings.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -55,9 +57,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 height: 60,
                 onPressed: () async {
                   await locator.get<OnboardingSettings>().completeOnboarding();
-                  if (context.mounted) {
-                    context.go(AuthScreen.route);
-                  }
+                  context.go(SplashScreen.route);
                 },
                 child: Text(
                   "Get started",

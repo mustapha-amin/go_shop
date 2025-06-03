@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_shop/core/providers.dart';
 import 'package:go_shop/features/auth/repository/auth_repository.dart';
 import 'package:go_shop/features/bottom_nav/repository/product_repository.dart';
 import 'package:go_shop/features/cart/repository/cart_repository.dart';
@@ -22,7 +23,7 @@ Future<void> setUpDeps() async {
     ..registerSingleton<GoogleSignIn>(GoogleSignIn())
     ..registerLazySingleton<OnboardingSettings>(
       () => OnboardingSettings(locator.get<SharedPreferences>()),
-    )
+    )..registerSingleton<AppState>(AppState())
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepository(
         firebaseAuth: locator.get<FirebaseAuth>(),
