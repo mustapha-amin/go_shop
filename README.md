@@ -67,3 +67,10 @@ lib/
 - Shopping cart management
 - Order tracking
 
+### Screens
+![go shop image](https://github.com/user-attachments/assets/10c634c7-a6cf-45ca-bf1b-d98e64fb4e8b)
+
+### Deeplinking demo(sensitive data hidden)
+https://github.com/user-attachments/assets/238d93e2-a727-4354-a14e-11db5fa9c12f
+
+
