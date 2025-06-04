@@ -1,35 +1,23 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_shop/core/providers.dart';
 import 'package:go_shop/features/auth/view/auth_screen.dart';
 import 'package:go_shop/features/auth/view/profile_setup.dart';
 import 'package:go_shop/features/bottom_nav/bottom_nav_screen.dart';
 import 'package:go_shop/features/cart/view/cart_screen.dart';
-import 'package:go_shop/features/search/view/search_screen.dart';
 import 'package:go_shop/features/home/view/detail_screen.dart';
 import 'package:go_shop/features/home/view/home_screen.dart';
 import 'package:go_shop/features/onboarding/view/onboarding_screen.dart';
 import 'package:go_shop/features/profile/view/order_items_screen.dart';
 import 'package:go_shop/features/profile/view/orders.dart';
 import 'package:go_shop/features/profile/view/profile.dart';
+import 'package:go_shop/features/search/view/search_screen.dart';
 import 'package:go_shop/features/splash.dart';
 import 'package:go_shop/models/order_item.dart';
 
 final appRoutes = Provider((ref) {
-  final appState = ref.watch(appStateProvider);
   return GoRouter(
-    initialLocation: HomeScreen.route,
-    redirect: (context, state) async {
-      if (!appState.hasSeenOnboarding) return OnboardingScreen.route;
-      if (appState.isLoggedIn) {
-        if (!appState.hasDisplayName) return ProfileSetup.route;
-      } else {
-        return AuthScreen.route;
-      }
-      return null;
-    },
+    initialLocation: SplashScreen.route,
     errorBuilder: (context, state) {
       return Scaffold(
         appBar: AppBar(title: const Text('Unknown route')),
@@ -44,6 +32,12 @@ final appRoutes = Provider((ref) {
       );
     },
     routes: [
+      GoRoute(
+        path: SplashScreen.route,
+        builder: (context, state) {
+          return SplashScreen();
+        },
+      ),
       GoRoute(
         path: OnboardingScreen.route,
         builder: (context, state) {

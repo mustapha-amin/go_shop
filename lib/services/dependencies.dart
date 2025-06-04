@@ -23,7 +23,7 @@ Future<void> setUpDeps() async {
     ..registerSingleton<GoogleSignIn>(GoogleSignIn())
     ..registerLazySingleton<OnboardingSettings>(
       () => OnboardingSettings(locator.get<SharedPreferences>()),
-    )..registerSingleton<AppState>(AppState())
+    )
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepository(
         firebaseAuth: locator.get<FirebaseAuth>(),

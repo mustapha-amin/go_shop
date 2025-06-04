@@ -12,7 +12,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:sizer/sizer.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
-  static const route = '/';
+  static const route = '/onboarding';
   const OnboardingScreen({super.key});
 
   @override

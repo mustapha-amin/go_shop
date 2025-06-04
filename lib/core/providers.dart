@@ -27,34 +27,6 @@ class GoRouterRefreshStream extends ChangeNotifier {
   }
 }
 
-final appStateProvider = ChangeNotifierProvider((ref) {
-  return AppState();
-});
-
-class AppState extends ChangeNotifier {
-  bool hasSeenOnboarding = true;
-  bool isLoggedIn = false;
-  bool hasDisplayName = false;
-
-  AppState() {
-    refreshState();
-  }
-
-  void refreshState() {
-    hasSeenOnboarding = locator.get<OnboardingSettings>().hasSeenOnboarding;
-    isLoggedIn = locator.get<FirebaseAuth>().currentUser != null;
-    hasDisplayName =
-        locator.get<FirebaseAuth>().currentUser != null &&
-        locator.get<FirebaseAuth>().currentUser!.displayName != null;
-    notifyListeners();
-    log(
-      hasSeenOnboarding.toString() +
-          isLoggedIn.toString() +
-          hasDisplayName.toString()
-    );
-  }
-}
-
 final currentUserNotifierProvider =
     StreamNotifierProvider<CurrentUserNotifier, GoShopUser>(
       () => CurrentUserNotifier(
