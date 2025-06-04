@@ -1,4 +1,4 @@
-# GoShop - Your Ultimate Shopping Companion
+# GoShop
 
 GoShop is a modern e-commerce mobile application built with Flutter, offering a seamless shopping experience with a beautiful UI and robust features.
 
