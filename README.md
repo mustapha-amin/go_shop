@@ -2,6 +2,8 @@
 
 GoShop is a modern e-commerce mobile application built with Flutter, offering a seamless shopping experience with a beautiful UI and robust features.
 
+Admin: https://github.com/mustapha-amin/go_shop_admin_panel.git
+
 ## Features
 
 - 🛍️ **Product Browsing**: Browse through a wide range of products with detailed information
