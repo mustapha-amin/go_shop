@@ -16,12 +16,24 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent),
   );
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    const bool isReleaseMode = bool.fromEnvironment('dart.vm.product');
+    if (isReleaseMode) {
+      return Center(
+        child: Text(
+          details.exception.toString(),
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+        ),
+      );
+    }
+    return ErrorWidget(details.exception);
+  };
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
-  setUpDeps();
+  await setUpDeps();
   runApp(ProviderScope(child: const MyApp()));
 }
 
