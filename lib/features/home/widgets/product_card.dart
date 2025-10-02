@@ -18,6 +18,7 @@ class ProductCard extends ConsumerWidget {
         context.push('${DetailScreen.route}/${product.id}');
       },
       child: Container(
+        height: 200,
         decoration: BoxDecoration(
           color: Color(0xfff7f7f7),
           borderRadius: BorderRadius.circular(16),

@@ -106,6 +106,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                           opacity: opaque,
                           child: SvgPicture.asset(
                             'assets/images/go_shop.svg',
+                            height: 40.h,
                             placeholderBuilder: (context) {
                               return SizedBox(height: 30.h);
                             },
@@ -116,8 +117,8 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ShadInputFormField(
                       autofillHints: [AutofillHints.email],
                       controller: _emailController,
-                      onPressedOutside:
-                          (event) => FocusScope.of(context).unfocus(),
+                      onPressedOutside: (event) =>
+                          FocusScope.of(context).unfocus(),
                       padding: EdgeInsets.all(14),
                       placeholder: Text("Email"),
                       textInputAction: TextInputAction.next,
@@ -134,20 +135,20 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 20),
                     ShadInputFormField(
                       autofillHints: [AutofillHints.password],
                       placeholder: Text("Password"),
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      onPressedOutside:
-                          (event) => FocusScope.of(context).unfocus(),
+                      onPressedOutside: (event) =>
+                          FocusScope.of(context).unfocus(),
                       textInputAction: TextInputAction.done,
                       validator: _validatePassword,
                       trailing: InkWell(
-                        onTap:
-                            () => setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            ),
+                        onTap: () => setState(
+                          () => _obscurePassword = !_obscurePassword,
+                        ),
                         child: Icon(
                           _obscurePassword
                               ? Icons.visibility_outlined
@@ -184,17 +185,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                             if (_formKey.currentState!.validate()) {
                               _isSignUp
                                   ? ref
-                                      .read(authNotifierProvider.notifier)
-                                      .signUp(
-                                        _emailController.text.trim(),
-                                        _passwordController.text.trim(),
-                                      )
+                                        .read(authNotifierProvider.notifier)
+                                        .signUp(
+                                          _emailController.text.trim(),
+                                          _passwordController.text.trim(),
+                                        )
                                   : ref
-                                      .read(authNotifierProvider.notifier)
-                                      .signIn(
-                                        _emailController.text.trim(),
-                                        _passwordController.text.trim(),
-                                      );
+                                        .read(authNotifierProvider.notifier)
+                                        .signIn(
+                                          _emailController.text.trim(),
+                                          _passwordController.text.trim(),
+                                        );
                             }
                           },
                           child: Text(
@@ -206,10 +207,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                     ),
                     Text.rich(
                       TextSpan(
-                        text:
-                            _isSignUp
-                                ? "Already have an account"
-                                : "Don't have an account",
+                        text: _isSignUp
+                            ? "Already have an account"
+                            : "Don't have an account",
                         style: kTextStyle(14),
                         children: [
                           TextSpan(
@@ -218,17 +218,17 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                               14,
                               color: Theme.of(context).primaryColor,
                             ),
-                            recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () {
-                                    setState(() {
-                                      _isSignUp = !_isSignUp;
-                                    });
-                                  },
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                setState(() {
+                                  _isSignUp = !_isSignUp;
+                                });
+                              },
                           ),
                         ],
                       ),
                     ).padY(8),
+                    SizedBox(height: 10),
                     ShadButton(
                       width: 100.w,
                       height: 50,

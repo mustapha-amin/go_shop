@@ -3,6 +3,7 @@ import 'package:go_shop/core/extensions.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/home/widgets/product_card.dart';
 import 'package:go_shop/models/product.dart';
+import 'package:go_shop/shared/simple_grid.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -31,11 +32,9 @@ class SkeletalHome extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 6,
-              ),
+            child: SimpleGrid(
+              gap: 2,
+              columns: 2,
               children: [
                 ...List.generate(10, (_) {
                   return ProductCard(product: dummyProduct);

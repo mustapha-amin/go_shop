@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';

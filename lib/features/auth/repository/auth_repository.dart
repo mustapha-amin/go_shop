@@ -123,17 +123,13 @@ class AuthRepository {
 
   Future<UserCredential> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
-      if (googleUser == null) {
-        throw AuthException('Google sign in was cancelled.');
-      }
 
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+           googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 

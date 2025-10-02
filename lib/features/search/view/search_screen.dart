@@ -5,6 +5,7 @@ import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/home/widgets/product_card.dart';
 import 'package:go_shop/models/product.dart';
+import 'package:go_shop/shared/simple_grid.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
@@ -50,18 +51,17 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             },
             onChanged: (value) {
               setState(() {
-                results =
-                    value.isEmpty
-                        ? []
-                        : ref
-                            .watch(productNotifierProvider)
-                            .value!
-                            .where(
-                              (product) => product.name
-                                  .toLowerCase()
-                                  .startsWith(value.toLowerCase()),
-                            )
-                            .toList();
+                results = value.isEmpty
+                    ? []
+                    : ref
+                          .watch(productNotifierProvider)
+                          .value!
+                          .where(
+                            (product) => product.name.toLowerCase().startsWith(
+                              value.toLowerCase(),
+                            ),
+                          )
+                          .toList();
               });
             },
             backgroundColor: WidgetStatePropertyAll(Color(0xfffff7f7f7)),
@@ -73,21 +73,15 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
         ),
         Expanded(
-          child:
-              results.isEmpty
-                  ? Icon(
-                    Iconsax.search_status_copy,
-                    size: 100,
-                    color: Colors.grey,
-                  )
-                  : GridView(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                    children: [
-                      ...results.map((prod) => ProductCard(product: prod)),
-                    ],
-                  ),
+          child: results.isEmpty
+              ? Icon(Iconsax.search_status_copy, size: 100, color: Colors.grey)
+              : SimpleGrid(
+                  gap: 2,
+                  columns: 2,
+                  children: [
+                    ...results.map((prod) => ProductCard(product: prod)),
+                  ],
+                ),
         ),
       ],
     ).padX(14);

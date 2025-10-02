@@ -7,6 +7,7 @@ import 'package:go_shop/core/utils/textstyle.dart';
 import 'package:go_shop/features/bottom_nav/providers/product_notifier.dart';
 import 'package:go_shop/features/home/widgets/product_card.dart';
 import 'package:go_shop/features/home/widgets/skeletal_home.dart';
+import 'package:go_shop/shared/simple_grid.dart';
 
 final List<String> productCategories = [
   'All',
@@ -28,7 +29,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeState extends ConsumerState<HomeScreen> {
   ValueNotifier<String> selectedCategory = ValueNotifier('All');
-  
+
   @override
   Widget build(BuildContext context) {
     return ref
@@ -64,10 +65,9 @@ class _HomeState extends ConsumerState<HomeScreen> {
                                     category,
                                     style: kTextStyle(
                                       14,
-                                      color:
-                                          category == selected
-                                              ? Colors.white
-                                              : Colors.black,
+                                      color: category == selected
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                   selected: selected == category,
@@ -86,28 +86,27 @@ class _HomeState extends ConsumerState<HomeScreen> {
                     child: ValueListenableBuilder(
                       valueListenable: selectedCategory,
                       builder: (context, selected, _) {
-                        return GridView(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 12,
-                                crossAxisSpacing: 12,
-                              ),
-                          children: [
-                            if (selected == "All") ...{
-                              ...products.map(
-                                (product) => ProductCard(product: product),
-                              ),
-                            } else ...{
-                              ...products
-                                  .where(
-                                    (product) => product.category == selected,
-                                  )
-                                  .map(
-                                    (product) => ProductCard(product: product),
-                                  ),
-                            },
-                          ],
+                        return SingleChildScrollView(
+                          child: SimpleGrid(
+                            gap: 2,
+                            columns: 2,
+                            children: [
+                              if (selected == "All") ...{
+                                ...products.map(
+                                  (product) => ProductCard(product: product),
+                                ),
+                              } else ...{
+                                ...products
+                                    .where(
+                                      (product) => product.category == selected,
+                                    )
+                                    .map(
+                                      (product) =>
+                                          ProductCard(product: product),
+                                    ),
+                              },
+                            ],
+                          ),
                         );
                       },
                     ),
